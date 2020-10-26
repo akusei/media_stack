@@ -1,0 +1,7 @@
+[all:vars]
+ansible_ssh_user='{{ vault_ansible_ssh_user }}'
+ansible_become_pass='{{ vault_ansible_become_pass }}'
+env=prod
+
+[all]
+192.168.1.6

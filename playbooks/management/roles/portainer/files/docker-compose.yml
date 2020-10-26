@@ -1,0 +1,35 @@
+---
+version: '3.8'
+
+services:
+  # must run as root, or use its own docker proxy
+  portainer:
+    image: portainer/portainer:${VERSION}
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock --no-auth
+    restart: unless-stopped
+    init: true
+    privileged: true
+    networks:
+      - traefik
+    expose:
+      - 9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.portainer.service: portainer
+      traefik.http.routers.portainer.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.portainer.entrypoints: https
+      traefik.http.routers.portainer.tls: true
+      traefik.http.services.portainer.loadbalancer.server.port: 9000
+      traefik.http.routers.portainer.middlewares: authelia
+
+volumes:
+  portainer:
+
+networks:
+  traefik:
+    name: traefik
+    external: true

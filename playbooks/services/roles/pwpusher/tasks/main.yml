@@ -1,0 +1,36 @@
+---
+- name: Ensure pwpusher directory
+  file:
+    path: "{{ pwpusher_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Install pwpusher files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ pwpusher_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart pwpusher
+
+- name: Copying template files
+  template:
+    src: ".env.j2"
+    dest: "{{ pwpusher_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart pwpusher
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="pwpusher"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart pwpusher

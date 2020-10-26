@@ -1,0 +1,5 @@
+---
+- name: restart hydra
+  command:
+    chdir: "{{ hydra_install_path }}"
+    cmd: docker-compose up -d --quiet-pull --force-recreate

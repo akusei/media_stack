@@ -1,0 +1,5 @@
+---
+- name: restart ombi
+  command:
+    chdir: "{{ ombi_install_path }}"
+    cmd: docker-compose up -d --quiet-pull --force-recreate

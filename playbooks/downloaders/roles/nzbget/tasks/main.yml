@@ -1,0 +1,32 @@
+---
+- import_tasks: users.yml
+
+- import_tasks: directories.yml
+
+- name: Install nzbget files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ nzbget_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart nzbget
+
+- name: Copying environment file
+  template:
+    src: ".env.j2"
+    dest: "{{ nzbget_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart nzbget
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="nzbget"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart nzbget

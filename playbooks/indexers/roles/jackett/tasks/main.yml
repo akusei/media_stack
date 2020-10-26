@@ -1,0 +1,32 @@
+---
+- import_tasks: users.yml
+
+- import_tasks: directories.yml
+
+- name: Copy docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: "{{ jackett_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart jackett
+
+- name: Copy environment file
+  template:
+    src: ".env.j2"
+    dest: "{{ jackett_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart jackett
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="jackett"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart jackett

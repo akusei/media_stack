@@ -1,0 +1,49 @@
+---
+version: "3.8"
+
+services:
+  # kind of doesn't run as root
+  # www runs as www-data and dns runs as pihole
+  pihole:
+    image: pihole/pihole:${VERSION}
+    container_name: pihole
+    restart: unless-stopped
+    networks:
+      - traefik
+    expose:
+      - 80
+      - 443
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+    environment:
+      TZ: ${TIMEZONE}
+      WEB_UID: ${WEB_UID}
+      WEB_GID: ${WEB_GID}
+      PIHOLE_UID: ${PIHOLE_UID}
+      PIHOLE_GID: ${PIHOLE_GID}
+      DNSMASQ_USER: pihole
+      VIRTUAL_HOST: ${DOMAIN}
+      WEBPASSWORD: ${WEB_PASSWORD:-}
+    volumes:
+      - ./fix/30-permissions.sh:/etc/cont-init.d/30-permissions.sh
+      - ${DATA_PATH}:/etc/pihole
+      - ./config/02-custom.conf:/etc/dnsmasq.d/02-custom.conf:ro
+    dns:
+      - 127.0.0.1
+      - ${BACKUP_DNS}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pihole.service: pihole
+      traefik.http.routers.pihole.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.pihole.entrypoints: https
+      traefik.http.routers.pihole.tls: true
+      traefik.http.services.pihole.loadbalancer.server.port: 80
+      traefik.http.routers.pihole.middlewares: internal-secured
+
+
+networks:
+  traefik:
+    name: traefik
+    external: true

@@ -1,0 +1,2 @@
+---
+fail2ban_config_path: "{{ fail2ban_install_path }}/config"

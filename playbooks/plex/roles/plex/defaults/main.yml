@@ -1,0 +1,17 @@
+---
+plex_install_path: "/opt/plex"
+plex_cache_path: "/data/plex"
+plex_image_tag: plexpass
+plex_runtime: runc
+
+plex_user: plex
+plex_group: plex
+plex_fqdn: plex.local
+
+plex_change_ownership: false
+plex_allowed_networks:
+plex_advertise_ip:
+plex_media_root:
+plex_transcode_path: /dev/shm
+plex_username:
+plex_password:

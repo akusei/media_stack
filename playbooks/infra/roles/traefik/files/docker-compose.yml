@@ -1,0 +1,106 @@
+---
+version: '3.8'
+
+services:
+  # does not run as root
+  traefik:
+    depends_on:
+      - dockerproxy
+    image: traefik:${VERSION}
+    container_name: traefik
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    init: true
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: 0
+    command:
+      - --global.checkNewVersion=true
+      - --global.sendAnonymousUsage=false
+      - --entryPoints.http.address=:80
+      - --entryPoints.https.address=:443
+      - --entrypoints.https.forwardedHeaders.trustedIPs=127.0.0.1/32
+      - --api.dashboard=true
+      - --log=true
+      - --log.level=${LOG_LEVEL}
+      - --log.filePath=/logs/traefik.log
+      - --log.format=json
+      - --accessLog=true
+      - --accesslog.format=json
+      - --accessLog.filePath=/logs/access.log
+      - --accessLog.bufferingSize=100
+      - --accessLog.filters.statusCodes=400-500
+      - --accesslog.fields.defaultmode=keep
+      - --accesslog.fields.names.RequestAddr=keep
+      - --accesslog.fields.names.RequestHost=keep
+      - --accesslog.fields.headers.defaultmode=keep
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.docker.swarmMode=false
+      - --providers.docker.network=traefik
+      - --providers.docker.endpoint=tcp://dockerproxy:2375
+      # using cloudflare because namecheap dns api is fucking terrible
+      - --certificatesResolvers.dns-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
+      - --certificatesResolvers.dns-cloudflare.acme.storage=/certs/acme.json
+      - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.provider=cloudflare
+      - --certificatesresolvers.dns-cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
+    environment:
+      CF_API_EMAIL: ${CLOUDFLARE_EMAIL:-}
+      CF_API_KEY: ${CLOUDFLARE_API_KEY:-}
+    networks:
+      - traefik
+      - pusher
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    volumes:
+      - ${SSLCERT_PATH}:/certs
+      - ${LOG_PATH}/:/logs/
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.api.service: api@internal
+      traefik.http.routers.api.rule: Host(`${PROXY_DOMAIN}`) || (Host(`${PROXY_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`)))
+      traefik.http.routers.api.entrypoints: https
+      traefik.http.routers.api.tls: true
+      traefik.http.services.api.loadbalancer.server.port: 8080
+      # Global HTTP redirect to HTTPS
+      traefik.http.routers.http-catchall.entrypoints: http
+      traefik.http.routers.http-catchall.rule: HostRegexp(`{host:.+}`)
+      traefik.http.routers.http-catchall.middlewares: redirect-to-https
+      traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: https
+      # Comment out this line after first run of traefik to force the use of wildcard certs
+      traefik.http.routers.api.tls.certresolver: dns-cloudflare
+      traefik.http.routers.api.tls.domains[0].main: "${DOMAIN}"
+      traefik.http.routers.api.tls.domains[0].sans: "*.${DOMAIN}"
+      traefik.http.routers.api.middlewares: internal-only
+      # Middlewares
+      traefik.http.middlewares.internal-only.ipwhitelist.sourcerange: ${ALLOWED_NETWORKS}
+      traefik.http.middlewares.internal-secured.chain.middlewares: internal-only,authelia
+
+  # must run as root and privileged
+  # no logging is okay
+  dockerproxy:
+    image: tecnativa/docker-socket-proxy:${DOCKERPROXY_VERSION}
+    container_name: dockerproxy
+    restart: unless-stopped
+    privileged: true
+    environment:
+      CONTAINERS: 1
+      EVENTS: 1
+      PING: 1
+      VERSION: 1
+    networks:
+      - traefik
+    expose:
+      - 2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  traefik:
+    name: traefik
+    external: true
+  pusher:
+    name: pusher
+    external: true

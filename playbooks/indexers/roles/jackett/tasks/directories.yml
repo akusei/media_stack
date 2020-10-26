@@ -1,0 +1,16 @@
+---
+- name: Ensure docker directory
+  file:
+    path: "{{ jackett_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Ensure data directory
+  file:
+    path: "{{ jackett_data_path }}"
+    owner: "{{ jackett_user }}"
+    group: "{{ jackett_group }}"
+    mode: 0750
+    state: directory

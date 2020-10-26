@@ -1,0 +1,19 @@
+---
+- name: Install and configure media stack
+  hosts: all
+  vars_files:
+    - ../../vars/secrets.yml
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 86400
+      when: ansible_distribution|lower in ['debian', 'ubuntu']
+
+  roles:
+    - role: docker
+    - role: nvidia
+      nvidia_driver_version: 450

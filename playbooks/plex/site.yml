@@ -1,0 +1,47 @@
+---
+- name: Install plex services
+  hosts: all
+  vars_files:
+    - ../../vars/common.yml
+    - ../../vars/secrets.yml
+  become: true
+  gather_facts: false
+
+  pre_tasks:
+    - name: Ensure common data directory exists
+      file:
+        path: "{{ common_data_root }}"
+        owner: root
+        group: root
+        mode: 0440
+        state: directory
+
+  roles:
+    - role: plex
+      plex_image_tag: plexpass
+      plex_cache_path: /cache/plex
+      plex_runtime: nvidia
+      plex_fqdn: watch.{{ vault_domain }}
+      plex_advertise_ip: "{{ advertise_ip }}"
+      plex_media_root: /mnt/media
+      plex_username: "{{ vault_plex_username }}"
+      plex_password: "{{ vault_plex_password }}"
+
+    # latest only
+    - role: organizr
+      organizr_fqdn: "{{ vault_domain }}"
+      organizr_data_path: "{{ common_data_root }}/organizr"
+
+    # https://github.com/linuxserver/docker-ombi/releases
+    - role: ombi
+      ombi_image_tag: v3.0.5202-ls71
+      ombi_fqdn: requests.{{ vault_domain }}
+      ombi_data_path: "{{ common_data_root }}/ombi"
+
+    # https://github.com/linuxserver/docker-tautulli/releases
+    - role: tautulli
+      tautulli_image_tag: v2.5.6-ls14
+      tautulli_fqdn: stats.{{ vault_domain }}
+      tautulli_data_path: "{{ common_data_root }}/tautulli"
+      tautulli_plex_logs_path: >
+        /cache/plex/Library/Application Support/Plex Media Server/Logs

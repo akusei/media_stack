@@ -1,0 +1,13 @@
+---
+- name: Install logging services
+  hosts: all
+  vars_files:
+    - ../../vars/common.yml
+    - ../../vars/secrets.yml
+  become: true
+  gather_facts: false
+  roles:
+    # https://hub.docker.com/r/portainer/portainer/tags
+    - role: elasticsearch
+
+    - role: filebeat

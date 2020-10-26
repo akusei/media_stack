@@ -1,0 +1,15 @@
+---
+nzbget_fqdn: nzbget.local
+nzbget_image_tag: latest
+
+nzbget_user: nzbget
+nzbget_group: nzbget
+deluge_downloads_user: nzbget
+deluge_downloads_group: nzbget
+
+nzbget_timezone: America/Los_Angeles
+
+nzbget_install_path: /opt/nzbget
+nzbget_data_path: /data/nzbget
+nzbget_downloads_path: /data/downloads
+nzbget_software_root: /mnt/software

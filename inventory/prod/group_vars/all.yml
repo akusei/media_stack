@@ -1,0 +1,5 @@
+---
+ansible_ssh_user: "{{ vault_ansible_ssh_user }}"
+ansible_become_pass: "{{ vault_ansible_become_pass }}"
+proxy_internal_only_networks: 192.168.1.0/24
+advertise_ip: 192.168.1.5

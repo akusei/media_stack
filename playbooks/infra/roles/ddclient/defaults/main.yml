@@ -1,0 +1,16 @@
+---
+ddclient_user: ddclient
+ddclient_group: ddclient
+
+ddclient_install_path: /opt/ddclient
+ddclient_image_tag: latest
+
+ddclient_domain:
+ddclient_cloudflare_username:
+ddclient_cloudflare_api_key:
+ddclient_cloudflare_ttl: 1
+
+ddclient_opendns_username:
+ddclient_opendns_password:
+
+ddclient_refresh_seconds: "{{ (60 * 5) }}"

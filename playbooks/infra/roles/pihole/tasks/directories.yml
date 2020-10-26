@@ -1,0 +1,32 @@
+---
+- name: Ensure pihole data directory
+  file:
+    path: "{{ pihole_data_path }}"
+    owner: "{{ pihole_user }}"
+    group: "{{ pihole_group }}"
+    mode: 0770
+    state: directory
+
+- name: Ensure pihole install directory
+  file:
+    path: "{{ pihole_install_path }}"
+    owner: root
+    group: root
+    mode: 0750
+    state: directory
+
+- name: Ensure pihole fix directory
+  file:
+    path: "{{ pihole_install_path }}/fix"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Ensure pihole config directory
+  file:
+    path: "{{ pihole_install_path }}/config"
+    owner: root
+    group: root
+    mode: 0750
+    state: directory

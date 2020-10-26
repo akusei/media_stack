@@ -1,0 +1,106 @@
+---
+###############################################################
+#                   Authelia configuration                    #
+###############################################################
+
+host: 0.0.0.0
+port: 9091
+log_level: {{ authelia_log_level }}
+
+default_redirection_url: https://{{ authelia_default_redirection_url }}
+
+totp:
+  issuer: {{ authelia_totp_issuer }}
+
+authentication_backend:
+  file:
+    path: /config/users.yml
+    password:
+      algorithm: argon2id
+      iterations: 1
+      salt_length: 16
+      parallelism: 8
+      memory: 1024
+
+access_control:
+  default_policy: deny
+  rules:
+    # Rules applied to everyone
+    - domain:
+        - auth.{{ authelia_domain }}
+        - static.{{ authelia_domain }}
+      policy: bypass
+
+    - domain: warden.{{ authelia_domain }}
+      subject: group:admins
+      policy: two_factor
+
+    - domain:
+        - www.{{ authelia_domain }}
+        - {{ authelia_domain }}
+      resources:
+        - "^/plugins/images/favicon/.+$"
+        - "^/plugins/images/faviconCustom/.+$"
+      policy: bypass
+
+    - domain:
+        - music.{{ authelia_domain }}
+        - newz.{{ authelia_domain }}
+        - jackett.{{ authelia_domain }}
+        - hydra.{{ authelia_domain }}
+        - shows.{{ authelia_domain }}
+        - movies.{{ authelia_domain }}
+        - docker.{{ authelia_domain }}
+        - proxy.{{ authelia_domain }}
+        - pihole.{{ authelia_domain }}
+        - bt.{{ authelia_domain }}
+        # - kibana.{{ authelia_domain }}
+      subject: group:admins
+      policy: two_factor
+
+    - domain:
+        - watch.{{ authelia_domain }}
+        - stats.{{ authelia_domain }}
+        - request.{{ authelia_domain }}
+        - www.{{ authelia_domain }}
+        - {{ authelia_domain }}
+      subject:
+        - group:admins
+        - group:users
+      policy: two_factor
+
+session:
+  name: {{ authelia_session_cookie }}
+  expiration: 7200 # 2 hour
+  inactivity: 3600 # 1 hour
+  domain: {{ authelia_domain }}
+  remember_me_duration: 1M
+
+  #redis:
+  #  host: redis
+  #  port: 6379
+  # This secret can also be set using the env variables AUTHELIA_SESSION_REDIS_PASSWORD_FILE
+  # password: authelia
+
+# this is used as backup in case fail2ban fails
+regulation:
+  max_retries: 3
+  find_time: 2m
+  ban_time: 12h
+
+storage:
+  local:
+    path: /config/db.sqlite3
+
+log_file_path: /logs/authelia.log
+
+notifier:
+  disable_startup_check: true
+  smtp:
+    username: {{ authelia_smtp_username }}
+    host: {{ authelia_smtp_server }}
+    port: {{ authelia_smtp_port }}
+    sender: {{ authelia_smtp_from }}
+    subject: "{{ authelia_smtp_subject }}"
+    startup_check_address: {{ authelia_smtp_username }}
+    disable_require_tls: {{ authelia_smtp_disable_require_tls }}

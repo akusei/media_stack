@@ -1,0 +1,33 @@
+---
+- import_tasks: directories.yml
+
+- name: Copy fail2ban files
+  copy:
+    src: files/
+    dest: "{{ fail2ban_install_path }}"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart fail2ban
+
+- name: Copying templates
+  template:
+    src: "{{ item }}"
+    dest: "{{ fail2ban_install_path }}/{{ item | regex_replace('\\.j2$', '') }}"
+    owner: root
+    group: root
+    mode: 0440
+  loop:
+    - .env.j2
+    - config/jail.d/default.local.j2
+  notify:
+    - restart fail2ban
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="fail2ban"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart fail2ban

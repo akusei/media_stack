@@ -1,0 +1,5 @@
+---
+- name: restart bitwarden
+  command:
+    chdir: "{{ bitwarden_install_path }}"
+    cmd: docker-compose up -d --quiet-pull --force-recreate

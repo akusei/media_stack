@@ -1,0 +1,29 @@
+---
+- name: Add group {{ organizr_group }}
+  group:
+    name: "{{ organizr_group }}"
+    state: present
+
+- name: Add user {{ organizr_user }}
+  user:
+    name: "{{ organizr_user }}"
+    group: "{{ organizr_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export {{ organizr_group }} group id
+  getent:
+    database: group
+    key: "{{ organizr_group }}"
+
+- name: Export {{ organizr_user }} user id
+  getent:
+    database: passwd
+    key: "{{ organizr_user }}"
+
+- name: Gather created user and group IDs
+  set_fact:
+    organizr_user_id: "{{ getent_passwd[organizr_user][1] }}"
+    organizr_group_id: "{{ getent_group[organizr_group][1] }}"

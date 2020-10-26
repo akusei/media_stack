@@ -1,0 +1,42 @@
+---
+- import_tasks: users.yml
+
+- name: Ensure ombi data directory
+  file:
+    path: "{{ ombi_data_path }}"
+    owner: "{{ ombi_user }}"
+    group: "{{ ombi_group }}"
+    mode: 0750
+    state: directory
+
+- name: Ensure ombi docker directory
+  file:
+    path: "{{ ombi_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Install ombi files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ ombi_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Copying template files
+  template:
+    src: .env.j2
+    dest: "{{ ombi_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="ombi"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart ombi

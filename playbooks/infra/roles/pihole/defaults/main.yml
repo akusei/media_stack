@@ -1,0 +1,18 @@
+---
+pihole_install_path: "/opt/pihole"
+pihole_data_path: "/data/pihole"
+pihole_image_tag: latest
+
+pihole_advertise_ip:
+pihole_upstream_dns: 8.8.8.8
+pihole_timezone: America/Los_Angeles
+
+pihole_web_user: pihole-web
+pihole_web_group: pihole-web
+pihole_user: pihole
+pihole_group: pihole
+
+pihole_fqdn: pihole.{{ pihole_domain }}
+pihole_domain: local
+
+pihole_web_password:

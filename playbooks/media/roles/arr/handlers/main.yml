@@ -1,0 +1,5 @@
+---
+- name: restart {{ arr_service_name }}
+  command:
+    chdir: "{{ arr_install_path }}"
+    cmd: docker-compose up -d --quiet-pull --force-recreate

@@ -1,0 +1,15 @@
+---
+arr_service_name:
+arr_image_tag: latest
+arr_fqdn: media.local
+arr_expose_port: 8080
+
+arr_timezone: America/Los_Angeles
+
+arr_install_path: /opt/media
+arr_data_path: /data/media
+arr_downloads_path: /data/downloads
+arr_media_root: /mnt/media
+
+arr_user: media
+arr_group: media

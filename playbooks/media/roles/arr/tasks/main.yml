@@ -1,0 +1,25 @@
+---
+- import_tasks: users.yml
+
+- import_tasks: directories.yml
+
+- name: Copy files
+  template:
+    src: "{{ item }}"
+    dest: "{{ arr_install_path }}/{{ item | regex_replace('\\.j2$', '') }}"
+    owner: root
+    group: root
+    mode: 0440
+  loop:
+    - .env.j2
+    - docker-compose.yml.j2
+  notify:
+    - restart {{ arr_service_name }}
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="{{ arr_service_name }}"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart {{ arr_service_name }}

@@ -1,0 +1,45 @@
+---
+- import_tasks: directories.yml
+
+- import_tasks: users.yml
+
+- name: Install ddclient files
+  copy:
+    src: "files/docker-compose.yml"
+    dest: "{{ ddclient_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  register: compose
+  notify:
+    - restart ddclient
+
+- name: Copying environment file
+  template:
+    src: ".env.j2"
+    dest: "{{ ddclient_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  register: environment
+  notify:
+    - restart ddclient
+
+- name: Copying config file
+  template:
+    src: "ddclient.conf.j2"
+    dest: "{{ ddclient_install_path }}/config/ddclient.conf"
+    owner: "{{ ddclient_user }}"
+    group: "{{ ddclient_group }}"
+    mode: 0440
+  register: config
+  notify:
+    - restart ddclient
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="ddclient"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart ddclient

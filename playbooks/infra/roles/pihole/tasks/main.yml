@@ -1,0 +1,52 @@
+---
+- import_tasks: users.yml
+
+- import_tasks: directories.yml
+
+- name: Copy pihole docker-compose
+  copy:
+    src: docker-compose.yml
+    dest: "{{ pihole_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart pihole
+
+- name: Copy pihole permissions fix
+  copy:
+    src: fix/30-permissions.sh
+    dest: "{{ pihole_install_path }}/fix/30-permissions.sh"
+    owner: root
+    group: root
+    mode: 0755
+  notify:
+    - restart pihole
+
+- name: Copying environment file
+  template:
+    src: .env.j2
+    dest: "{{ pihole_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart pihole
+
+- name: Copying custom dns file
+  template:
+    src: config/02-custom.conf.j2
+    dest: "{{ pihole_install_path }}/config/02-custom.conf"
+    owner: "{{ pihole_user }}"
+    group: "{{ pihole_group }}"
+    mode: 0444
+  notify:
+    - restart pihole
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="pihole"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart pihole

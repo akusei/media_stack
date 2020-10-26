@@ -1,0 +1,10 @@
+---
+hydra_fqdn: hydra.local
+hydra_nzb_download_path: /data/nzb
+hydra_install_path: /opt/hydra
+hydra_data_path: /data/hydra
+hydra_image_tag: latest
+hydra_timezone: America/Los_Angeles
+
+hydra_user: hydra
+hydra_group: hydra

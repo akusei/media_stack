@@ -1,0 +1,43 @@
+---
+- import_tasks: users.yml
+
+- import_tasks: directories.yml
+
+- name: Install traefik files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ traefik_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart traefik
+
+- name: Install dev override docker-compose
+  copy:
+    src: docker-compose.override.yml
+    dest: "{{ traefik_install_path }}/docker-compose.override.yml"
+    owner: root
+    group: root
+    mode: 0440
+  when: env == 'dev'
+  notify:
+    - restart traefik
+
+- name: Copying template files
+  template:
+    src: .env.j2
+    dest: "{{ traefik_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart traefik
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="traefik"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart traefik

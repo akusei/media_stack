@@ -1,0 +1,16 @@
+---
+- name: Ensure traefik logging directory
+  file:
+    path: "{{ traefik_log_path }}"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: 0750
+    state: directory
+
+- name: Ensure traefik directory
+  file:
+    path: "{{ traefik_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory

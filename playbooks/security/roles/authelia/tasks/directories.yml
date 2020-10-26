@@ -1,0 +1,32 @@
+---
+- name: Ensure authelia logging directory
+  file:
+    path: "{{ authelia_log_path }}"
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: 0750
+    state: directory
+
+- name: Ensure authelia data directory
+  file:
+    path: "{{ authelia_data_path }}"
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: 0750
+    state: directory
+
+- name: Ensure authelia docker directory
+  file:
+    path: "{{ authelia_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Create authelia secrets directory
+  file:
+    path: "{{ authelia_install_path }}/secrets"
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: 0550
+    state: directory

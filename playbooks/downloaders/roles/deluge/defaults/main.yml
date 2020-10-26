@@ -1,0 +1,19 @@
+---
+deluge_image_tag: latest
+
+deluge_fqdn: deluge.local
+deluge_user: deluge
+deluge_group: deluge
+deluge_timezone: America/Los_Angeles
+
+deluge_install_path: /opt/deluge
+deluge_data_path: /data/deluge
+deluge_downloads_path: /data/downloads
+deluge_software_root: /mnt/software
+
+pia_image_tag: latest
+pia_region: US West
+pia_username:
+pia_password:
+pia_encryption: strong
+pia_protocol: tcp

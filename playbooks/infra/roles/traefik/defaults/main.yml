@@ -1,0 +1,17 @@
+---
+traefik_log_level: INFO
+traefik_user: traefik
+traefik_group: traefik
+traefik_fqdn: proxy.{{ traefik_domain }}
+traefik_domain: local
+
+traefik_dockerproxy_tag: latest
+traefik_image_tag: latest
+
+traefik_ssl_cert_path: "/etc/traefik/ssl"
+traefik_log_path: "/var/log/traefik"
+traefik_install_path: "/opt/traefik"
+
+traefik_cloudflare_email:
+traefik_cloudflare_api_key:
+traefik_allowed_networks: 192.168.1.0/24

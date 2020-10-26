@@ -1,0 +1,68 @@
+---
+version: '3.8'
+
+services:
+  # logging handled in traefik and authelia
+  # does not run as root
+  pia:
+    image: qmcgaw/private-internet-access:${PIA_VERSION}
+    container_name: pia
+    restart: unless-stopped
+    init: true
+    cap_add:
+      - net_admin
+    healthcheck:
+      test: ["CMD", "/entrypoint", "healthcheck"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 0s
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 8112
+    devices:
+      - /dev/net/tun
+    environment:
+      TZ: ${TIMEZONE}
+      VPNSP: private internet access
+      REGION: ${PIA_REGION}
+      USER: ${PIA_USER}
+      PASSWORD: ${PIA_PASSWORD}
+      PIA_ENCRYPTION: ${PIA_ENCRYPTION}
+      PROTOCOL: ${PIA_PROTOCOL}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.transmission.service: transmission
+      traefik.http.routers.transmission.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.transmission.entrypoints: https
+      traefik.http.routers.transmission.tls: true
+      traefik.http.services.transmission.loadbalancer.server.port: 8112
+      traefik.http.routers.transmission.middlewares: authelia
+
+  # logging handled in traefik and authelia
+  # does not run as root
+  deluge:
+    depends_on:
+      - pia
+    image: linuxserver/deluge:${DELUGE_VERSION}
+    container_name: deluge
+    restart: unless-stopped
+    init: true
+    network_mode: service:pia
+    environment:
+      TZ: ${TIMEZONE}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ${DATA_PATH}:/config
+      - ${DOWNLOADS_PATH}:/downloads
+      - ${SOFTWARE_ROOT}:/software
+      - ./wait/90-wait-for-ready.sh:/etc/cont-init.d/90-wait-for-ready.sh:ro
+
+networks:
+  traefik:
+    name: traefik
+    external: true

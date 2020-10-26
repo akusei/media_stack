@@ -1,0 +1,29 @@
+---
+- name: Add group {{ tautulli_group }}
+  group:
+    name: "{{ tautulli_group }}"
+    state: present
+
+- name: Add user {{ tautulli_user }}
+  user:
+    name: "{{ tautulli_user }}"
+    group: "{{ tautulli_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export {{ tautulli_group }} group id
+  getent:
+    database: group
+    key: "{{ tautulli_group }}"
+
+- name: Export {{ tautulli_user }} user id
+  getent:
+    database: passwd
+    key: "{{ tautulli_user }}"
+
+- name: Gather created user and group IDs
+  set_fact:
+    tautulli_user_id: "{{ getent_passwd[tautulli_user][1] }}"
+    tautulli_group_id: "{{ getent_group[tautulli_group][1] }}"

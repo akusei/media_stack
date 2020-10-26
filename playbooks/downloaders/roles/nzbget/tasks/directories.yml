@@ -1,0 +1,44 @@
+---
+- name: Ensure nzbget docker directory
+  file:
+    path: "{{ nzbget_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Ensure nzbget data directory
+  file:
+    path: "{{ nzbget_data_path }}"
+    owner: "{{ nzbget_user }}"
+    group: "{{ nzbget_group }}"
+    mode: 0750
+    state: directory
+
+- name: Ensure nzbget downloads directory
+  file:
+    path: "{{ nzbget_downloads_path }}"
+    owner: "{{ nzbget_user }}"
+    group: "{{ nzbget_group }}"
+    mode: 0770
+    state: directory
+
+# - name: Ensure nzbget downloads directory
+#   file:
+#     path: "{{ nzbget_downloads_path }}"
+#     owner: "{{ nzbget_downloads_user }}"
+#     group: "{{ nzbget_downloads_group }}"
+#     mode: 0770
+#     state: directory
+
+- name: Ensure nzbget software root directory
+  stat:
+    path: "{{ nzbget_software_root }}"
+  register: this
+  changed_when: false
+  failed_when: false
+
+- name: Fail check
+  fail:
+    msg: The software root directory '{{ nzbget_software_root }}' must exist
+  when: this.stat.isdir is undefined or not this.stat.isdir

@@ -1,0 +1,42 @@
+---
+- import_tasks: users.yml
+
+- import_tasks: directories.yml
+
+- name: Copy {{ role_name }} files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ plex_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart plex
+
+- name: Copy claim script
+  copy:
+    src: set-claim
+    dest: "{{ plex_install_path }}/set-claim"
+    owner: root
+    group: root
+    mode: 0550
+
+- import_tasks: claim.yml
+
+- name: Copying environment files
+  template:
+    src: .env.j2
+    dest: "{{ plex_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart plex
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="plex"
+  register: this
+  changed_when: not this.stdout or plex_needs_restart
+  failed_when: false
+  notify: restart plex

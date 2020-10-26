@@ -1,0 +1,34 @@
+---
+- name: Get docker-compose release info
+  uri:
+    url: https://api.github.com/repos/docker/compose/releases/latest
+    return_content: true
+  register: compose_json
+  when: docker_compose_version == 'latest'
+
+- name: Extract latest docker-compose version
+  set_fact:
+    docker_compose_version: "{{ compose_json.json.tag_name }}"
+  when: >
+    not ansible_check_mode and
+    compose_json is defined and
+    docker_compose_version == 'latest'
+
+- name: Check current docker-compose version
+  command: docker-compose --version
+  register: docker_current_compose_version
+  changed_when: false
+  failed_when: false
+
+- name: Install docker-compose
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/\
+      {{ docker_compose_version }}/docker-compose-Linux-x86_64"
+    dest: /usr/bin/docker-compose
+    owner: root
+    group: root
+    mode: 0555
+  when: >
+    not ansible_check_mode and
+    (docker_current_compose_version.stdout is undefined or
+    docker_current_compose_version.stdout.find(docker_compose_version) == -1)

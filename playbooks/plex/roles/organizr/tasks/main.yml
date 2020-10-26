@@ -1,0 +1,42 @@
+---
+- import_tasks: users.yml
+
+- name: Ensure organizr data directory
+  file:
+    path: "{{ organizr_data_path }}"
+    owner: "{{ organizr_user }}"
+    group: "{{ organizr_group }}"
+    mode: 0750
+    state: directory
+
+- name: Ensure organizr docker directory
+  file:
+    path: "{{ organizr_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Install organizr files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ organizr_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Copying template files
+  template:
+    src: .env.j2
+    dest: "{{ organizr_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="organizr"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart organizr

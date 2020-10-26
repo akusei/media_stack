@@ -1,0 +1,32 @@
+---
+- import_tasks: users.yml
+
+- import_tasks: directories.yml
+
+- name: Copy docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: "{{ hydra_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart hydra
+
+- name: Copy environment file
+  template:
+    src: ".env.j2"
+    dest: "{{ hydra_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart hydra
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="hydra"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart hydra

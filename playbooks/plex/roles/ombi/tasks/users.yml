@@ -1,0 +1,29 @@
+---
+- name: Add group {{ ombi_group }}
+  group:
+    name: "{{ ombi_group }}"
+    state: present
+
+- name: Add user {{ ombi_user }}
+  user:
+    name: "{{ ombi_user }}"
+    group: "{{ ombi_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export {{ ombi_group }} group id
+  getent:
+    database: group
+    key: "{{ ombi_group }}"
+
+- name: Export {{ ombi_user }} user id
+  getent:
+    database: passwd
+    key: "{{ ombi_user }}"
+
+- name: Gather created user and group IDs
+  set_fact:
+    ombi_user_id: "{{ getent_passwd[ombi_user][1] }}"
+    ombi_group_id: "{{ getent_group[ombi_group][1] }}"

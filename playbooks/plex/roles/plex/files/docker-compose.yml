@@ -1,0 +1,60 @@
+---
+version: '3.8'
+
+services:
+  plex:
+    runtime: ${RUNTIME}
+    image: plexinc/pms-docker:${VERSION}
+    container_name: plex
+    restart: unless-stopped
+    init: true
+    # privileged: true
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    ports:
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    expose:
+      - 32400
+      - 3005
+      - 8324
+      - 32469
+      - 1900
+      - 32410
+      - 32412
+      - 32413
+      - 32414
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+      PLEX_CLAIM: ${PLEX_CLAIM:-}
+      ALLOWED_NETWORKS: ${ALLOWED_NETWORKS:-}
+      ADVERTISE_IP: ${ADVERTISE_IP}
+      PLEX_UID: ${PLEX_UID}
+      PLEX_GID: ${PLEX_GID}
+      CHANGE_CONFIG_DIR_OWNERSHIP: "${CHANGE_CONFIG_DIR_OWNERSHIP}"
+    volumes:
+      - ${CACHE_PATH}:/config
+      - ${TRANSCODE_PATH}:/transcode
+      - ${MEDIA_ROOT}:/data:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.plex.service: plex
+      traefik.http.routers.plex.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.plex.entrypoints: https
+      traefik.http.routers.plex.tls: true
+      traefik.http.services.plex.loadbalancer.server.port: 32400
+
+networks:
+  traefik:
+    name: traefik
+    external: true

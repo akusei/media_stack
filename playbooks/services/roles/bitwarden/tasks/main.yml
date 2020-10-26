@@ -1,0 +1,30 @@
+---
+- import_tasks: directories.yml
+
+- name: Install bitwarden files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ bitwarden_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart bitwarden
+
+- name: Copying template files
+  template:
+    src: .env.j2
+    dest: "{{ bitwarden_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart bitwarden
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="bitwarden"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart bitwarden

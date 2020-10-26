@@ -1,0 +1,10 @@
+---
+common_smtp_server: smtp-relay.gmail.com
+common_smtp_from: no-reply@{{ vault_domain }}
+common_data_root: "/{{ vault_stack_name }}"
+common_downloads_user: media
+common_downloads_group: media
+common_downloads_root: /downloads
+common_media_root: /mnt/media
+common_software_root: /mnt/software
+common_logs_root: "{{ common_data_root }}/logs"

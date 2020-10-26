@@ -1,0 +1,16 @@
+---
+- name: Ensure ddclient docker directory
+  file:
+    path: "{{ ddclient_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Ensure ddclient config directory
+  file:
+    path: "{{ ddclient_install_path }}/config"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory

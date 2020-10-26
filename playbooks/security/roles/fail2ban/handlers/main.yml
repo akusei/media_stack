@@ -1,0 +1,5 @@
+---
+- name: restart fail2ban
+  command:
+    chdir: "{{ fail2ban_install_path }}"
+    cmd: docker-compose up -d --quiet-pull --force-recreate

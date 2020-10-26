@@ -1,0 +1,59 @@
+---
+- name: Install security based services
+  hosts: all
+  vars_files:
+    - ../../vars/common.yml
+    - ../../vars/secrets.yml
+  become: true
+  gather_facts: false
+
+  pre_tasks:
+    - name: Ensure common data directory exists
+      file:
+        path: "{{ common_data_root }}"
+        owner: root
+        group: root
+        mode: 0440
+        state: directory
+
+    - name: Ensure common logs directory exists
+      file:
+        path: "{{ common_logs_root }}"
+        owner: root
+        group: root
+        mode: 0440
+        state: directory
+
+  roles:
+    # https://hub.docker.com/r/portainer/portainer/tags
+    - role: authelia
+      authelia_image_tag: 4.22
+      authelia_domain: "{{ vault_domain }}"
+      authelia_log_path: "{{ common_logs_root }}/authelia"
+      authelia_data_path: "{{ common_data_root }}/authelia"
+      authelia_totp_issuer: "{{ vault_stack_name }}"
+      authelia_default_redirection_url: "{{ vault_domain }}"
+      authelia_session_cookie: "{{ vault_stack_name }}_session"
+      authelia_smtp_server: "{{ common_smtp_server }}"
+      authelia_smtp_from: "{{ common_smtp_from }}"
+      authelia_jwt_token: "{{ vault_jwt_token }}"
+      authelia_session_token: "{{ vault_session_token }}"
+      authelia_smtp_username: "{{ vault_smtp_username }}"
+      authelia_smtp_password: "{{ vault_smtp_password }}"
+      authelia_admin_username: "{{ vault_admin_username }}"
+      authelia_admin_password: "{{ vault_admin_password }}"
+      authelia_admin_email: "{{ vault_admin_email }}"
+      authelia_admin_display_name: "{{ vault_admin_username }}"
+
+    # https://hub.docker.com/r/crazymax/fail2ban/tags
+    - role: fail2ban
+      fail2ban_image_tag: 0.11.1
+      fail2ban_log_path: "{{ common_logs_root }}/fail2ban"
+      fail2ban_data_path: "{{ common_data_root }}/fail2ban"
+      fail2ban_ingest_path: "{{ common_logs_root }}"
+      fail2ban_smtp_server: "{{ common_smtp_server }}"
+      fail2ban_smtp_domain: "{{ vault_domain }}"
+      fail2ban_smtp_username: "{{ vault_smtp_username }}"
+      fail2ban_smtp_password: "{{ vault_smtp_password }}"
+      fail2ban_admin_email: "{{ vault_smtp_username }}"
+      fail2ban_smtp_sender: "{{ common_smtp_from }}"

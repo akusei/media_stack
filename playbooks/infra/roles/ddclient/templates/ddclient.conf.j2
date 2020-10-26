@@ -1,0 +1,24 @@
+daemon={{ ddclient_refresh_seconds }}
+ssl=yes
+
+use=web, web=dynamicdns.park-your-domain.com/getip
+
+##
+## cloudflare.com account-configuration
+##
+protocol=cloudflare
+zone={{ ddclient_domain }}
+ttl={{ ddclient_cloudflare_ttl }}
+login={{ ddclient_cloudflare_username }}
+password={{ ddclient_cloudflare_api_key }}
+{{ ddclient_domain }}
+
+##
+## OpenDNS.com account-configuration
+##
+protocol=dyndns2
+ssl=yes
+server=updates.opendns.com
+login={{ ddclient_opendns_username }}
+password='{{ ddclient_opendns_password }}'
+{{ ddclient_domain }}

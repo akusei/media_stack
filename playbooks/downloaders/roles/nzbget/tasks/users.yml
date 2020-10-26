@@ -1,0 +1,44 @@
+---
+- name: Add groups
+  group:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ nzbget_group }}"
+    - "{{ nzbget_downloads_group }}"
+
+- name: Add users
+  user:
+    name: "{{ item.user }}"
+    group: "{{ item.group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+  loop:
+    - user: "{{ nzbget_user }}"
+      group: "{{ nzbget_group }}"
+      # - user: "{{ nzbget_downloads_user }}"
+      #   group: "{{ nzbget_downloads_group }}"
+
+# - name: Add user to download group
+#   user:
+#     name: "{{ nzbget_user }}"
+#     groups: "{{ nzbget_downloads_group }}"
+#     append: true
+#   when: nzbget_downloads_group != nzbget_group
+
+- name: Export group id
+  getent:
+    database: group
+    key: "{{ nzbget_group }}"
+
+- name: Export user id
+  getent:
+    database: passwd
+    key: "{{ nzbget_user }}"
+
+- name: Gather created username and group IDs
+  set_fact:
+    nzbget_user_id: "{{ getent_passwd[nzbget_user][1] }}"
+    nzbget_group_id: "{{ getent_group[nzbget_group][1] }}"

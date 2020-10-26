@@ -1,0 +1,24 @@
+---
+- name: Ensure bitwarden data directory
+  file:
+    path: "{{ bitwarden_data_path }}"
+    owner: root
+    group: root
+    mode: 0750
+    state: directory
+
+- name: Ensure bitwarden log directory
+  file:
+    path: "{{ bitwarden_log_path }}"
+    owner: root
+    group: root
+    mode: 0750
+    state: directory
+
+- name: Ensure bitwarden docker directory
+  file:
+    path: "{{ bitwarden_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
