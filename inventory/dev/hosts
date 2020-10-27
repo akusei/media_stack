@@ -1,12 +1,2 @@
-[all:vars]
-env=dev
-
-[centos]
-192.168.111.130
-
-[ubuntu]
+[all]
 192.168.111.128
-
-[all:children]
-ubuntu
-centos
