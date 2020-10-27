@@ -1,18 +1,4 @@
 ---
-- name: Include distro specific variables
-  include_vars:
-    dir: 'vars'
-    files_matching: '{{ ansible_distribution|lower }}.yml'
-
-# yum_repository does not work for some reason
-- name: Add CentOS/Fedora repository
-  get_url:
-    url: "https://download.docker.com/linux/\
-      {{ ansible_distribution|lower }}/docker-ce.repo"
-    dest: /etc/yum.repos.d/docker-ce.repo
-    mode: 0644
-  when: ansible_distribution|lower in ['centos', 'fedora', 'rhel']
-
 - name: Add Debian/Ubuntu Docker Repo
   apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/\
@@ -20,11 +6,15 @@
       stable"
     filename: docker
     state: present
-  when: ansible_distribution|lower in ['debian', 'ubuntu']
 
 - name: Remove old docker packages
   package:
-    name: '{{ docker_remove }}'
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
     state: absent
 
 - name: Install docker
@@ -34,18 +24,6 @@
       - docker-ce-cli
       - containerd.io
     state: present
-  notify:
-    - restart docker
-
-- name: Fix the stupid fucking centos 8 firewall issue
-  firewalld:
-    masquerade: 'true'
-    permanent: true
-    zone: public
-    state: enabled
-  when: >
-    ansible_distribution|lower == 'centos' and
-    ansible_distribution_major_version == '8'
   notify:
     - restart docker
 

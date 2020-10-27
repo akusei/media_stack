@@ -1,7 +1,0 @@
----
-docker_remove:
-  - docker
-  - docker-engine
-  - docker.io
-  - containerd
-  - runc

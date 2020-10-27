@@ -27,10 +27,10 @@ services:
       traefik.enable: true
       traefik.http.routers.{{ arr_service_name }}.service: {{ arr_service_name }}
       traefik.http.routers.{{ arr_service_name }}.rule: Host(`${DOMAIN}`)
-      traefik.http.routers.{{ arr_service_name }}.entrypoint: https
+      traefik.http.routers.{{ arr_service_name }}.entrypoints: https
       traefik.http.routers.{{ arr_service_name }}.tls: true
       traefik.http.services.{{ arr_service_name }}.loadbalancer.server.port: {{ arr_expose_port }}
-      traefik.http.routers.{{ arr_service_name }}.middleware: authelia
+      traefik.http.routers.{{ arr_service_name }}.middlewares: authelia
 
 
 networks:

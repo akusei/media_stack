@@ -5,8 +5,6 @@
     state: absent
   ignore_errors: true
 
-# TODO: check if nvidia persistence mode is necessary
-
 - name: Ensure latest nvidia driver
   package:
     name: nvidia-headless-{{ nvidia_driver_version }}
@@ -16,13 +14,6 @@
   apt_key:
     url: https://nvidia.github.io/nvidia-docker/gpgkey
     state: present
-  when: ansible_distribution|lower in ['ubuntu', 'debian']
-
-- name: Add nvidia repository GPG key [CentOS/Fedora/Red Hat]
-  rpm_key:
-    key: https://nvidia.github.io/nvidia-docker/gpgkey
-    state: present
-  when: ansible_distribution|lower in ['centos', 'fedora', 'rhel']
 
 - name: Add nvidia repository
   get_url:
@@ -35,9 +26,7 @@
 - name: Update apt
   apt:
     update_cache: true
-  when: >
-    ansible_distribution|lower in ['debian', 'ubuntu'] and
-    nvidia_repo.changed
+  when: nvidia_repo.changed
 
 - name: Install nvidia container packages
   package:

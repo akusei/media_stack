@@ -15,6 +15,7 @@ services:
       - 5000
     labels:
       traefik.enable: true
+      traefik.docker.network: pusher
       traefik.http.routers.fling.service: fling
       traefik.http.routers.fling.rule: Host(`${DOMAIN}`)
       traefik.http.routers.fling.entrypoints: https

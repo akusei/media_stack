@@ -4,4 +4,4 @@ ansible_become_pass='{{ vault_ansible_become_pass }}'
 env=prod
 
 [all]
-192.168.1.6
+192.168.1.5

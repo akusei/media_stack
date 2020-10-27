@@ -7,6 +7,14 @@
     mode: 0750
     state: directory
 
+- name: Ensure traefik ssl directory
+  file:
+    path: "{{ traefik_ssl_cert_path }}"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_group }}"
+    mode: 0750
+    state: directory
+
 - name: Ensure traefik directory
   file:
     path: "{{ traefik_install_path }}"
