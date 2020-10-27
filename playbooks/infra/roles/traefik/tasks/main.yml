@@ -20,7 +20,7 @@
     owner: root
     group: root
     mode: 0440
-  when: env == 'dev'
+  when: traefik_override
   notify:
     - restart traefik
 
