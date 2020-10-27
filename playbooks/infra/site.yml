@@ -55,3 +55,4 @@
       pihole_image_tag: v5.1.2
       pihole_advertise_ip: "{{ advertise_ip }}"
       pihole_domain: "{{ vault_domain }}"
+      pihole_upstream_dns: 208.67.222.222

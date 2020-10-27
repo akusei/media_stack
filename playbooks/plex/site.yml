@@ -20,7 +20,7 @@
     - role: plex
       plex_image_tag: plexpass
       plex_cache_path: /cache/plex
-      plex_runtime: nvidia
+      plex_runtime: "{{ docker_runtime }}"
       plex_fqdn: watch.{{ vault_domain }}
       plex_advertise_ip: "{{ advertise_ip }}"
       plex_media_root: /mnt/media
@@ -43,5 +43,5 @@
       tautulli_image_tag: v2.5.6-ls14
       tautulli_fqdn: stats.{{ vault_domain }}
       tautulli_data_path: "{{ common_data_root }}/tautulli"
-      tautulli_plex_logs_path: >
+      tautulli_plex_logs_path: >-
         /cache/plex/Library/Application Support/Plex Media Server/Logs

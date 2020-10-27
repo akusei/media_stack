@@ -4,7 +4,7 @@
     path: "{{ pihole_data_path }}"
     owner: "{{ pihole_user }}"
     group: "{{ pihole_group }}"
-    mode: 0770
+    mode: 0775
     state: directory
 
 - name: Ensure pihole install directory

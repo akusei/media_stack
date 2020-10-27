@@ -103,4 +103,4 @@ notifier:
     sender: {{ authelia_smtp_from }}
     subject: "{{ authelia_smtp_subject }}"
     startup_check_address: {{ authelia_smtp_username }}
-    disable_require_tls: {{ authelia_smtp_disable_require_tls }}
+    disable_require_tls: {{ authelia_smtp_disable_require_tls | lower }}
