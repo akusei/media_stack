@@ -97,10 +97,10 @@ log_file_path: /logs/authelia.log
 notifier:
   disable_startup_check: true
   smtp:
-    username: {{ authelia_smtp_username }}
+    # username: {{ authelia_smtp_username }}
     host: {{ authelia_smtp_server }}
     port: {{ authelia_smtp_port }}
     sender: {{ authelia_smtp_from }}
     subject: "{{ authelia_smtp_subject }}"
-    startup_check_address: {{ authelia_smtp_username }}
+    # startup_check_address: {{ authelia_smtp_username }}
     disable_require_tls: {{ authelia_smtp_disable_require_tls | lower }}

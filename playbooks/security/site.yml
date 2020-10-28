@@ -25,6 +25,13 @@
         state: directory
 
   roles:
+    - role: postfix
+      postfix_smtp_server: smtp-relay.gmail.com
+      postfix_smtp_port: 587
+      postfix_smtp_username: "{{ vault_smtp_username }}"
+      postfix_smtp_password: "{{ vault_smtp_password }}"
+      postfix_domain: "{{ vault_domain }}"
+
     # https://hub.docker.com/r/portainer/portainer/tags
     - role: authelia
       authelia_image_tag: 4.22
@@ -34,7 +41,9 @@
       authelia_totp_issuer: "{{ vault_stack_name }}"
       authelia_default_redirection_url: "{{ vault_domain }}"
       authelia_session_cookie: "{{ vault_stack_name }}_session"
-      authelia_smtp_server: "{{ common_smtp_server }}"
+      authelia_smtp_server: postfix
+      authelia_smtp_port: 25
+      authelia_smtp_disable_require_tls: true
       authelia_smtp_from: "{{ common_smtp_from }}"
       authelia_jwt_token: "{{ vault_jwt_token }}"
       authelia_session_token: "{{ vault_session_token }}"

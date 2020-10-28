@@ -6,8 +6,8 @@ secrets:
     file: ./secrets/jwt
   session:
     file: ./secrets/session
-  smtp:
-    file: ./secrets/smtp
+    # smtp:
+    #   file: ./secrets/smtp
 
 services:
   # does not run as root
@@ -20,7 +20,7 @@ services:
     secrets:
       - jwt
       - session
-      - smtp
+      # - smtp
     networks:
       traefik:
         aliases:
@@ -31,7 +31,7 @@ services:
       TZ: ${TIMEZONE}
       AUTHELIA_JWT_SECRET_FILE: /run/secrets/jwt
       AUTHELIA_SESSION_SECRET_FILE: /run/secrets/session
-      AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE: /run/secrets/smtp
+      # AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE: /run/secrets/smtp
     volumes:
       - ${DATA_PATH}:/config
       - ${LOG_PATH}:/logs

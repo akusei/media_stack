@@ -1,0 +1,26 @@
+---
+version: '3.8'
+
+
+services:
+  postfix:
+    image: juanluisbaptiste/postfix:alpine
+    init: true
+    container_name: postfix
+    restart: unless-stopped
+    networks:
+      - traefik
+    expose:
+      - 25
+    environment:
+      SMTP_SERVER: ${SMTP_SERVER}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SERVER_HOSTNAME: ${DOMAIN}
+
+
+networks:
+  traefik:
+    name: traefik
+    external: true

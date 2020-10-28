@@ -56,15 +56,15 @@
   notify:
     - restart authelia
 
-- name: Create smtp secrets
-  copy:
-    content: "{{ authelia_smtp_password }}"
-    dest: "{{ authelia_install_path }}/secrets/smtp"
-    owner: "{{ authelia_user }}"
-    group: "{{ authelia_group }}"
-    mode: 0440
-  notify:
-    - restart authelia
+# - name: Create smtp secrets
+#   copy:
+#     content: "{{ authelia_smtp_password }}"
+#     dest: "{{ authelia_install_path }}/secrets/smtp"
+#     owner: "{{ authelia_user }}"
+#     group: "{{ authelia_group }}"
+#     mode: 0440
+#   notify:
+#     - restart authelia
 
 - name: Check if running
   command:
