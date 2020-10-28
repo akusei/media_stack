@@ -39,7 +39,7 @@
     # https://github.com/linuxserver/docker-ombi/releases
     - role: ombi
       ombi_image_tag: v3.0.5202-ls71
-      ombi_fqdn: requests.{{ vault_domain }}
+      ombi_fqdn: request.{{ vault_domain }}
       ombi_data_path: "{{ common_data_root }}/ombi"
 
     # https://github.com/linuxserver/docker-tautulli/releases
