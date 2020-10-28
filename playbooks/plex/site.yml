@@ -17,6 +17,10 @@
         state: directory
 
   roles:
+    - role: static
+      static_fqdn: static.{{ vault_domain }}
+      static_data_path: "{{ common_data_root }}/static"
+
     - role: plex
       plex_image_tag: plexpass
       plex_cache_path: /cache/plex

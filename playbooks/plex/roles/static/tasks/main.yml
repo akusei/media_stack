@@ -1,0 +1,40 @@
+---
+- name: Ensure static data directory
+  file:
+    path: "{{ static_data_path }}"
+    owner: root
+    group: root
+    mode: 0754
+    state: directory
+
+- name: Ensure static docker directory
+  file:
+    path: "{{ static_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Install static files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ static_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Copying template files
+  template:
+    src: .env.j2
+    dest: "{{ static_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="static"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart static

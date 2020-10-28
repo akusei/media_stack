@@ -1,0 +1,4 @@
+---
+static_fqdn: static.local
+static_data_path: /data/static
+static_install_path: /opt/static
