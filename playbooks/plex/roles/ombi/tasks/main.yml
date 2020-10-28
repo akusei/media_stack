@@ -24,6 +24,7 @@
     owner: root
     group: root
     mode: 0440
+  notify: restart ombi
 
 - name: Copying template files
   template:
@@ -32,6 +33,7 @@
     owner: root
     group: root
     mode: 0440
+  notify: restart ombi
 
 - name: Check if running
   command:
