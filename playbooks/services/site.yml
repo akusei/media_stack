@@ -6,12 +6,22 @@
     - ../../vars/secrets.yml
   become: true
   gather_facts: false
+
+  pre_tasks:
+    - name: Ensure common data directory exists
+      file:
+        path: "{{ common_data_root }}"
+        owner: root
+        group: root
+        mode: 0440
+        state: directory
+
   roles:
     # https://hub.docker.com/r/bitwardenrs/server/tags
     - role: bitwarden
       bitwarden_fqdn: warden.{{ vault_domain }}
       bitwarden_log_path: /var/log/bitwarden
-      bitwarden_data_path: /data/bitwarden
+      bitwarden_data_path: "{{ common_data_root }}/bitwarden"
       bitwarden_image_tag: 1.17.0
       bitwarden_signups_allowed: true
       bitwarden_invitations_allowed: true
