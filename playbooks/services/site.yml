@@ -15,7 +15,7 @@
       bitwarden_image_tag: 1.17.0
       bitwarden_signups_allowed: true
       bitwarden_invitations_allowed: true
-      bitwarden_admin_token: "{{ vault_bitwarden_admin_token }}"
+      bitwarden_disable_admin_token: true
       bitwarden_smtp_username: "{{ vault_smtp_username }}"
       bitwarden_smtp_password: "{{ vault_smtp_password }}"
       bitwarden_smtp_from: "{{ common_smtp_from }}"

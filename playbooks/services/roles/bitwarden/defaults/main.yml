@@ -14,6 +14,7 @@ bitwarden_signups_allowed: true
 bitwarden_invitations_allowed: true
 bitwarden_show_password_hint: false
 
+bitwarden_disable_admin_token: false
 bitwarden_admin_token:
 bitwarden_smtp_username:
 bitwarden_smtp_password:
