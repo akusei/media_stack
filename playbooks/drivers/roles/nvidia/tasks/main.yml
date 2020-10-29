@@ -23,7 +23,7 @@
     dest: /etc/apt/sources.list.d/nvidia-docker.list
   register: nvidia_repo
 
-- name: Update apt
+- name: Update apt  # noqa 503
   apt:
     update_cache: true
   when: nvidia_repo.changed
