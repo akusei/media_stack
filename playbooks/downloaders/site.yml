@@ -19,17 +19,26 @@
     - name: Ensure common download directory exists
       file:
         path: "{{ common_downloads_root }}"
-        owner: root
-        group: root
-        mode: 0440
+        owner: "{{ common_downloads_user }}"
+        group: "{{ common_downloads_group }}"
+        mode: 0550
         state: directory
+
+    - name: Update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 86400
+
+    - name: Install ACL package
+      package:
+        name: acl
+        state: present
 
   roles:
     # https://github.com/linuxserver/docker-nzbget/releases
     - role: nzbget
       nzbget_fqdn: newz.{{ vault_domain }}
       nzbget_image_tag: v21.0-ls62
-      nzbget_downloads_user: "{{ common_downloads_user }}"
       nzbget_downloads_group: "{{ common_downloads_group }}"
       nzbget_data_path: "{{ common_data_root }}/nzbget"
       nzbget_downloads_path: "{{ common_downloads_root }}/nzb"
@@ -39,7 +48,6 @@
     - role: deluge
       deluge_image_tag: 2.0.3-2201906121747ubuntu18.04.1-ls81
       deluge_fqdn: bt.{{ vault_domain }}
-      deluge_downloads_user: "{{ common_downloads_user }}"
       deluge_downloads_group: "{{ common_downloads_group }}"
       deluge_data_path: "{{ common_data_root }}/deluge"
       deluge_downloads_path: "{{ common_downloads_root }}/torrent"

@@ -14,7 +14,7 @@
       arr_expose_port: 8989
       arr_install_path: /opt/sonarr
       arr_data_path: /{{ vault_stack_name }}/sonarr
-      arr_downloads_path: /{{ vault_stack_name }}/downloads
+      arr_downloads_path: /downloads
       arr_media_root: /mnt/media
 
     # https://github.com/linuxserver/docker-radarr/releases
@@ -25,7 +25,7 @@
       arr_expose_port: 7878
       arr_install_path: /opt/radarr
       arr_data_path: /{{ vault_stack_name }}/radarr
-      arr_downloads_path: /{{ vault_stack_name }}/downloads
+      arr_downloads_path: /downloads
       arr_media_root: /mnt/media
 
     # https://github.com/linuxserver/docker-lidarr/releases
@@ -36,5 +36,5 @@
       arr_expose_port: 8686
       arr_install_path: /opt/lidarr
       arr_data_path: /{{ vault_stack_name }}/lidarr
-      arr_downloads_path: /{{ vault_stack_name }}/downloads
+      arr_downloads_path: /downloads
       arr_media_root: /mnt/media

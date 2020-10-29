@@ -43,10 +43,22 @@
     mode: 0770
     state: directory
 
-# - name: Ensure download directory
-#   file:
-#     path: "{{ deluge_downloads_path }}"
-#     owner: "{{ deluge_downloads_user }}"
-#     group: "{{ deluge_downloads_group }}"
-#     mode: 0770
-#     state: directory
+- name: Set ACL for new files/directories
+  acl:
+    path: "{{ deluge_downloads_path }}/"
+    entity: "{{ deluge_downloads_group }}"
+    etype: group
+    permissions: rwX
+    default: true
+    recursive: true
+    state: present
+
+- name: Set ACL for existing files/directories
+  acl:
+    path: "{{ deluge_downloads_path }}/"
+    entity: "{{ deluge_downloads_group }}"
+    etype: group
+    permissions: rwX
+    default: false
+    recursive: true
+    state: present

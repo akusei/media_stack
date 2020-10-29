@@ -23,13 +23,25 @@
     mode: 0770
     state: directory
 
-# - name: Ensure nzbget downloads directory
-#   file:
-#     path: "{{ nzbget_downloads_path }}"
-#     owner: "{{ nzbget_downloads_user }}"
-#     group: "{{ nzbget_downloads_group }}"
-#     mode: 0770
-#     state: directory
+- name: Set ACL for new files/directories
+  acl:
+    path: "{{ nzbget_downloads_path }}/"
+    entity: "{{ nzbget_downloads_group }}"
+    etype: group
+    permissions: rwX
+    default: true
+    recursive: true
+    state: present
+
+- name: Set ACL for existing files/directories
+  acl:
+    path: "{{ nzbget_downloads_path }}/"
+    entity: "{{ nzbget_downloads_group }}"
+    etype: group
+    permissions: rwX
+    default: false
+    recursive: true
+    state: present
 
 - name: Ensure nzbget software root directory
   stat:
