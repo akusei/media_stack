@@ -60,7 +60,7 @@ services:
       - ${DATA_PATH}:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${SOFTWARE_ROOT}:/software
-      - ./wait/90-wait-for-ready.sh:/etc/cont-init.d/90-wait-for-ready.sh:ro
+      - ./wait/90-wait-for-vpn.sh:/etc/cont-init.d/90-wait-for-vpn.sh:ro
 
 networks:
   traefik:

@@ -10,7 +10,9 @@ services:
     restart: unless-stopped
     init: true
     networks:
-      - traefik
+      traefik:
+        aliases:
+          - ${DOMAIN}
     volumes:
       - ${DATA_PATH}:/static:ro
       # - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
