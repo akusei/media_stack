@@ -2,9 +2,11 @@
 - name: Install media management services
   hosts: all
   vars_files:
+    - ../../vars/common.yml
     - ../../vars/secrets.yml
   become: true
   gather_facts: false
+
   roles:
     # https://github.com/linuxserver/docker-sonarr/releases
     - role: arr
@@ -12,7 +14,7 @@
       arr_image_tag: 2.0.0.5344-ls82
       arr_fqdn: shows.{{ vault_domain }}
       arr_expose_port: 8989
-      arr_install_path: /opt/sonarr
+      arr_install_path: "{{ common_install_root }}/sonarr"
       arr_data_path: /{{ vault_stack_name }}/sonarr
       arr_downloads_path: /downloads
       arr_media_root: /mnt/media
@@ -23,7 +25,7 @@
       arr_image_tag: v0.2.0.1504-ls79
       arr_fqdn: movies.{{ vault_domain }}
       arr_expose_port: 7878
-      arr_install_path: /opt/radarr
+      arr_install_path: "{{ common_install_root }}/radarr"
       arr_data_path: /{{ vault_stack_name }}/radarr
       arr_downloads_path: /downloads
       arr_media_root: /mnt/media
@@ -34,7 +36,7 @@
       arr_image_tag: 0.7.1.1381-ls19
       arr_fqdn: music.{{ vault_domain }}
       arr_expose_port: 8686
-      arr_install_path: /opt/lidarr
+      arr_install_path: "{{ common_install_root }}/lidarr"
       arr_data_path: /{{ vault_stack_name }}/lidarr
       arr_downloads_path: /downloads
       arr_media_root: /mnt/media

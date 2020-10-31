@@ -7,15 +7,6 @@
   become: true
   gather_facts: false
 
-  pre_tasks:
-    - name: Ensure common data directory exists
-      file:
-        path: "{{ common_data_root }}"
-        owner: root
-        group: root
-        mode: 0440
-        state: directory
-
   roles:
     # https://hub.docker.com/r/bitwardenrs/server/tags
     - role: bitwarden
@@ -30,8 +21,10 @@
       bitwarden_smtp_password: "{{ vault_smtp_password }}"
       bitwarden_smtp_from: "{{ common_smtp_from }}"
       bitwarden_smtp_server: "{{ common_smtp_server }}"
+      bitwarden_install_path: "{{ common_install_root }}/bitwarden"
 
     # https://hub.docker.com/r/pglombardo/pwpush-ephemeral/tags
     - role: pwpusher
       pwpusher_image_tag: 1.4
       pwpusher_fqdn: fling.{{ vault_domain }}
+      pwpusher_install_path: "{{ common_install_root }}/pwpusher"

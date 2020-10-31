@@ -7,19 +7,11 @@
   become: true
   gather_facts: false
 
-  pre_tasks:
-    - name: Ensure common data directory exists
-      file:
-        path: "{{ common_data_root }}"
-        owner: root
-        group: root
-        mode: 0440
-        state: directory
-
   roles:
     - role: static
       static_fqdn: static.{{ vault_domain }}
       static_data_path: "{{ common_data_root }}/static"
+      static_install_path: "{{ common_install_root }}/static"
 
     - role: plex
       plex_image_tag: plexpass
@@ -30,17 +22,20 @@
       plex_media_root: /mnt/media
       plex_username: "{{ vault_plex_username }}"
       plex_password: "{{ vault_plex_password }}"
+      plex_install_path: "{{ common_install_root }}/plex"
 
     # latest only
     - role: organizr
       organizr_fqdn: "{{ vault_domain }}"
       organizr_data_path: "{{ common_data_root }}/organizr"
+      organizr_install_path: "{{ common_install_root }}/organizr"
 
     # https://github.com/linuxserver/docker-ombi/releases
     - role: ombi
       ombi_image_tag: v3.0.5202-ls71
       ombi_fqdn: request.{{ vault_domain }}
       ombi_data_path: "{{ common_data_root }}/ombi"
+      ombi_install_path: "{{ common_install_root }}/ombi"
 
     # https://github.com/linuxserver/docker-tautulli/releases
     - role: tautulli
@@ -49,3 +44,4 @@
       tautulli_data_path: "{{ common_data_root }}/tautulli"
       tautulli_plex_logs_path: >-
         /cache/plex/Library/Application Support/Plex Media Server/Logs
+      tautulli_install_path: "{{ common_install_root }}/tautulli"

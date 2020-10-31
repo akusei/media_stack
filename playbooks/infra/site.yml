@@ -7,23 +7,6 @@
   become: true
   gather_facts: false
 
-  pre_tasks:
-    - name: Ensure common data directory exists
-      file:
-        path: "{{ common_data_root }}"
-        owner: root
-        group: root
-        mode: 0440
-        state: directory
-
-    - name: Ensure common log directory exists
-      file:
-        path: "{{ common_logs_root }}"
-        owner: root
-        group: root
-        mode: 0440
-        state: directory
-
   roles:
     - role: networks
       network_names:
@@ -38,6 +21,7 @@
       ddclient_cloudflare_api_key: "{{ vault_cloudflare_api_key }}"
       ddclient_opendns_username: "{{ vault_opendns_username }}"
       ddclient_opendns_password: "{{ vault_opendns_password }}"
+      ddclient_install_path: "{{ common_install_root }}/ddclient"
 
     # https://hub.docker.com/_/traefik?tab=tags
     - role: traefik
@@ -48,6 +32,7 @@
       traefik_allowed_networks: "{{ proxy_internal_only_networks }}"
       traefik_cloudflare_email: "{{ vault_admin_email }}"
       traefik_cloudflare_api_key: "{{ vault_cloudflare_api_key }}"
+      traefik_install_path: "{{ common_install_root }}/traefik"
 
     # https://hub.docker.com/r/pihole/pihole/tags
     - role: pihole
@@ -56,3 +41,4 @@
       pihole_advertise_ip: "{{ advertise_ip }}"
       pihole_domain: "{{ vault_domain }}"
       pihole_upstream_dns: 208.67.222.222
+      pihole_install_path: "{{ common_install_root }}/pihole"

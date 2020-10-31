@@ -7,33 +7,6 @@
   become: true
   gather_facts: false
 
-  pre_tasks:
-    - name: Ensure common data directory exists
-      file:
-        path: "{{ common_data_root }}"
-        owner: root
-        group: root
-        mode: 0440
-        state: directory
-
-    - name: Ensure common download directory exists
-      file:
-        path: "{{ common_downloads_root }}"
-        owner: "{{ common_downloads_user }}"
-        group: "{{ common_downloads_group }}"
-        mode: 0550
-        state: directory
-
-    - name: Update apt cache if needed
-      apt:
-        update_cache: true
-        cache_valid_time: 86400
-
-    - name: Install ACL package
-      package:
-        name: acl
-        state: present
-
   roles:
     # https://github.com/linuxserver/docker-nzbget/releases
     - role: nzbget
@@ -43,6 +16,7 @@
       nzbget_data_path: "{{ common_data_root }}/nzbget"
       nzbget_downloads_path: "{{ common_downloads_root }}/nzb"
       nzbget_software_root: "{{ common_software_root }}"
+      nzbget_install_path: "{{ common_install_root }}/nzbget"
 
     # https://github.com/linuxserver/docker-deluge/releases
     - role: deluge
@@ -54,3 +28,4 @@
       deluge_software_root: "{{ common_software_root }}"
       pia_username: "{{ vault_pia_username }}"
       pia_password: "{{ vault_pia_password }}"
+      deluge_install_path: "{{ common_install_root }}/deluge"
