@@ -26,7 +26,7 @@
     # https://hub.docker.com/_/traefik?tab=tags
     - role: traefik
       traefik_domain: "{{ vault_domain }}"
-      traefik_image_tag: picodon
+      traefik_image_tag: v2.3.2
       traefik_ssl_cert_path: "{{ common_data_root }}/traefik"
       traefik_log_path: "{{ common_logs_root }}/traefik"
       traefik_allowed_networks: "{{ proxy_internal_only_networks }}"

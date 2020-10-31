@@ -11,7 +11,7 @@
     # https://github.com/linuxserver/docker-nzbget/releases
     - role: nzbget
       nzbget_fqdn: newz.{{ vault_domain }}
-      nzbget_image_tag: v21.0-ls62
+      nzbget_image_tag: v21.0-ls63
       nzbget_downloads_group: "{{ common_downloads_group }}"
       nzbget_data_path: "{{ common_data_root }}/nzbget"
       nzbget_downloads_path: "{{ common_downloads_root }}/nzb"

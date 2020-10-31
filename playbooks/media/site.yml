@@ -11,7 +11,7 @@
     # https://github.com/linuxserver/docker-sonarr/releases
     - role: arr
       arr_service_name: sonarr
-      arr_image_tag: 2.0.0.5344-ls82
+      arr_image_tag: 2.0.0.5344-ls83
       arr_fqdn: shows.{{ vault_domain }}
       arr_expose_port: 8989
       arr_install_path: "{{ common_install_root }}/sonarr"
@@ -22,7 +22,7 @@
     # https://github.com/linuxserver/docker-radarr/releases
     - role: arr
       arr_service_name: radarr
-      arr_image_tag: v0.2.0.1504-ls79
+      arr_image_tag: v0.2.0.1504-ls80
       arr_fqdn: movies.{{ vault_domain }}
       arr_expose_port: 7878
       arr_install_path: "{{ common_install_root }}/radarr"
@@ -33,7 +33,7 @@
     # https://github.com/linuxserver/docker-lidarr/releases
     - role: arr
       arr_service_name: lidarr
-      arr_image_tag: 0.7.1.1381-ls19
+      arr_image_tag: 0.7.2.1878-ls21
       arr_fqdn: music.{{ vault_domain }}
       arr_expose_port: 8686
       arr_install_path: "{{ common_install_root }}/lidarr"
