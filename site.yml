@@ -7,6 +7,7 @@
   become: true
   gather_facts: true
 
+- import_playbook: playbooks/common/site.yml
 - import_playbook: playbooks/drivers/site.yml
 - import_playbook: playbooks/infra/site.yml
 - import_playbook: playbooks/security/site.yml

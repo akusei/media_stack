@@ -1,0 +1,12 @@
+---
+- name: Configure common items
+  hosts: all
+  vars_files:
+    - ../../vars/common.yml
+    - ../../vars/secrets.yml
+  become: true
+  gather_facts: false
+
+  roles:
+    - role: common
+      common_script_name: "{{ vault_stack_name | lower }}"

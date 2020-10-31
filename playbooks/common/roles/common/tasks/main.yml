@@ -1,0 +1,20 @@
+---
+- import_tasks: directories.yml
+
+- name: Update apt cache if needed
+  apt:
+    update_cache: true
+    cache_valid_time: 86400
+
+- name: Install ACL package
+  package:
+    name: acl
+    state: present
+
+- name: Install management script
+  template:
+    src: manage.sh
+    dest: /usr/sbin/{{ common_script_name }}
+    owner: root
+    group: root
+    mode: 0550
