@@ -15,13 +15,13 @@
     mode: 0750
     state: directory
 
-- name: Ensure downloads directory
-  file:
-    path: "{{ arr_downloads_path }}"
-    owner: "{{ arr_user }}"
-    group: "{{ arr_group }}"
-    mode: 0770
-    state: directory
+# - name: Ensure downloads directory
+#   file:
+#     path: "{{ arr_downloads_path }}"
+#     owner: "{{ arr_user }}"
+#     group: "{{ arr_group }}"
+#     mode: 0770
+#     state: directory
 
 - name: Ensure media root directory
   stat:

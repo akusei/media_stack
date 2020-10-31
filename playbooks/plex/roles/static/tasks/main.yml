@@ -4,7 +4,7 @@
     path: "{{ static_data_path }}"
     owner: root
     group: root
-    mode: 0754
+    mode: 0755
     state: directory
 
 - name: Ensure static docker directory

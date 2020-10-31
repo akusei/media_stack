@@ -2,7 +2,7 @@
 - name: Install management services
   hosts: all
   vars_files:
-    - ../../vars/commong.yml
+    - ../../vars/common.yml
     - ../../vars/secrets.yml
   become: true
   gather_facts: false

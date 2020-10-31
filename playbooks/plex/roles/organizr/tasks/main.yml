@@ -24,6 +24,8 @@
     owner: root
     group: root
     mode: 0440
+  notify:
+    - restart organizr
 
 - name: Copying template files
   template:
@@ -32,6 +34,8 @@
     owner: root
     group: root
     mode: 0440
+  notify:
+    - restart organizr
 
 - name: Check if running
   command:
@@ -39,4 +43,5 @@
   register: this
   changed_when: not this.stdout
   failed_when: false
-  notify: restart organizr
+  notify:
+    - restart organizr

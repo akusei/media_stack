@@ -11,7 +11,7 @@
     # https://hub.docker.com/r/bitwardenrs/server/tags
     - role: bitwarden
       bitwarden_fqdn: warden.{{ vault_domain }}
-      bitwarden_log_path: /var/log/bitwarden
+      bitwarden_log_path: "{{ common_logs_root }}/bitwarden"
       bitwarden_data_path: "{{ common_data_root }}/bitwarden"
       bitwarden_image_tag: 1.17.0
       bitwarden_signups_allowed: true
