@@ -13,7 +13,8 @@ processors:
       if: ctx.source?.address == null
       field: message
       pattern: 'time="%{@timestamp}" level=%{log.level} msg="%{event.reason}"'
-
+      on_failure:
+        - drop: {}
 
   - grok:
       field: message

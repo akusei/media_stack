@@ -3,23 +3,23 @@ processors:
   - dissect:
       if: ctx.message.contains('Login attempt')
       field: message
-      pattern: "%{service.name}: Login attempt for %{user.name} user from %{source.address}:%{source.port}"
+      pattern: "%{service.name}[%{}]: Login attempt for %{user.name} user from %{source.address}:%{source.port}"
   - dissect:
       if: ctx.message.contains('Bad password')
       field: message
-      pattern: "%{service.name}: Bad password attempt for '%{user.name}' from %{source.address}:%{source.port}"
+      pattern: "%{service.name}[%{}]: Bad password attempt for '%{user.name}' from %{source.address}:%{source.port}"
   - dissect:
       if: ctx.message.contains('succeeded')
       field: message
-      pattern: "%{service.name}: Password auth succeeded for '%{user.name}' from %{source.address}:%{source.port}"
+      pattern: "%{service.name}[%{}]: Password auth succeeded for '%{user.name}' from %{source.address}:%{source.port}"
   - dissect:
       if: ctx.message.contains('Exit')
       field: message
-      pattern: "%{service.name}: Exit (%{user.name}): %{event.reason}"
+      pattern: "%{service.name}[%{}]: Exit (%{user.name}): %{event.reason}"
   - dissect:
       if: ctx.message.contains('executing')
       field: message
-      pattern: "%{service.name}: User %{user.name} %{event.reason}"
+      pattern: "%{service.name}[%{}]: User %{user.name} %{event.reason}"
 
   - set:
       field: event.action
