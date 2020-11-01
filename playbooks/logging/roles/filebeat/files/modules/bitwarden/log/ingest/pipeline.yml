@@ -10,6 +10,11 @@ processors:
   - drop:
       if: "!['error', 'bitwarden_rs::api::identity'].contains(ctx.event.action)"
 
+  - gsub:
+      field: "@timestamp"
+      pattern: "\\s"
+      replacement: "T"
+
   - grok:
       field: event.reason
       patterns:
