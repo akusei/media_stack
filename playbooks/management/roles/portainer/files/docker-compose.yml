@@ -28,6 +28,8 @@ services:
 
 volumes:
   portainer:
+    name: portainer_portainer
+    external: true
 
 networks:
   traefik:

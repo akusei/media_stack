@@ -8,10 +8,15 @@
   gather_facts: false
 
   roles:
-    - role: networks
-      network_names:
+    - role: docker_common
+      docker_common_volume_names:
+        - portainer_portainer
+        - elasticsearch_es_data
+        - filebeat_registry
+      docker_common_network_names:
         - traefik
         - pusher
+        - elastic
 
     # https://github.com/linuxserver/docker-ddclient/releases
     - role: ddclient
