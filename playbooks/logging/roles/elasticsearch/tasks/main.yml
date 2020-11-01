@@ -1,0 +1,48 @@
+---
+- import_tasks: directories.yml
+
+- name: Install elasticsearch compose file
+  copy:
+    src: docker-compose.yml
+    dest: "{{ elasticsearch_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart elasticsearch
+
+- name: Install kibana config file
+  copy:
+    src: kibana.yml
+    dest: "{{ elasticsearch_install_path }}/config/kibana.yml"
+    owner: root
+    group: root
+    mode: 0444
+  notify:
+    - restart elasticsearch
+
+- name: Copying environment file
+  template:
+    src: ".env.j2"
+    dest: "{{ elasticsearch_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart elasticsearch
+
+- name: Check if elasticsearch is running
+  command:
+    cmd: docker ps -qf name="elasticsearch"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart elasticsearch
+
+- name: Check if kibana is running
+  command:
+    cmd: docker ps -qf name="kibana"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart elasticsearch

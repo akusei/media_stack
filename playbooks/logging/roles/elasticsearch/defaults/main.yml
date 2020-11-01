@@ -1,0 +1,7 @@
+---
+elasticsearch_image_tag: latest
+elasticsearch_fqdn: kibana.local
+elasticsearch_username: elastic
+elasticsearch_password: elastic
+
+elasticsearch_install_path: /opt/elasticsearch

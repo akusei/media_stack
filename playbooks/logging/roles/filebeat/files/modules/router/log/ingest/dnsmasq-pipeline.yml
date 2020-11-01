@@ -1,0 +1,43 @@
+---
+processors:
+  - grok:
+      field: message
+      patterns:
+        - '%{GREEDYDATA:event.action}\(%{GREEDYDATA:observer.egress.interface.name}\) (?:%{IP:source.address} )?%{MAC:source.mac} %{HOSTNAME:router.dhcp.hostname}?'
+
+  - set:
+      field: service.name
+      value: dnsmasq-dhcp
+  - set:
+      field: event.category
+      value: network
+  - set:
+      field: event.dataset
+      value: router.dhcp
+  - set:
+      field: event.type
+      value:
+        - change
+        - connection
+
+  - set:
+      if: ctx.source?.address != null
+      field: source.ip
+      value: "{{source.address}}"
+  - set:
+      if: ctx.source?.ip != null
+      field: router.dhcp.ip
+      value: "{{source.ip}}"
+  - append:
+      if: ctx.source?.mac != null
+      field: router.dhcp.mac
+      value: "{{source.mac}}"
+
+  - append:
+      if: ctx.source?.ip != null
+      field: related.ip
+      value: "{{source.ip}}"
+  - append:
+      if: ctx.router?.dhcp != null && ctx.router.dhcp?.hostname != null
+      field: related.hosts
+      value: "{{router.dhcp.hostname}}"

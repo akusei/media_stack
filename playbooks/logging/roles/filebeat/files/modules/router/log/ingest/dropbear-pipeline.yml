@@ -1,0 +1,93 @@
+---
+processors:
+  - dissect:
+      if: ctx.message.contains('Login attempt')
+      field: message
+      pattern: "%{service.name}: Login attempt for %{user.name} user from %{source.address}:%{source.port}"
+  - dissect:
+      if: ctx.message.contains('Bad password')
+      field: message
+      pattern: "%{service.name}: Bad password attempt for '%{user.name}' from %{source.address}:%{source.port}"
+  - dissect:
+      if: ctx.message.contains('succeeded')
+      field: message
+      pattern: "%{service.name}: Password auth succeeded for '%{user.name}' from %{source.address}:%{source.port}"
+  - dissect:
+      if: ctx.message.contains('Exit')
+      field: message
+      pattern: "%{service.name}: Exit (%{user.name}): %{event.reason}"
+  - dissect:
+      if: ctx.message.contains('executing')
+      field: message
+      pattern: "%{service.name}: User %{user.name} %{event.reason}"
+
+  - set:
+      field: event.action
+      value: login
+  - set:
+      if: ctx.message.contains('Exit')
+      field: event.action
+      value: logout
+  - set:
+      if: ctx.message.contains('executing')
+      field: event.action
+      value: exec
+  - set:
+      field: event.category
+      value: authentication
+  - set:
+      if: ctx.message.contains('executing')
+      field: event.category
+      value: process
+  - set:
+      field: event.dataset
+      value: router.access
+  - set:
+      field: event.type
+      value:
+        - access
+        - admin
+        - user
+
+  - set:
+      if: ctx.source?.address != null
+      field: source.ip
+      value: "{{source.address}}"
+
+  - append:
+      if: ctx.message.contains('attempt')
+      field: event.type
+      value: denied
+  - append:
+      if: ctx.message.contains('succeeded')
+      field: event.type
+      value: allowed
+  - set:
+      field: event.outcome
+      value: success
+  - set:
+      if: ctx.event.type == 'denied'
+      field: event.outcome
+      value: failure
+  - append:
+      if: ctx.message.contains('executing')
+      field: event.type
+      value: start
+  - append:
+      if: ctx.message.contains('Exit')
+      field: event.type
+      value: end
+
+  - append:
+      if: ctx.source?.ip != null
+      field: related.ip
+      value: "{{source.ip}}"
+  - append:
+      if: ctx.user?.name != null
+      field: related.user
+      value: "{{user.name}}"
+
+  - convert:
+      field: source.port
+      type: integer
+      ignore_missing: true

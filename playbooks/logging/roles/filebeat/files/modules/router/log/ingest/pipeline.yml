@@ -1,0 +1,12 @@
+---
+processors:
+  - pipeline:
+      if: ctx.message.contains('dropbear')
+      name: "{< IngestPipeline "dropbear-pipeline" >}"
+  - pipeline:
+      if: ctx.message.contains('dnsmasq-dhcp')
+      name: "{< IngestPipeline "dnsmasq-pipeline" >}"
+
+  - rename:
+      field: message
+      target_field: log.original

@@ -17,5 +17,4 @@
 - import_playbook: playbooks/media/site.yml
 - import_playbook: playbooks/services/site.yml
 - import_playbook: playbooks/plex/site.yml
-
-# - import_playbook: playbooks/logging/site.yml
+- import_playbook: playbooks/logging/site.yml

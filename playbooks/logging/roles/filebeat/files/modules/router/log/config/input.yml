@@ -1,0 +1,12 @@
+---
+type: syslog
+protocol.udp:
+  host: "{{.syslog_host}}:{{.syslog_port}}"
+
+fields_under_root: true
+fields:
+  ecs:
+    version: 1.6.0
+  event:
+    module: router
+    kind: event

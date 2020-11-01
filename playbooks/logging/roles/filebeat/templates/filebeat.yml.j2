@@ -1,0 +1,88 @@
+---
+setup.ilm.enabled: true
+setup.ilm.policy_name: "{{ vault_stack_name }}"
+setup.ilm.rollover_alias: "{{ vault_stack_name }}"
+setup.ilm.pattern: "000001"
+filebeat.overwrite_pipelines: true
+filebeat.registry.path: /registry
+
+logging.level: error
+
+filebeat.modules:
+  - module: router
+    log:
+      enabled: true
+      var:
+        syslog_host: 0.0.0.0
+        syslog_port: 514
+
+  # - module: plexstats
+  #   log:
+  #     enabled: true
+  #     var.destination_ip: {{ ansible_default_ipv4.address }}
+  #     var.city_name: Los Angeles
+  #     var.continent_name: North America
+  #     var.country_code: US
+  #     var.region_code: US-CA
+  #     var.region_name: California
+  #     var.lat: {{ vault_filebeat_lat }}
+  #     var.long: {{ vault_filebeat_long }}
+  #     var.syslog_host: 0.0.0.0
+  #     var.syslog_port: 515
+
+  - module: authelia
+    log:
+      enabled: true
+      var.destination_ip: {{ ansible_default_ipv4.address }}
+      var.city_name: Los Angeles
+      var.continent_name: North America
+      var.country_code: US
+      var.region_code: US-CA
+      var.region_name: California
+      var.lat: {{ vault_filebeat_lat }}
+      var.long: {{ vault_filebeat_long }}
+      input:
+        type: log
+        paths:
+          - /logs/authelia/authelia.log
+
+  - module: bitwarden
+    log:
+      enabled: true
+      var.destination_ip: {{ ansible_default_ipv4.address }}
+      var.city_name: Los Angeles
+      var.continent_name: North America
+      var.country_code: US
+      var.region_code: US-CA
+      var.region_name: California
+      var.lat: {{ vault_filebeat_lat }}
+      var.long: {{ vault_filebeat_long }}
+      input:
+        type: log
+        paths:
+          - /logs/bitwarden/bitwarden.log
+
+  - module: fail2ban
+    log:
+      enabled: true
+      var.destination_ip: {{ ansible_default_ipv4.address }}
+      var.city_name: Los Angeles
+      var.continent_name: North America
+      var.country_code: US
+      var.region_code: US-CA
+      var.region_name: California
+      var.lat: {{ vault_filebeat_lat }}
+      var.long: {{ vault_filebeat_long }}
+      input:
+        type: log
+        paths:
+          - /logs/fail2ban.log
+
+#output.console:
+#  pretty: true
+
+output.elasticsearch:
+  hosts:
+    - http://elasticsearch:9200
+  username: {{ vault_elastic_username }}
+  password: {{ vault_elastic_password }}

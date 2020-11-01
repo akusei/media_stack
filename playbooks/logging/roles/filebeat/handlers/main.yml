@@ -1,0 +1,5 @@
+---
+- name: restart filebeat
+  command:
+    chdir: "{{ filebeat_install_path }}"
+    cmd: docker-compose up -d --quiet-pull --force-recreate

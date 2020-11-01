@@ -1,0 +1,92 @@
+---
+processors:
+  - grok:
+      field: message
+      patterns:
+        - "\\[%{TIMESTAMP_ISO8601:@timestamp}\\]\\[%{DATA:event.action}\\]\\[%{DATA:log.level}\\]\\s%{GREEDYDATA:event.reason}"
+      on_failure:
+        - drop: {}
+
+  - drop:
+      if: "!['error', 'bitwarden_rs::api::identity'].contains(ctx.event.action)"
+
+  - grok:
+      field: event.reason
+      patterns:
+        - "User(?:name:)? %{EMAILADDRESS:user.name}(?:\\.$|\\s)"
+      ignore_failure: true
+
+  - grok:
+      field: event.reason
+      patterns:
+        - "IP: %{IP:source.address}(?:$|\\.\\s)"
+      ignore_failure: true
+
+  - set:
+      field: event.type
+      value:
+        - access
+        - user
+  - set:
+      field: event.category
+      value: web
+  - set:
+      if: ctx.event.reason.contains('password') || ctx.event.reason.contains('logged in')
+      field: event.category
+      value: authentication
+  - append:
+      if: ctx.message.contains('password is incorrect')
+      field: event.type
+      value: denied
+  - append:
+      if: ctx.message.contains('logged in successfully')
+      field: event.type
+      value: allowed
+  - set:
+      if: ctx.event.type.contains('allowed')
+      field: event.outcome
+      value: success
+  - set:
+      if: ctx.event.type.contains('denied')
+      field: event.outcome
+      value: failure
+
+  - set:
+      field: event.dataset
+      value: bitwarden.web
+
+  - set:
+      if: ctx.source?.address != null
+      field: source.ip
+      value: "{{source.address}}"
+
+  - geoip:
+      field: source.ip
+      target_field: source.geo
+      ignore_missing: true
+  - geoip:
+      database_file: GeoLite2-ASN.mmdb
+      field: source.ip
+      target_field: source.as
+      ignore_missing: true
+  - rename:
+      field: source.as.asn
+      target_field: source.as.number
+      ignore_missing: true
+  - rename:
+      field: source.as.organization_name
+      target_field: source.as.organization.name
+      ignore_missing: true
+
+  - append:
+      if: ctx.user?.name != null
+      field: related.user
+      value: "{{user.name}}"
+  - append:
+      if: ctx.source?.ip != null
+      field: related.ip
+      value: "{{source.ip}}"
+
+  - rename:
+      field: message
+      target_field: log.original

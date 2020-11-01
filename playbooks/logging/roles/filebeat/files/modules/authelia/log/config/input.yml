@@ -1,0 +1,25 @@
+---
+type: log
+
+fields_under_root: true
+fields:
+  ecs:
+    version: 1.6.0
+  event:
+    module: authelia
+    kind: event
+  related:
+    ip:
+      - {{.destination_ip}}
+  destination:
+    ip: {{.destination_ip}}
+    address: {{.destination_ip}}
+    geo:
+      city_name: {{.city_name}}
+      continent_name: {{.continent_name}}
+      country_iso_code: {{.country_code}}
+      region_name: {{.region_name}}
+      region_iso_code: {{.region_code}}
+      location:
+        lat: {{.lat}}
+        lon: {{.long}}

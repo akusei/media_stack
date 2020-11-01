@@ -1,0 +1,9 @@
+---
+server.host: 0.0.0.0
+
+uiSettings:
+  overrides:
+    "theme:darkMode": true
+
+elasticsearch.hosts:
+  - http://elasticsearch:9200

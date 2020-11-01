@@ -1,0 +1,135 @@
+---
+processors:
+  - dissect:
+      field: message
+      pattern: 'time="%{@timestamp}" level=%{log.level} msg="%{event.reason}" method=%{http.request.method} path=%{event.action} remote_ip=%{source.address} stack="%{error.stack_trace}"'
+      ignore_failure: true
+  - dissect:
+      if: ctx.source?.address == null
+      field: message
+      pattern: 'time="%{@timestamp}" level=%{log.level} msg="%{event.reason}" method=%{http.request.method} path=%{event.action} remote_ip=%{source.address}'
+      ignore_failure: true
+  - dissect:
+      if: ctx.source?.address == null
+      field: message
+      pattern: 'time="%{@timestamp}" level=%{log.level} msg="%{event.reason}"'
+
+  - dissect:
+      field: message
+      pattern: '%{+@timestamp/1} %{+@timestamp/2} %{?->} [%{}]: %{?->} [%{jail}] Ban %{source.ip}'
+
+      #2020-10-08 23:59:53,214 fail2ban.actions        [1]: NOTICE  [bitwarden] Ban 192.168.111.1
+
+  - grok:
+      field: message
+      patterns:
+        - 'time="%{TIMESTAMP_ISO8601:@timestamp}"'
+        - "level=(?<name>.*?)\\s"
+
+        # User xxx is banned until 2020-10-06 08:26:32 -0700 PDT
+        # Access to https://xxx/ is forbidden to user xxx
+        # Access to https://xxx/favicon.ico is forbidden to user xxx
+
+  - dissect:
+      field: event.reason
+      pattern: 'Unable to parse target URL: %{url.full}'
+      ignore_failure: true
+  - dissect:
+      field: event.reason
+      pattern: '%{url.full} requires 2FA'
+      ignore_failure: true
+  - dissect:
+      field: event.reason
+      pattern: 'Access to %{url.full} is'
+      ignore_failure: true
+
+  - grok:
+      field: event.reason
+      patterns:
+        - "[Uu]ser:? '?%{USERNAME:user.name}'?"
+      ignore_failure: true
+
+  - set:
+      if: ctx.user?.name == null
+      field: user.name
+      value: unknown
+
+  - grok:
+      if: ctx.url?.full != null
+      field: url.full
+      patterns:
+        - "^%{URIPROTO:url.scheme}://(?:%{IPORHOST:url.domain}(?::%{POSINT:destination.port})?)?(?:%{URIPATH:url.path}\\??(?:%{PARAM:url.query})?)?$"
+      pattern_definitions:
+        PARAM: "[A-Za-z0-9$.+!*'|(){},~@#%&/=:;_?\\-\\[\\]<>]*"
+
+  - remove:
+      if: ctx.url?.full != null && ctx.url?.query == '' && !ctx.url.full.endsWith('?')
+      field: url.query
+      ignore_missing: true
+
+  - urldecode:
+      if: ctx.url?.query != null
+      field: url.query
+
+  - set:
+      if: ctx.source?.address != null
+      field: source.ip
+      value: "{{source.address}}"
+
+  - geoip:
+      field: source.ip
+      target_field: source.geo
+      ignore_missing: true
+  - geoip:
+      database_file: GeoLite2-ASN.mmdb
+      field: source.ip
+      target_field: source.as
+      ignore_missing: true
+  - rename:
+      field: source.as.asn
+      target_field: source.as.number
+      ignore_missing: true
+  - rename:
+      field: source.as.organization_name
+      target_field: source.as.organization.name
+      ignore_missing: true
+
+  - set:
+      field: event.category
+      value: authentication
+  - set:
+      field: event.dataset
+      value: authelia.access
+  - set:
+      field: event.kind
+      value: event
+  - set:
+      field: event.module
+      value: authelia
+  - append:
+      field: event.type
+      value:
+        - access
+        - admin
+        - user
+  - append:
+      if: ctx.error?.message != null
+      field: event.type
+      value: error
+
+  - remove:
+      if: ctx.url?.full == null && ctx.user?.name == 'unknown'
+      field: user.name
+
+  - append:
+      if: ctx.user?.name != null
+      field: related.user
+      value: "{{user.name}}"
+  - append:
+      if: ctx.source?.ip != null
+      field: related.ip
+      value: "{{source.ip}}"
+
+  - rename:
+      field: message
+      target_field: log.original
