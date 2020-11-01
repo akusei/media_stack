@@ -14,7 +14,7 @@ fail2ban_smtp_domain:
 fail2ban_smtp_username:
 fail2ban_smtp_password:
 
-fail2ban_smtp_tls: true
-fail2ban_smtp_start_tls: true
+fail2ban_smtp_tls: "YES"
+fail2ban_smtp_start_tls: "YES"
 
 fail2ban_admin_email:
