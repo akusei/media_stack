@@ -8,6 +8,19 @@
   gather_facts: false
 
   roles:
+    - role: iptables
+      iptables_block_cidrs:
+        - 185.57.152.0/22
+        - 111.89.169.0/24
+        - 54.37.16.0/22
+        - 196.50.13.128/25
+        - 163.172.0.0/16
+        - 138.197.0.0/16
+        - 188.165.192.0/18
+        - 161.35.0.0/16
+        - 167.99.0.0/16
+        - 192.95.0.0/18
+
     - role: postfix
       postfix_smtp_server: smtp-relay.gmail.com
       postfix_smtp_port: 587

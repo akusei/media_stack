@@ -17,11 +17,15 @@
 
 - name: Install static files
   copy:
-    src: docker-compose.yml
-    dest: "{{ static_install_path }}/docker-compose.yml"
+    src: "{{ item }}"
+    dest: "{{ static_install_path }}/{{ item }}"
     owner: root
     group: root
     mode: 0440
+  loop:
+    - docker-compose.yml
+    - default.conf
+  notify: restart static
 
 - name: Copying template files
   template:
@@ -30,6 +34,7 @@
     owner: root
     group: root
     mode: 0440
+  notify: restart static
 
 - name: Check if running
   command:

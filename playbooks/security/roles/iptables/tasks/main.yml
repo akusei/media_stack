@@ -1,0 +1,51 @@
+---
+- name: Update apt cache if needed
+  apt:
+    update_cache: true
+    cache_valid_time: 86400
+
+- name: Install iptables-persistent
+  package:
+    name: iptables-persistent
+    state: present
+  register: iptables_installed
+
+- name: Remove initial rules
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/iptables/rules.v4
+    - /etc/iptables/rules.v6
+  when: iptables_installed.changed
+
+- name: Block those naughty boyz
+  iptables:
+    chain: INPUT
+    source: "{{ item }}"
+    jump: DROP
+    state: present
+  loop: "{{ iptables_block_cidrs }}"
+
+- name: Save iptables block list
+  template:
+    src: blocks.v4.j2
+    dest: /etc/iptables/blocks.v4
+    owner: root
+    group: root
+    mode: 0444
+
+- name: Unblock all in rules file
+  file:
+    path: /etc/iptables/blocks.v4
+    state: absent
+  when: iptables_block_cidrs is undefined or iptables_block_cidrs|length == 0
+
+- name: Unblock all
+  iptables:
+    chain: INPUT
+    source: "{{ item }}"
+    jump: DROP
+    state: absent
+  loop: "{{ iptables_block_cidrs }}"
+  when: iptables_block_cidrs is undefined or iptables_block_cidrs|length == 0

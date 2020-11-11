@@ -1,0 +1,5 @@
+{% for cidr in iptables_block_cidrs %}
+-A INPUT -s {{ cidr }} -j DROP
+{% endfor %}
+
+COMMIT
