@@ -24,6 +24,7 @@
         - 188.165.192.0/18
         - 192.95.0.0/18
         - 196.50.13.128/25
+        - 202.0.103.0/24
 
     - role: postfix
       postfix_smtp_server: smtp-relay.gmail.com
