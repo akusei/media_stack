@@ -10,6 +10,7 @@
   roles:
     - role: iptables
       iptables_block_cidrs:
+        - 37.59.96.0/19
         - 51.79.84.0/22
         - 54.37.16.0/22
         - 103.233.0.0/22
