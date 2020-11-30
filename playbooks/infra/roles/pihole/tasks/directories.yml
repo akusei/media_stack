@@ -30,3 +30,11 @@
     group: root
     mode: 0750
     state: directory
+
+- name: Ensure dhcp relay directory
+  file:
+    path: "{{ pihole_install_path }}/dhcp_helper"
+    owner: root
+    group: root
+    mode: 0750
+    state: directory

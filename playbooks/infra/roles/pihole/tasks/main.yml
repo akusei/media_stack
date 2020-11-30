@@ -3,13 +3,16 @@
 
 - import_tasks: directories.yml
 
-- name: Copy pihole docker-compose
+- name: Copy pihole files
   copy:
-    src: docker-compose.yml
-    dest: "{{ pihole_install_path }}/docker-compose.yml"
+    src: "{{ item }}"
+    dest: "{{ pihole_install_path }}/{{ item }}"
     owner: root
     group: root
     mode: 0440
+  loop:
+    - dhcp_helper/Dockerfile
+    - docker-compose.yml
   notify:
     - restart pihole
 
@@ -33,13 +36,18 @@
   notify:
     - restart pihole
 
-- name: Copying custom dns file
+- name: Copying custom dns files
   template:
-    src: config/02-custom.conf.j2
-    dest: "{{ pihole_install_path }}/config/02-custom.conf"
+    src: config/{{ item.src }}
+    dest: "{{ pihole_install_path }}/config/{{ item.dest }}"
     owner: "{{ pihole_user }}"
     group: "{{ pihole_group }}"
     mode: 0444
+  loop:
+    - src: 02-custom.conf.j2
+      dest: 02-custom.conf
+    - src: 07-dhcp-options.conf.j2
+      dest: 07-dhcp-options.conf
   notify:
     - restart pihole
 

@@ -8,24 +8,25 @@
   gather_facts: false
 
   roles:
-    - role: iptables
-      iptables_block_cidrs:
-        - 37.59.96.0/19
-        - 51.79.84.0/22
-        - 54.37.16.0/22
-        - 103.233.0.0/22
-        - 111.89.169.0/24
-        - 118.69.160.0/20
-        - 134.122.0.0/17
-        - 138.197.0.0/16
-        - 161.35.0.0/16
-        - 163.172.0.0/16
-        - 167.99.0.0/16
-        - 185.57.152.0/22
-        - 188.165.192.0/18
-        - 192.95.0.0/18
-        - 196.50.13.128/25
-        - 202.0.103.0/24
+    # temporarily disable until I figure this out
+    # - role: iptables
+    #   iptables_block_cidrs:
+    #     - 37.59.96.0/19
+    #     - 51.79.84.0/22
+    #     - 54.37.16.0/22
+    #     - 103.233.0.0/22
+    #     - 111.89.169.0/24
+    #     - 118.69.160.0/20
+    #     - 134.122.0.0/17
+    #     - 138.197.0.0/16
+    #     - 161.35.0.0/16
+    #     - 163.172.0.0/16
+    #     - 167.99.0.0/16
+    #     - 185.57.152.0/22
+    #     - 188.165.192.0/18
+    #     - 192.95.0.0/18
+    #     - 196.50.13.128/25
+    #     - 202.0.103.0/24
 
     - role: postfix
       postfix_smtp_server: smtp-relay.gmail.com
@@ -37,7 +38,7 @@
 
     # https://github.com/authelia/authelia/releases
     - role: authelia
-      authelia_image_tag: 4.22.0
+      authelia_image_tag: 4.23.3
       authelia_domain: "{{ vault_domain }}"
       authelia_log_path: "{{ common_logs_root }}/authelia"
       authelia_data_path: "{{ common_data_root }}/authelia"

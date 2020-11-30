@@ -8,15 +8,18 @@ services:
     image: pihole/pihole:${VERSION}
     container_name: pihole
     restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
     networks:
-      - traefik
+      dhcp_backend:
+        ipv4_address: 172.99.0.100
+      traefik: {}
     expose:
       - 80
       - 443
     ports:
       - 53:53/tcp
       - 53:53/udp
-      - 67:67/udp
     environment:
       TZ: ${TIMEZONE}
       WEB_UID: ${WEB_UID}
@@ -26,10 +29,13 @@ services:
       DNSMASQ_USER: pihole
       VIRTUAL_HOST: ${DOMAIN}
       WEBPASSWORD: ${WEB_PASSWORD:-}
+      DNSMASQ_LISTENING: all
+      # ServerIP: ${SERVER_IP}
     volumes:
       - ./fix/30-permissions.sh:/etc/cont-init.d/30-permissions.sh
       - ${DATA_PATH}:/etc/pihole
       - ./config/02-custom.conf:/etc/dnsmasq.d/02-custom.conf:ro
+      - ./config/07-dhcp-options.conf:/etc/dnsmasq.d/07-dhcp-options.conf:ro
     dns:
       - 127.0.0.1
       - ${BACKUP_DNS}
@@ -43,7 +49,24 @@ services:
       traefik.http.routers.pihole.middlewares: internal-secured
 
 
+  dhcprelay:
+    image: dhcprelay:latest
+    container_name: dhcprelay
+    build: ./dhcp_helper
+    restart: unless-stopped
+    command: -s 172.99.0.100
+    cap_add:
+      - NET_ADMIN
+    network_mode: host
+
+
 networks:
+  dhcp_backend:
+    name: dhcp_backend
+    external: false
+    ipam:
+      config:
+        - subnet: 172.99.0.0/16
   traefik:
     name: traefik
     external: true
