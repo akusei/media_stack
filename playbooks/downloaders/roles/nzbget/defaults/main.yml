@@ -4,7 +4,6 @@ nzbget_image_tag: latest
 
 nzbget_user: nzbget
 nzbget_group: nzbget
-nzbget_downloads_group: nzbget
 
 nzbget_timezone: America/Los_Angeles
 

@@ -18,6 +18,8 @@
       arr_data_path: /{{ vault_stack_name }}/sonarr
       arr_downloads_path: /downloads
       arr_media_root: /mnt/media
+      arr_user: "{{ common_downloads_user }}"
+      arr_group: "{{ common_downloads_group }}"
 
     # https://github.com/linuxserver/docker-radarr/releases
     - role: arr
@@ -29,6 +31,8 @@
       arr_data_path: /{{ vault_stack_name }}/radarr
       arr_downloads_path: /downloads
       arr_media_root: /mnt/media
+      arr_user: "{{ common_downloads_user }}"
+      arr_group: "{{ common_downloads_group }}"
 
     # https://github.com/linuxserver/docker-lidarr/releases
     - role: arr
@@ -40,3 +44,5 @@
       arr_data_path: /{{ vault_stack_name }}/lidarr
       arr_downloads_path: /downloads
       arr_media_root: /mnt/media
+      arr_user: "{{ common_downloads_user }}"
+      arr_group: "{{ common_downloads_group }}"

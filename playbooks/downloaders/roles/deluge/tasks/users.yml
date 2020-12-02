@@ -1,32 +1,17 @@
 ---
-- name: Add groups
+- name: Add group {{ deluge_group }}
   group:
-    name: "{{ item }}"
+    name: "{{ deluge_group }}"
     state: present
-  loop:
-    - "{{ deluge_group }}"
-    - "{{ deluge_downloads_group }}"
 
-- name: Add users
+- name: Add user {{ deluge_user }}
   user:
-    name: "{{ item.user }}"
-    group: "{{ item.group }}"
+    name: "{{ deluge_user }}"
+    group: "{{ deluge_group }}"
     shell: /sbin/nologin
     create_home: false
     append: false
     state: present
-  loop:
-    - user: "{{ deluge_user }}"
-      group: "{{ deluge_group }}"
-      # - user: "{{ deluge_downloads_user }}"
-      #   group: "{{ deluge_downloads_group }}"
-
-# - name: Add user to download group
-#   user:
-#     name: "{{ deluge_user }}"
-#     groups: "{{ deluge_downloads_group }}"
-#     append: true
-#   when: deluge_downloads_group != deluge_group
 
 - name: Export group id
   getent:

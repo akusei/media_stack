@@ -10,7 +10,6 @@ deluge_install_path: /opt/deluge
 deluge_data_path: /data/deluge
 deluge_downloads_path: /data/downloads
 deluge_software_root: /mnt/software
-deluge_downloads_group: deluge
 
 pia_image_tag: latest
 pia_region: US West
