@@ -10,6 +10,6 @@
   roles:
     # https://hub.docker.com/r/portainer/portainer/tags
     - role: portainer
-      portainer_image_tag: linux-amd64-1.24.1
+      portainer_image_tag: 1.24.1-alpine
       portainer_fqdn: docker.{{ vault_domain }}
       portainer_install_path: "{{ common_install_root }}/portainer"

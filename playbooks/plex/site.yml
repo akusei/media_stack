@@ -32,14 +32,14 @@
 
     # https://github.com/linuxserver/docker-ombi/releases
     - role: ombi
-      ombi_image_tag: v3.0.5223-ls81
+      ombi_image_tag: v3.0.5223-ls86
       ombi_fqdn: request.{{ vault_domain }}
       ombi_data_path: "{{ common_data_root }}/ombi"
       ombi_install_path: "{{ common_install_root }}/ombi"
 
     # https://github.com/linuxserver/docker-tautulli/releases
     - role: tautulli
-      tautulli_image_tag: v2.6.5-ls20
+      tautulli_image_tag: v2.6.6-ls1
       tautulli_fqdn: stats.{{ vault_domain }}
       tautulli_data_path: "{{ common_data_root }}/tautulli"
       tautulli_plex_logs_path: >-

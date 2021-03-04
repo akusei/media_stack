@@ -21,7 +21,7 @@
     # https://github.com/linuxserver/docker-ddclient/releases
     - role: ddclient
       ddclient_domain: "{{ vault_domain }}"
-      ddclient_image_tag: v3.9.1-ls50
+      ddclient_image_tag: v3.9.1-ls52
       ddclient_cloudflare_username: "{{ vault_admin_email }}"
       ddclient_cloudflare_api_key: "{{ vault_cloudflare_api_key }}"
       ddclient_opendns_username: "{{ vault_opendns_username }}"
@@ -31,7 +31,7 @@
     # https://hub.docker.com/_/traefik?tab=tags
     - role: traefik
       traefik_domain: "{{ vault_domain }}"
-      traefik_image_tag: v2.4.0
+      traefik_image_tag: v2.4.6
       traefik_ssl_cert_path: "{{ common_data_root }}/traefik"
       traefik_log_path: "{{ common_logs_root }}/traefik"
       traefik_allowed_networks: "{{ proxy_internal_only_networks }}"
@@ -42,7 +42,7 @@
     # https://hub.docker.com/r/pihole/pihole/tags
     - role: pihole
       pihole_data_path: "{{ common_data_root }}/pihole"
-      pihole_image_tag: v5.5.1
+      pihole_image_tag: v5.7
       pihole_advertise_ip: "{{ advertise_ip }}"
       pihole_domain: "{{ vault_domain }}"
       pihole_upstream_dns: 208.67.222.222

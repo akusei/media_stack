@@ -38,7 +38,7 @@
 
     # https://github.com/authelia/authelia/releases
     - role: authelia
-      authelia_image_tag: 4.25.2
+      authelia_image_tag: 4.26.2
       authelia_domain: "{{ vault_domain }}"
       authelia_log_path: "{{ common_logs_root }}/authelia"
       authelia_data_path: "{{ common_data_root }}/authelia"

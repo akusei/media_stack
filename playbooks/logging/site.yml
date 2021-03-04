@@ -10,13 +10,13 @@
   roles:
     # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
     - role: elasticsearch
-      elasticsearch_image_tag: 7.10.2
+      elasticsearch_image_tag: 7.11.1
       elasticsearch_fqdn: kibana.{{ vault_domain }}
       elasticsearch_username: "{{ vault_elastic_username }}"
       elasticsearch_password: "{{ vault_elastic_password }}"
       elasticsearch_install_path: "{{ common_install_root }}/elasticsearch"
 
     - role: filebeat
-      filebeat_image_tag: 7.10.2
+      filebeat_image_tag: 7.11.1
       filebeat_logs_root: "{{ common_logs_root }}"
       filebeat_install_path: "{{ common_install_root }}/filebeat"
