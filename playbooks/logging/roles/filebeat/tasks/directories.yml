@@ -9,4 +9,3 @@
   loop:
     - "{{ filebeat_install_path }}"
     - "{{ filebeat_install_path }}/config"
-    - "{{ filebeat_install_path }}/modules"
