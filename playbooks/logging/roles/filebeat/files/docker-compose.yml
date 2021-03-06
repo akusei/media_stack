@@ -14,7 +14,6 @@ services:
     volumes:
       - registry:/registry/
       - ./config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - ./modules/:/usr/share/filebeat/module/:ro
       - ${LOGS_ROOT}:/logs:ro
 
 volumes:

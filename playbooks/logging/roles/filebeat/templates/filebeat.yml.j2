@@ -8,42 +8,33 @@ logging.level: error
 
 filebeat.inputs:
   - type: log
+    index: ecs-authelia-1.8.0
+    pipeline: authelia-pipeline
     paths:
       - /logs/authelia/authelia.log
-      - /logs/bitwarden/bitwarden.log
-      - /logs/fail2ban/fail2ban.log
+
+  - type: log
+    index: ecs-bitwarden-1.8.0
+    pipeline: bitwarden-pipeline
+    paths:
+    - /logs/bitwarden/bitwarden.log
+
+  - type: log
+    index: ecs-fail2ban-1.8.0
+    pipeline: fail2ban-pipeline
+    paths:
+    - /logs/fail2ban/fail2ban.log
 
   - type: udp
+    index: ecs-router-1.8.0
+    pipeline: router-pipeline
     host: "0.0.0.0:514"
+
+{# output.console:
+  pretty: true #}
 
 output.elasticsearch:
   hosts:
     - http://elasticsearch:9200
   username: {{ vault_elastic_username }}
   password: {{ vault_elastic_password }}
-  pipelines:
-    - pipeline: authelia-pipeline
-      when.equals:
-        log.file.path: /logs/authelia/authelia.log
-    - pipeline: bitwarden-pipeline
-      when.equals:
-        log.file.path: /logs/bitwarden/bitwarden.log
-    - pipeline: fail2ban-pipeline
-      when.equals:
-        log.file.path: /logs/fail2ban/fail2ban.log
-    - pipeline: router-pipeline
-      when.contains:
-        log.source.address: 192.168.1.1
-  indices:
-    - index: ecs-authelia-1.8.0
-      when.equals:
-        log.file.path: /logs/authelia/authelia.log
-    - index: ecs-bitwarden-1.8.0
-      when.equals:
-        log.file.path: /logs/bitwarden/bitwarden.log
-    - index: ecs-fail2ban-1.8.0
-      when.equals:
-        log.file.path: /logs/fail2ban/fail2ban.log
-    - index: ecs-router-1.8.0
-      when.contains:
-        log.source.address: 192.168.1.1
