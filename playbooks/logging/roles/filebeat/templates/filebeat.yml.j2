@@ -25,6 +25,12 @@ filebeat.inputs:
     paths:
     - /logs/fail2ban/fail2ban.log
 
+  - type: log
+    index: ecs-traefik-1.8.0
+    pipeline: traefik-pipeline
+    paths:
+    - /logs/traefik/access.log
+
   - type: udp
     index: ecs-router-1.8.0
     pipeline: router-pipeline
