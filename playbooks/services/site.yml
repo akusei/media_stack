@@ -13,7 +13,7 @@
       bitwarden_fqdn: warden.{{ vault_domain }}
       bitwarden_log_path: "{{ common_logs_root }}/bitwarden"
       bitwarden_data_path: "{{ common_data_root }}/bitwarden"
-      bitwarden_image_tag: 1.19.0-alpine
+      bitwarden_image_tag: 1.21.0-alpine
       bitwarden_signups_allowed: true
       bitwarden_invitations_allowed: true
       bitwarden_disable_admin_token: true
