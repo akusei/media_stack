@@ -15,4 +15,6 @@ pihole_group: pihole
 pihole_fqdn: pihole.{{ pihole_domain }}
 pihole_domain: local
 
+pihole_auto_update: false
+
 pihole_web_password:

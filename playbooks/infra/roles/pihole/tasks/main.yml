@@ -58,3 +58,12 @@
   changed_when: not this.stdout
   failed_when: false
   notify: restart pihole
+
+- name: Create cron job for auto update
+  cron:
+    name: "pihole update"
+    minute: "0"
+    hour: "11"
+    user: root
+    job: /usr/bin/docker exec pihole pihole -g >/var/log/pihole-update.log 2>&1
+  when: pihole_auto_update
