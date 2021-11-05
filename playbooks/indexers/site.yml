@@ -10,14 +10,14 @@
   roles:
     # https://github.com/linuxserver/docker-nzbhydra2/releases
     - role: hydra
-      hydra_image_tag: v3.15.0-ls25
+      hydra_image_tag: v3.17.3-ls35
       hydra_fqdn: hydra.{{ vault_domain }}
       hydra_data_path: "{{ common_data_root }}/hydra"
       hydra_install_path: "{{ common_install_root }}/hydra"
 
     # https://github.com/linuxserver/docker-jackett/releases
     - role: jackett
-      jackett_image_tag: v0.18.448-ls36
+      jackett_image_tag: v0.19.162-ls50
       jackett_fqdn: jackett.{{ vault_domain }}
       jackett_data_path: "{{ common_data_root }}/jackett"
       jackett_install_path: "{{ common_install_root }}/jackett"
