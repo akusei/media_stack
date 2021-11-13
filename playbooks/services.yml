@@ -1,0 +1,44 @@
+---
+- name: Install User Services
+  hosts: all
+  vars_files:
+    - ../vars/common.yml
+    - ../vars/secrets.yml
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 86400
+
+  roles:
+    - role: common
+      common_script_name: "{{ vault_stack_name | lower }}"
+
+    - role: docker
+      docker_networks:
+        - "{{ common_traefik_network_name }}"
+        - "{{ common_pusher_network_name }}"
+
+    # https://hub.docker.com/r/bitwardenrs/server/tags
+    - role: bitwarden
+      bitwarden_image_tag: 1.23.0-alpine
+      bitwarden_fqdn: warden.{{ vault_domain }}
+      bitwarden_log_path: "{{ common_logs_root }}/bitwarden"
+      bitwarden_data_path: "{{ common_data_root }}/bitwarden"
+      bitwarden_signups_allowed: true
+      bitwarden_invitations_allowed: true
+      bitwarden_disable_admin_token: true
+      bitwarden_smtp_username: "{{ vault_smtp_username }}"
+      bitwarden_smtp_password: "{{ vault_smtp_password }}"
+      bitwarden_smtp_from: "{{ common_smtp_from }}"
+      bitwarden_smtp_server: "{{ common_smtp_server }}"
+      bitwarden_install_path: "{{ common_install_root }}/bitwarden"
+
+    # https://hub.docker.com/r/pglombardo/pwpush-ephemeral/tags
+    - role: pwpusher
+      pwpusher_image_tag: release
+      pwpusher_fqdn: fling.{{ vault_domain }}
+      pwpusher_install_path: "{{ common_install_root }}/pwpusher"

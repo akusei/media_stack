@@ -1,20 +1,14 @@
 ---
 - name: Install and configure media stack
   hosts: all
-  vars_files:
-    - vars/common.yml
-    - vars/secrets.yml
-  become: true
-  gather_facts: true
+  gather_facts: false
 
-- import_playbook: playbooks/common/site.yml
-- import_playbook: playbooks/drivers/site.yml
-- import_playbook: playbooks/infra/site.yml
-- import_playbook: playbooks/security/site.yml
-- import_playbook: playbooks/management/site.yml
-- import_playbook: playbooks/indexers/site.yml
-- import_playbook: playbooks/downloaders/site.yml
-- import_playbook: playbooks/media/site.yml
-- import_playbook: playbooks/services/site.yml
-- import_playbook: playbooks/plex/site.yml
-- import_playbook: playbooks/logging/site.yml
+- import_playbook: playbooks/infra.yml
+- import_playbook: playbooks/security.yml
+- import_playbook: playbooks/downloaders.yml
+- import_playbook: playbooks/indexers.yml
+- import_playbook: playbooks/services.yml
+- import_playbook: playbooks/management.yml
+- import_playbook: playbooks/media.yml
+- import_playbook: playbooks/plex.yml
+- import_playbook: playbooks/logging.yml

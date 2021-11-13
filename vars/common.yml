@@ -9,3 +9,5 @@ common_downloads_root: /downloads
 common_media_root: /mnt/media
 common_software_root: /mnt/software
 common_logs_root: "{{ common_data_root }}/logs"
+common_traefik_network_name: traefik
+common_pusher_network_name: pusher

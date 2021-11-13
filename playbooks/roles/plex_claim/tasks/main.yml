@@ -1,0 +1,50 @@
+---
+- name: Copy claim script
+  copy:
+    src: set-claim
+    dest: "{{ plex_claim_container_path }}/set-claim"
+    owner: root
+    group: root
+    mode: 0550
+
+- name: Check for existing plex claim token
+  shell: grep "PLEX_CLAIM=" ./claim.env | tr -d '\n' | cut -d '=' -f 2
+  args:
+    chdir: "{{ plex_claim_container_path }}"
+  register: plex_claim
+  changed_when: false
+  failed_when: false
+
+- name: Get Plex login token
+  uri:
+    url: https://plex.tv/users/sign_in.json
+    method: POST
+    headers:
+      X-Plex-Client-Identifier: "{{ plex_claim_fqdn }}"
+      X-Plex-Product: Plex SSO
+      X-Plex-Version: V1
+    body: user[login]={{ plex_claim_username }}&
+      user[password]={{ plex_claim_password }}
+    status_code: 201
+    body_format: raw
+  register: login_token
+  when: not plex_claim.stdout
+
+- name: Get Plex claim token
+  uri:
+    url: https://plex.tv/api/claim/token.json
+    method: GET
+    headers:
+      X-Plex-Client-Identifier: "{{ plex_claim_fqdn }}"
+      X-Plex-Product: Plex SSO
+      X-Plex-Token: "{{ login_token.json.user.authToken }}"
+    status_code: 200
+  register: claim_token
+  when: not plex_claim.stdout
+
+- name: Set plex claim token
+  copy:
+    dest: "{{ plex_claim_container_path }}/claim.env"
+    content: >-
+      PLEX_CLAIM={{ claim_token.json.token | default(plex_claim.stdout) }}
+  notify: restart plex

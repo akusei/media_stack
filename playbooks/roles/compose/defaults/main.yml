@@ -1,0 +1,20 @@
+---
+# docker-compose file
+# env file
+# custom vars for template
+
+compose_username: root
+compose_group: root
+compose_additional_groups: []
+
+compose_log_path: "/opt/data/logs"
+compose_data_path: "/opt/data"
+compose_path: "/opt/docker"
+compose_src_path: ""
+compose_templates: []
+
+compose_variables: {}
+compose_build: false
+compose_build_path: build
+
+compose_timezone: America/Los_Angeles
