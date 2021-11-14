@@ -26,12 +26,6 @@ services:
     volumes:
       - es_data:/usr/share/elasticsearch/data
 
-# /usr/share/elasticsearch/modules/ingest-geoip/GeoLite2-Country.mmdb
-# /usr/share/elasticsearch/modules/ingest-geoip/GeoLite2-ASN.mmdb
-# /usr/share/elasticsearch/modules/ingest-geoip/geoip2-2.13.1.jar
-# /usr/share/elasticsearch/modules/ingest-geoip/GeoLite2-City.mmdb
-
-
   kibana:
     depends_on:
       - elasticsearch

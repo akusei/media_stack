@@ -1,5 +1,0 @@
----
-- name: restart plex
-  command:
-    chdir: "{{ plex_claim_container_path }}"
-    cmd: docker-compose restart

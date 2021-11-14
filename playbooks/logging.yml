@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/secrets.yml
+    - ../vars/secrets
   become: true
   gather_facts: true
 
@@ -18,6 +18,9 @@
       common_script_name: "{{ vault_stack_name | lower }}"
 
     - role: docker
+      docker_version: "{{ common_docker_version }}"
+      docker_containerd_version: "{{ common_docker_containerd_version }}"
+      docker_compose_version: "{{ common_docker_compose_version }}"
       docker_volumes:
         - filebeat_registry
         - elasticsearch_es_data

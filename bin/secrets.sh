@@ -35,7 +35,7 @@ encrypt()
     --output "${ROOT_DIR}/vars/secrets.enc" \
     -u secrets -r secrets \
     ${force} \
-    "${ROOT_DIR}/vars/secrets.yml"
+    "${ROOT_DIR}/vars/secrets"
 }
 
 decrypt()
@@ -52,7 +52,7 @@ decrypt()
 
   echo decrypting secrets
   gpg --decrypt \
-    --output "${ROOT_DIR}/vars/secrets.yml" \
+    --output "${ROOT_DIR}/vars/secrets" \
     ${force} \
     "${ROOT_DIR}/vars/secrets.enc"
 }

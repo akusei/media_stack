@@ -3,7 +3,6 @@
   modprobe:
     name: nouveau
     state: absent
-  ignore_errors: true
 
 - name: Ensure latest nvidia driver
   package:
@@ -31,8 +30,8 @@
 - name: Install nvidia container packages
   package:
     name:
-      - nvidia-docker2
-      - nvidia-container-toolkit
-    state: latest
+      - nvidia-docker2={{ nvidia_docker2_version }}
+      - nvidia-container-toolkit={{ nvidia_container_version }}
+    state: present
   notify:
     - restart docker

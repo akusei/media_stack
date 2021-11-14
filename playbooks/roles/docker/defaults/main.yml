@@ -1,4 +1,6 @@
 ---
 docker_compose_version: latest
+docker_version: latest
+docker_containerd_version: latest
 docker_networks: []
 docker_volumes: []

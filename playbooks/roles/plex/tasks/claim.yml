@@ -1,5 +1,6 @@
 ---
 - name: Check for existing plex claim token
+  # noqa risky-shell-pipe
   shell: grep "PLEX_CLAIM=" ./.env | tr -d '\n' | cut -d '=' -f 2
   args:
     chdir: "{{ plex_install_path }}"

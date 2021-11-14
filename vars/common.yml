@@ -1,13 +1,20 @@
 ---
 common_smtp_server: smtp-relay.gmail.com
 common_smtp_from: no-reply@{{ vault_domain }}
+
 common_data_root: "/{{ vault_stack_name }}"
 common_install_root: "/docker"
-common_downloads_user: media
-common_downloads_group: media
 common_downloads_root: /downloads
 common_media_root: /mnt/media
 common_software_root: /mnt/software
 common_logs_root: "{{ common_data_root }}/logs"
+
+common_downloads_user: media
+common_downloads_group: media
+
 common_traefik_network_name: traefik
 common_pusher_network_name: pusher
+
+common_docker_compose_version: 1.29.2
+common_docker_version: 5:20.10.10~3-0~ubuntu-focal
+common_docker_containerd_version: 1.4.11-1

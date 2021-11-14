@@ -20,10 +20,10 @@
 - name: Install docker
   package:
     name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-    state: latest
+      - docker-ce={{ docker_version }}
+      - docker-ce-cli={{ docker_version }}
+      - containerd.io={{ docker_containerd_version }}
+    state: present
   register: docker_install
 
 - name: Start docker service
@@ -31,7 +31,6 @@
     name: docker
     enabled: true
     state: started
-  when: docker_install.changed
 
 - import_tasks: extras.yml
 

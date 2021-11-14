@@ -23,6 +23,7 @@
     database: passwd
     key: "{{ plex_user }}"
 
-- set_fact:
+- name: Set user and group ID
+  set_fact:
     plex_user_id: "{{ getent_passwd[plex_user][1] }}"
     plex_group_id: "{{ getent_group[plex_group][1] }}"

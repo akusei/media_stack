@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/secrets.yml
+    - ../vars/secrets
   become: true
   gather_facts: true
 
@@ -18,11 +18,16 @@
       common_script_name: "{{ vault_stack_name | lower }}"
 
     - role: docker
+      docker_version: "{{ common_docker_version }}"
+      docker_containerd_version: "{{ common_docker_containerd_version }}"
+      docker_compose_version: "{{ common_docker_compose_version }}"
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
     - role: nvidia
       nvidia_driver_version: 495
+      nvidia_docker2_version: 2.6.0-1
+      nvidia_container_version: 1.5.1-1
 
     - role: static
       static_fqdn: static.{{ vault_domain }}
