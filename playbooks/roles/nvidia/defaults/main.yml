@@ -1,0 +1,4 @@
+---
+nvidia_driver_version: latest
+nvidia_docker2_version: latest
+nvidia_container_version: latest

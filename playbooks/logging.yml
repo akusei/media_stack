@@ -1,0 +1,42 @@
+---
+- name: Install and configure logging
+  hosts: all
+  vars_files:
+    - ../vars/common.yml
+    - ../vars/secrets
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 86400
+
+  roles:
+    - role: common
+      common_script_name: "{{ vault_stack_name | lower }}"
+
+    - role: docker
+      docker_version: "{{ common_docker_version }}"
+      docker_containerd_version: "{{ common_docker_containerd_version }}"
+      docker_compose_version: "{{ common_docker_compose_version }}"
+      docker_volumes:
+        - filebeat_registry
+        - elasticsearch_es_data
+      docker_networks:
+        - "{{ common_traefik_network_name }}"
+        - elastic
+
+    # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+    - role: elasticsearch
+      elasticsearch_image_tag: 7.15.1
+      elasticsearch_fqdn: kibana.{{ vault_domain }}
+      elasticsearch_username: "{{ vault_elastic_username }}"
+      elasticsearch_password: "{{ vault_elastic_password }}"
+      elasticsearch_install_path: "{{ common_install_root }}/elasticsearch"
+
+    - role: filebeat
+      filebeat_image_tag: 7.15.1
+      filebeat_logs_root: "{{ common_logs_root }}"
+      filebeat_install_path: "{{ common_install_root }}/filebeat"

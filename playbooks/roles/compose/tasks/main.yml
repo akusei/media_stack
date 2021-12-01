@@ -1,0 +1,80 @@
+---
+# install docker-compose
+# install .env
+# pull/recreate if necessary
+# ensure started
+
+# - name: Check required parameters
+#   assert:
+#     that:
+#       - compose_compose_file
+
+- name: Configuring Container User and Groups
+  include: user.yml
+
+- name: Creating Host Directories
+  include: directories.yml
+
+- name: Copying docker-compose file
+  template:
+    src: "{{ compose_src_path }}/docker-compose.yml"
+    dest: "{{ compose_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify:
+    - restart service
+
+- name: Check for existance of env file
+  stat:
+    path: "{{ compose_src_path }}/.env.j2"
+  delegate_to: localhost
+  register: env_stat
+
+- name: Copying env file
+  template:
+    src: "{{ compose_src_path }}/.env.j2"
+    dest: "{{ compose_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  when: env_stat.stat.exists
+  notify:
+    - restart service
+
+- name: Ensure templated file dir structure
+  file:
+    path: "{{ compose_path }}/{{ item.dest | dirname }}"
+    recurse: true
+    state: directory
+  loop: "{{ compose_templates }}"
+  loop_control:
+    label: "{{ compose_path }}/{{ item.dest | dirname }}"
+
+- name: Copying additional templated files
+  template:
+    src: "{{ compose_src_path }}/{{ item.src }}"
+    dest: "{{ compose_path }}/{{ item.dest }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0440') }}"
+  loop: "{{ compose_templates }}"
+  loop_control:
+    label: "{{ compose_path }}/{{ item.dest }}"
+  notify:
+    - restart service
+
+# - name: Gather list of files to copy
+#   find:
+#     paths: "{{ compose_src_path }}"
+#     file_type: directory
+#   delegate_to: localhost
+#   register: target_files
+#
+# - name: Copy files
+#   copy:
+#     src: "{{ item.path }}/"
+#     dest: "{{ item.path | replace(compose_src_path, compose_path) }}"
+#   loop: "{{ target_files.files }}"
+#   loop_control:
+#     label: "{{ item.path | replace(compose_src_path, compose_path) }}"

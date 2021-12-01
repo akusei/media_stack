@@ -1,3 +1,0 @@
----
-iptables_chain_name: BAN
-iptables_block_cidrs:

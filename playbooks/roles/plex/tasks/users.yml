@@ -1,0 +1,29 @@
+---
+- name: Add group {{ plex_group }}
+  group:
+    name: "{{ plex_group }}"
+    state: present
+
+- name: Add user {{ plex_user }}
+  user:
+    name: "{{ plex_user }}"
+    group: "{{ plex_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export {{ plex_group }} group id
+  getent:
+    database: group
+    key: "{{ plex_group }}"
+
+- name: Export {{ plex_user }} user id
+  getent:
+    database: passwd
+    key: "{{ plex_user }}"
+
+- name: Set user and group ID
+  set_fact:
+    plex_user_id: "{{ getent_passwd[plex_user][1] }}"
+    plex_group_id: "{{ getent_group[plex_group][1] }}"

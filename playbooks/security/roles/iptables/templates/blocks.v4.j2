@@ -1,7 +1,0 @@
-:{{ iptables_chain_name }} - [0:0]
--I FORWARD -j {{ iptables_chain_name }}
-{% for cidr in iptables_block_cidrs %}
--A {{ iptables_chain_name }} -s {{ cidr }} -j DROP
-{% endfor %}
-
-COMMIT
