@@ -1,0 +1,33 @@
+---
+- name: Install Manga Stack
+  hosts: all
+  vars_files:
+    - ../vars/common.yml
+    - ../vars/secrets
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 86400
+
+  roles:
+    - role: common
+      common_script_name: "{{ vault_stack_name | lower }}"
+
+    - role: docker
+      docker_version: "{{ common_docker_version }}"
+      docker_containerd_version: "{{ common_docker_containerd_version }}"
+      docker_compose_version: "{{ common_docker_compose_version }}"
+      docker_networks:
+        - "{{ common_traefik_network_name }}"
+
+    # https://hub.docker.com/r/gotson/komga/tags
+    - role: komga
+      komga_image_tag: 0.133.0
+      komga_fqdn: manga.{{ vault_domain }}
+      komga_media_path: "{{ common_media_root }}/manga"
+      komga_install_path: "{{ common_install_root }}/komga"
+      komga_data_path: "{{ common_data_root }}/komga"

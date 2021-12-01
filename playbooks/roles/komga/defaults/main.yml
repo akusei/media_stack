@@ -1,0 +1,9 @@
+---
+komga_fqdn: manga.local
+komga_media_path: /mnt/media
+komga_install_path: /opt/komga
+komga_data_path: /data/komga
+komga_image_tag: latest
+
+komga_user: komga
+komga_group: komga

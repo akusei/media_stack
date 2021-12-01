@@ -1,0 +1,16 @@
+---
+- name: Ensure Komga docker directory
+  file:
+    path: "{{ komga_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Ensure komga data directory
+  file:
+    path: "{{ komga_data_path }}"
+    owner: "{{ komga_user }}"
+    group: "{{ komga_group }}"
+    mode: 0750
+    state: directory
