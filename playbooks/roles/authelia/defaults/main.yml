@@ -29,3 +29,4 @@ authelia_admin_username:
 authelia_admin_password:
 authelia_admin_email:
 authelia_admin_display_name:
+authelia_encryption_key:

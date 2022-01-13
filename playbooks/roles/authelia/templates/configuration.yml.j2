@@ -3,9 +3,13 @@
 #                   Authelia configuration                    #
 ###############################################################
 
-host: 0.0.0.0
-port: 9091
-log_level: {{ authelia_log_level }}
+server:
+  host: 0.0.0.0
+  port: 9091
+
+log:
+  level: {{ authelia_log_level }}
+  file_path: /logs/authelia.log
 
 default_redirection_url: https://{{ authelia_default_redirection_url }}
 
@@ -89,10 +93,9 @@ regulation:
   ban_time: 12h
 
 storage:
+  encryption_key: {{ authelia_encryption_key }}
   local:
     path: /config/db.sqlite3
-
-log_file_path: /logs/authelia.log
 
 notifier:
   disable_startup_check: true

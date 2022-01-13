@@ -54,6 +54,7 @@
       authelia_admin_email: "{{ vault_admin_email }}"
       authelia_admin_display_name: "{{ vault_admin_username }}"
       authelia_install_path: "{{ common_install_root }}/authelia"
+      authelia_encryption_key: "{{ vault_authelia_encryption_key }}"
 
     # https://hub.docker.com/r/crazymax/fail2ban/tags
     - role: fail2ban
