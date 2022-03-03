@@ -1,0 +1,29 @@
+---
+- name: Add group {{ overseerr_group }}
+  group:
+    name: "{{ overseerr_group }}"
+    state: present
+
+- name: Add user {{ overseerr_user }}
+  user:
+    name: "{{ overseerr_user }}"
+    group: "{{ overseerr_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export {{ overseerr_group }} group id
+  getent:
+    database: group
+    key: "{{ overseerr_group }}"
+
+- name: Export {{ overseerr_user }} user id
+  getent:
+    database: passwd
+    key: "{{ overseerr_user }}"
+
+- name: Gather created user and group IDs
+  set_fact:
+    overseerr_user_id: "{{ getent_passwd[overseerr_user][1] }}"
+    overseerr_group_id: "{{ getent_group[overseerr_group][1] }}"

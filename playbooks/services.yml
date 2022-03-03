@@ -27,7 +27,7 @@
 
     # https://hub.docker.com/r/bitwardenrs/server/tags
     - role: bitwarden
-      bitwarden_image_tag: 1.23.1-alpine
+      bitwarden_image_tag: 1.24.0-alpine
       bitwarden_fqdn: warden.{{ vault_domain }}
       bitwarden_log_path: "{{ common_logs_root }}/bitwarden"
       bitwarden_data_path: "{{ common_data_root }}/bitwarden"
@@ -42,6 +42,6 @@
 
     # https://hub.docker.com/r/pglombardo/pwpush-ephemeral/tags
     - role: pwpusher
-      pwpusher_image_tag: 1.11.4
+      pwpusher_image_tag: latest
       pwpusher_fqdn: fling.{{ vault_domain }}
       pwpusher_install_path: "{{ common_install_root }}/pwpusher"

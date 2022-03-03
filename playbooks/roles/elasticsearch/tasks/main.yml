@@ -1,4 +1,6 @@
 ---
+# need to start elastic to create the kibana user
+# curl -s -X POST -u elastic:PASSWORD -H "Content-Type: application/json" http://localhost:9200/_security/user/kibana_system/_password -d "{\"password\":\"PASSWORD\"}"
 - import_tasks: directories.yml
 
 - name: Install elasticsearch compose file

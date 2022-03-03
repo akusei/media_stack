@@ -1,0 +1,44 @@
+---
+- import_tasks: users.yml
+
+- name: Ensure overseerr data directory
+  file:
+    path: "{{ overseerr_data_path }}"
+    owner: "{{ overseerr_user }}"
+    group: "{{ overseerr_group }}"
+    mode: 0750
+    state: directory
+
+- name: Ensure overseerr docker directory
+  file:
+    path: "{{ overseerr_install_path }}"
+    owner: root
+    group: root
+    mode: 0550
+    state: directory
+
+- name: Install overseerr files
+  copy:
+    src: docker-compose.yml
+    dest: "{{ overseerr_install_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0440
+  notify: restart overseerr
+
+- name: Copying template files
+  template:
+    src: .env.j2
+    dest: "{{ overseerr_install_path }}/.env"
+    owner: root
+    group: root
+    mode: 0440
+  notify: restart overseerr
+
+- name: Check if running
+  command:
+    cmd: docker ps -qf name="overseerr"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  notify: restart overseerr

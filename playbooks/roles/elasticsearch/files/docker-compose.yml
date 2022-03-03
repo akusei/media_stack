@@ -8,9 +8,14 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:${VERSION}
     environment:
       discovery.type: single-node
-      xpack.security.enabled: 'true'
       ELASTIC_PASSWORD: ${ES_PASSWORD}
       ES_JAVA_OPTS: -Xms4G -Xmx4G
+      node.name: elasticsearch
+      bootstrap.memory_lock: 'true'
+      xpack.security.enabled: 'true'
+      xpack.security.http.ssl.enabled: 'false'
+      xpack.security.transport.ssl.enabled: 'false'
+      xpack.license.self_generated.type: basic
     networks:
       - elastic
     ports:
@@ -36,12 +41,14 @@ services:
       - traefik
       - elastic
     environment:
-      ELASTICSEARCH_USERNAME: ${ES_USERNAME}
+      SERVERNAME: kibana
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_USERNAME: kibana_system
       ELASTICSEARCH_PASSWORD: ${ES_PASSWORD}
     expose:
       - 5601
     volumes:
-      - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+      - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml
     labels:
       traefik.enable: true
       traefik.docker.network: traefik
