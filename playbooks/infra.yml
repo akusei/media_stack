@@ -27,7 +27,7 @@
 
     # https://github.com/linuxserver/docker-ddclient/releases
     - role: ddclient
-      ddclient_image_tag: v3.9.1-ls79
+      ddclient_image_tag: v3.9.1-ls90
       ddclient_domain: "{{ vault_domain }}"
       ddclient_cloudflare_username: "{{ vault_admin_email }}"
       ddclient_cloudflare_api_key: "{{ vault_cloudflare_api_key }}"
@@ -37,7 +37,7 @@
 
     # https://hub.docker.com/_/traefik?tab=tags
     - role: traefik
-      traefik_image_tag: '2.6.1'
+      traefik_image_tag: 'v2.6'
       traefik_domain: "{{ vault_domain }}"
       traefik_ssl_cert_path: "{{ common_data_root }}/traefik"
       traefik_log_path: "{{ common_logs_root }}/traefik"

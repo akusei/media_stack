@@ -1,0 +1,17 @@
+---
+- name: Ensure logrotate is installed
+  package:
+    name: logrotate
+    state: present
+
+- name: Copy configuration
+  template:
+    src: entry.j2
+    dest: "{{ logrotate_path }}/{{ item.name }}"
+    owner: root
+    group: root
+    mode: 0640
+  loop: "{{ logrotate_scripts }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: logrotate_scripts is defined

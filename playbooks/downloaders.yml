@@ -26,7 +26,7 @@
 
     # https://github.com/linuxserver/docker-nzbget/releases
     - role: nzbget
-      nzbget_image_tag: v21.1-ls106
+      nzbget_image_tag: v21.1-ls114
       nzbget_fqdn: newz.{{ vault_domain }}
       nzbget_data_path: "{{ common_data_root }}/nzbget"
       nzbget_downloads_path: "{{ common_downloads_root }}/nzb"
@@ -37,7 +37,7 @@
 
     # https://github.com/linuxserver/docker-deluge/releases
     - role: deluge
-      deluge_image_tag: 2.0.5-0202202181752ubuntu20.04.1-ls139
+      deluge_image_tag: 2.0.5-r1-ls154
       deluge_fqdn: bt.{{ vault_domain }}
       deluge_data_path: "{{ common_data_root }}/deluge"
       deluge_downloads_path: "{{ common_downloads_root }}/torrent"

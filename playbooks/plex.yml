@@ -55,7 +55,7 @@
 
     # https://github.com/linuxserver/docker-overseerr/releases
     - role: overseerr
-      overseerr_image_tag: v1.28.0-ls26
+      overseerr_image_tag: v1.29.1-ls34
       overseerr_fqdn: request.{{ vault_domain }}
       overseerr_data_path: "{{ common_data_root }}/overseerr"
       overseerr_install_path: "{{ common_install_root }}/overseerr"
@@ -70,7 +70,7 @@
 
     # https://github.com/linuxserver/docker-tautulli/releases
     - role: tautulli
-      tautulli_image_tag: v2.9.4-ls29
+      tautulli_image_tag: v2.10.0-ls39 
       tautulli_fqdn: stats.{{ vault_domain }}
       tautulli_data_path: "{{ common_data_root }}/tautulli"
       tautulli_plex_logs_path: >-

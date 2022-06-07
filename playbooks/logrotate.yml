@@ -1,0 +1,30 @@
+---
+- name: Install and configure logrotate
+  hosts: all
+  vars_files:
+    - ../vars/common.yml
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 86400
+
+  roles:
+    - role: logrotate
+      logrotate_scripts:
+        - name: traefik
+          paths:
+            - "{{ common_logs_root }}/traefik/*.log"
+          options:
+            - daily
+            - rotate 30
+            - missingok
+            - notifempty
+            - dateext
+            - dateformat .%Y-%m-%d
+            - create 0640 traefik traefik
+          scripts:
+            postrotate: docker kill --signal=USR1 traefik

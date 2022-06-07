@@ -1,0 +1,9 @@
+---
+logrotate_path: /etc/logrotate.d
+logrotate_scripts: [
+  # - name: script_name
+  #   paths: [str]
+  #   options: [str]
+  #   scripts:
+  #     postrotate: "script"
+]

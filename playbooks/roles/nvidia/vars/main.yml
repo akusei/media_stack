@@ -1,0 +1,4 @@
+---
+_nvidia_repo_url: "https://nvidia.github.io/nvidia-docker/\
+  {{ ansible_distribution | lower }}\
+  {{ ansible_distribution_version }}/nvidia-docker.list"
