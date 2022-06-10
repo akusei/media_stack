@@ -8,6 +8,10 @@ services:
     container_name: bitwarden
     restart: unless-stopped
     init: true
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://${SYSLOG_SERVER}:516"
     networks:
       - traefik
     expose:
@@ -48,7 +52,7 @@ services:
       traefik.http.services.bitwarden-admin.loadbalancer.server.port: 80
       traefik.http.routers.bitwarden-admin.entrypoints: https
       traefik.http.routers.bitwarden-admin.tls: true
-      traefik.http.routers.bitwarden-admin.middlewares: internal-secured
+      traefik.http.routers.bitwarden-admin.middlewares: internal-mfa
       # Websockets
       traefik.http.routers.bitwarden-websocket.rule: >
         Host(`${DOMAIN}`) && Path(`/notifications/hub`)

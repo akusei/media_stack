@@ -6,6 +6,7 @@ authelia_log_path: /var/log/authelia
 authelia_data_path: /data/authelia
 authelia_image_tag: latest
 
+authelia_syslog_server: 127.0.0.1
 authelia_user: authelia
 authelia_group: authelia
 

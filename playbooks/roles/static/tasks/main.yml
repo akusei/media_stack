@@ -27,6 +27,14 @@
     - default.conf
   notify: restart static
 
+- name: Install robots.txt
+  copy:
+    src: robots.txt
+    dest: "{{ static_data_path }}/robots.txt"
+    owner: root
+    group: root
+    mode: 0444
+
 - name: Copying template files
   template:
     src: .env.j2

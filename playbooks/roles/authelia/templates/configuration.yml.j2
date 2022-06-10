@@ -9,6 +9,7 @@ server:
 
 log:
   level: {{ authelia_log_level }}
+  keep_stdout: true
   file_path: /logs/authelia.log
 
 default_redirection_url: https://{{ authelia_default_redirection_url }}

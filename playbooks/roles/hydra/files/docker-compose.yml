@@ -29,7 +29,7 @@ services:
       traefik.http.routers.hydra.entrypoints: https
       traefik.http.routers.hydra.tls: true
       traefik.http.services.hydra.loadbalancer.server.port: 5076
-      traefik.http.routers.hydra.middlewares: internal-secured
+      traefik.http.routers.hydra.middlewares: internal-mfa
 
 
 networks:

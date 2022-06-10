@@ -17,6 +17,10 @@ services:
     init: true
     container_name: authelia
     restart: unless-stopped
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://${SYSLOG_SERVER}:515"
     secrets:
       - jwt
       - session
@@ -42,6 +46,7 @@ services:
       traefik.http.routers.authelia.rule: Host(`${DOMAIN}`)
       traefik.http.routers.authelia.entrypoints: https
       traefik.http.routers.authelia.tls: true
+      traefik.http.routers.authelia.middlewares: robot-headers
       traefik.http.middlewares.authelia.forwardauth.address: >-
         http://authelia:9091/api/verify?rd=https://${DOMAIN}
       traefik.http.middlewares.authelia.forwardauth.trustForwardHeader: true

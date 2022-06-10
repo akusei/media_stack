@@ -28,7 +28,7 @@ services:
       - --accesslog.format=json
       - --accessLog.filePath=/logs/access.log
       - --accessLog.bufferingSize=100
-      - --accessLog.filters.statusCodes=400-500
+      #- --accessLog.filters.statusCodes=400-500
       - --accesslog.fields.defaultmode=keep
       - --accesslog.fields.names.RequestAddr=keep
       - --accesslog.fields.names.RequestHost=keep
@@ -69,17 +69,20 @@ services:
       # Global HTTP redirect to HTTPS
       traefik.http.routers.http-catchall.entrypoints: http
       traefik.http.routers.http-catchall.rule: HostRegexp(`{host:.+}`)
-      traefik.http.routers.http-catchall.middlewares: redirect-to-https
+      traefik.http.routers.http-catchall.middlewares: robot-headers,redirect-to-https
       traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: https
       traefik.http.routers.api.tls.certresolver: dns-cloudflare
       traefik.http.routers.api.tls.domains[0].main: "${DOMAIN}"
       traefik.http.routers.api.tls.domains[0].sans: "*.${DOMAIN}"
       traefik.http.routers.api.middlewares: internal-only
       # Middlewares
+      traefik.http.middlewares.robot-headers.headers.customresponseheaders.X-Robots-Tag: noindex,nofollow,noarchive,nositelinkssearchbox,nosnippet,notranslate,noimageindex
       traefik.http.middlewares.internal-only.ipwhitelist.sourcerange: >
         ${ALLOWED_NETWORKS}
-      traefik.http.middlewares.internal-secured.chain.middlewares: >
+      traefik.http.middlewares.internal-mfa.chain.middlewares: >
         internal-only,authelia
+      traefik.http.middlewares.mfa.chain.middlewares: >
+        robot-headers,authelia
 
   # must run as root and privileged
   # no logging is okay

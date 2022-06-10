@@ -30,7 +30,7 @@ services:
       traefik.http.routers.{{ arr_service_name }}.entrypoints: https
       traefik.http.routers.{{ arr_service_name }}.tls: true
       traefik.http.services.{{ arr_service_name }}.loadbalancer.server.port: {{ arr_expose_port }}
-      traefik.http.routers.{{ arr_service_name }}.middlewares: authelia
+      traefik.http.routers.{{ arr_service_name }}.middlewares: mfa
 
 
 networks:

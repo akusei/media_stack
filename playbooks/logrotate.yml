@@ -3,6 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
+    - ../vars/secrets
   become: true
   gather_facts: true
 
@@ -28,3 +29,23 @@
             - create 0640 traefik traefik
           scripts:
             postrotate: docker kill --signal=USR1 traefik
+
+        - name: authelia
+          paths:
+            - "{{ common_logs_root }}/authelia/*.log"
+          options:
+            - daily
+            - rotate 0
+            - copytruncate
+            - missingok
+            - notifempty
+
+        - name: bitwarden
+          paths:
+            - "{{ common_logs_root }}/bitwarden/*.log"
+          options:
+            - daily
+            - rotate 0
+            - copytruncate
+            - missingok
+            - notifempty

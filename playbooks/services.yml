@@ -29,6 +29,7 @@
     - role: bitwarden
       bitwarden_image_tag: 1.24.0-alpine
       bitwarden_fqdn: warden.{{ vault_domain }}
+      bitwarden_syslog_server: "{{ advertise_ip }}"
       bitwarden_log_path: "{{ common_logs_root }}/bitwarden"
       bitwarden_data_path: "{{ common_data_root }}/bitwarden"
       bitwarden_signups_allowed: true

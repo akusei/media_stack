@@ -30,7 +30,7 @@ services:
       traefik.http.routers.nzbget.entrypoints: https
       traefik.http.routers.nzbget.tls: true
       traefik.http.services.nzbget.loadbalancer.server.port: 6789
-      traefik.http.routers.nzbget.middlewares: authelia
+      traefik.http.routers.nzbget.middlewares: mfa
 
 
 networks:

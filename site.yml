@@ -5,10 +5,11 @@
 
 - import_playbook: playbooks/infra.yml
 - import_playbook: playbooks/security.yml
+- import_playbook: playbooks/logrotate.yml
+- import_playbook: playbooks/logging.yml
 - import_playbook: playbooks/downloaders.yml
 - import_playbook: playbooks/indexers.yml
 - import_playbook: playbooks/services.yml
 - import_playbook: playbooks/management.yml
 - import_playbook: playbooks/media.yml
 - import_playbook: playbooks/plex.yml
-- import_playbook: playbooks/logging.yml

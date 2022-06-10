@@ -11,7 +11,31 @@ filebeat.inputs:
     index: logs-traefik.access-prod
     pipeline: traefik-pipeline
     paths:
-      - /logs/traefik/access.log
+      - /logs/traefik/access.log*
+
+  - type: syslog
+    index: logs-authelia.access-prod
+    pipeline: authelia-pipeline
+    protocol.tcp:
+      host: "0.0.0.0:515"
+    processors:
+      - drop_fields:
+          fields:
+            - event
+            - syslog
+          ignore_missing: true
+
+  - type: syslog
+    index: logs-bitwarden.access-prod
+    pipeline: bitwarden-pipeline
+    protocol.tcp:
+      host: "0.0.0.0:516"
+    processors:
+      - drop_fields:
+          fields:
+            - event
+            - syslog
+          ignore_missing: true
 
   # - type: log
   #   index: ecs-authelia-1.8.0
@@ -19,12 +43,12 @@ filebeat.inputs:
   #   paths:
   #     - /logs/authelia/authelia.log
   #
-  # - type: log
-  #   index: ecs-bitwarden-1.8.0
-  #   pipeline: bitwarden-pipeline
-  #   paths:
-  #   - /logs/bitwarden/bitwarden.log
-  #
+  {# - type: log
+      index: logs-bitwarden.access-prod
+      pipeline: bitwarden-pipeline
+      paths:
+        - /logs/bitwarden/bitwarden.log* #}
+
   # - type: log
   #   index: ecs-fail2ban-1.8.0
   #   pipeline: fail2ban-pipeline
@@ -41,8 +65,8 @@ filebeat.inputs:
     pipeline: router-pipeline
     host: "0.0.0.0:514"
 
-# output.console:
-#   pretty: true
+{# output.console:
+  pretty: true #}
 
 output.elasticsearch:
   hosts:

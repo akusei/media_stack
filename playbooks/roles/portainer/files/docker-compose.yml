@@ -24,7 +24,7 @@ services:
       traefik.http.routers.portainer.entrypoints: https
       traefik.http.routers.portainer.tls: true
       traefik.http.services.portainer.loadbalancer.server.port: 9000
-      traefik.http.routers.portainer.middlewares: authelia
+      traefik.http.routers.portainer.middlewares: mfa
 
 volumes:
   portainer:
