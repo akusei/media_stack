@@ -24,6 +24,15 @@
   notify:
     - restart fail2ban
 
+- name: Create false forever ban log file
+  copy:
+    content: ""
+    dest: "{{ fail2ban_log_path }}/forever.log"
+    force: no
+    group: root
+    owner: root
+    mode: 0440
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="fail2ban"
