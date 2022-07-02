@@ -14,7 +14,3 @@ common_downloads_group: media
 
 common_traefik_network_name: traefik
 common_pusher_network_name: pusher
-
-common_docker_compose_version: 1.29.2
-common_docker_version: 5:20.10.10~3-0~ubuntu-focal
-common_docker_containerd_version: 1.4.11-1

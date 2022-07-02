@@ -3,6 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
+    - ../vars/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -18,16 +19,11 @@
       common_script_name: "{{ vault_stack_name | lower }}"
 
     - role: docker
-      docker_version: "{{ common_docker_version }}"
-      docker_containerd_version: "{{ common_docker_containerd_version }}"
-      docker_compose_version: "{{ common_docker_compose_version }}"
       docker_networks:
         - "{{ common_traefik_network_name }}"
         - "{{ common_pusher_network_name }}"
 
-    # https://github.com/linuxserver/docker-ddclient/releases
     - role: ddclient
-      ddclient_image_tag: v3.9.1-ls90
       ddclient_domain: "{{ vault_domain }}"
       ddclient_cloudflare_username: "{{ vault_admin_email }}"
       ddclient_cloudflare_api_key: "{{ vault_cloudflare_api_key }}"
@@ -35,9 +31,7 @@
       ddclient_opendns_password: "{{ vault_opendns_password }}"
       ddclient_install_path: "{{ common_install_root }}/ddclient"
 
-    # https://hub.docker.com/_/traefik?tab=tags
     - role: traefik
-      traefik_image_tag: 'v2.6'
       traefik_domain: "{{ vault_domain }}"
       traefik_ssl_cert_path: "{{ common_data_root }}/traefik"
       traefik_log_path: "{{ common_logs_root }}/traefik"
@@ -46,9 +40,7 @@
       traefik_cloudflare_api_key: "{{ vault_cloudflare_api_key }}"
       traefik_install_path: "{{ common_install_root }}/traefik"
 
-    # https://hub.docker.com/r/pihole/pihole/tags
     - role: pihole
-      pihole_image_tag: latest
       pihole_data_path: "{{ common_data_root }}/pihole"
       pihole_advertise_ip: "{{ advertise_ip }}"
       pihole_domain: "{{ vault_domain }}"

@@ -6,7 +6,7 @@ services:
   portainer:
     image: portainer/portainer:${VERSION}
     container_name: portainer
-    command: -H unix:///var/run/docker.sock --no-auth
+    command: -H unix:///var/run/docker.sock
     restart: unless-stopped
     init: true
     privileged: true

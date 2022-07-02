@@ -23,6 +23,12 @@
   notify:
     - restart jackett
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: jackett_image_tag == 'latest'
+  notify: restart jackett
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="jackett"

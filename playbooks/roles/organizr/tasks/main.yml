@@ -37,6 +37,12 @@
   notify:
     - restart organizr
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: organizr_image_tag == 'latest'
+  notify: restart organizr
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="organizr"

@@ -44,6 +44,12 @@
     mode: 0440
   notify: restart static
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: static_image_tag == 'latest'
+  notify: restart static
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="static"

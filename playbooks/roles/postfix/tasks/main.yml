@@ -27,6 +27,12 @@
   notify:
     - restart postfix
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: postfix_image_tag == 'latest'
+  notify: restart postfix
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="postfix"

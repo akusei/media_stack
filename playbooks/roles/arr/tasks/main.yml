@@ -16,6 +16,12 @@
   notify:
     - restart {{ arr_service_name }}
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: arr_image_tag == 'latest'
+  notify: restart {{ arr_service_name }}
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="{{ arr_service_name }}"

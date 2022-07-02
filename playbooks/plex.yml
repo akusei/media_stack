@@ -3,6 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
+    - ../vars/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -18,9 +19,6 @@
       common_script_name: "{{ vault_stack_name | lower }}"
 
     - role: docker
-      docker_version: "{{ common_docker_version }}"
-      docker_containerd_version: "{{ common_docker_containerd_version }}"
-      docker_compose_version: "{{ common_docker_compose_version }}"
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
@@ -37,7 +35,6 @@
       static_install_path: "{{ common_install_root }}/static"
 
     - role: plex
-      plex_image_tag: plexpass
       plex_cache_path: /cache/plex
       plex_runtime: "{{ docker_runtime }}"
       plex_fqdn: watch.{{ vault_domain }}
@@ -47,30 +44,23 @@
       plex_password: "{{ vault_plex_password }}"
       plex_install_path: "{{ common_install_root }}/plex"
 
-    # latest only
     - role: organizr
       organizr_domain: "{{ vault_domain }}"
       organizr_data_path: "{{ common_data_root }}/organizr"
       organizr_install_path: "{{ common_install_root }}/organizr"
 
-    # https://github.com/linuxserver/docker-overseerr/releases
     - role: overseerr
-      overseerr_image_tag: v1.29.1-ls34
       overseerr_fqdn: request.{{ vault_domain }}
       overseerr_data_path: "{{ common_data_root }}/overseerr"
       overseerr_install_path: "{{ common_install_root }}/overseerr"
 
-    # # https://github.com/linuxserver/docker-ombi/releases
     # - role: ombi
-    #   ombi_image_tag: v4.3.3-ls113
     #   ombi_fqdn: request.{{ vault_domain }}
     #   ombi_data_path: "{{ common_data_root }}/ombi"
     #   ombi_install_path: "{{ common_install_root }}/ombi"
     #   ombi_service_state: stopped
 
-    # https://github.com/linuxserver/docker-tautulli/releases
     - role: tautulli
-      tautulli_image_tag: v2.10.0-ls39 
       tautulli_fqdn: stats.{{ vault_domain }}
       tautulli_data_path: "{{ common_data_root }}/tautulli"
       tautulli_plex_logs_path: >-

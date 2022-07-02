@@ -51,6 +51,12 @@
   notify:
     - restart pihole
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: pihole_image_tag == 'latest'
+  notify: restart pihole
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="pihole"

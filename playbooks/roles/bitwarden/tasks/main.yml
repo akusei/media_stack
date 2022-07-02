@@ -21,6 +21,12 @@
   notify:
     - restart bitwarden
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: bitwarden_image_tag == 'latest'
+  notify: restart bitwarden
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="bitwarden"

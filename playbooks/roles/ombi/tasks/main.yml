@@ -35,6 +35,12 @@
     mode: 0440
   notify: restart ombi
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: ombi_image_tag == 'latest'
+  notify: restart ombi
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="ombi"

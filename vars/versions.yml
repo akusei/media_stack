@@ -1,0 +1,79 @@
+---
+############
+# PACKAGES #
+############
+docker_compose_version: 1.29.2
+docker_version: 5:20.10.10~3-0~ubuntu-focal
+docker_containerd_version: 1.4.11-1
+
+#################
+# DOCKER IMAGES #
+#################
+# https://github.com/linuxserver/docker-nzbget/releases
+nzbget_image_tag: v21.1-ls115
+
+# https://github.com/linuxserver/docker-deluge/releases
+deluge_image_tag: 2.0.5-r1-ls159
+
+# https://github.com/linuxserver/docker-nzbhydra2/releases
+hydra_image_tag: v4.4.0-ls57
+
+# https://github.com/linuxserver/docker-jackett/releases
+jackett_image_tag: v0.20.1261-ls73
+
+# https://github.com/linuxserver/docker-ddclient/releases
+ddclient_image_tag: v3.9.1-ls90
+
+# https://hub.docker.com/_/traefik?tab=tags
+traefik_image_tag: v2.8
+
+# https://hub.docker.com/r/pihole/pihole/tags
+pihole_image_tag: '2022.05'
+
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+elasticsearch_image_tag: 8.3.1
+filebeat_image_tag: 8.3.1
+
+# https://hub.docker.com/r/portainer/portainer/tags
+portainer_image_tag: linux-amd64-2.0.1
+
+# https://github.com/linuxserver/docker-sonarr/releases
+sonarr_image_tag: 3.0.8.1507-ls149
+
+# https://github.com/linuxserver/docker-radarr/releases
+radarr_image_tag: 4.1.0.6175-ls144
+
+# https://github.com/linuxserver/docker-lidarr/releases
+lidarr_image_tag: 1.0.2.2592-ls88
+
+# https://github.com/linuxserver/docker-overseerr/releases
+overseerr_image_tag: v1.29.1-ls34
+
+# # https://github.com/linuxserver/docker-ombi/releases
+# ombi_image_tag: v4.3.3-ls113
+
+# https://github.com/linuxserver/docker-tautulli/releases
+tautulli_image_tag: v2.10.1-ls40
+
+# https://github.com/authelia/authelia/releases
+authelia_image_tag: 4.36.1
+
+# https://hub.docker.com/r/crazymax/fail2ban/tags
+fail2ban_image_tag: 0.11.2
+
+# https://hub.docker.com/r/vaultwarden/server/tags
+bitwarden_image_tag: 1.25.0-alpine
+
+# https://hub.docker.com/r/plexinc/pms-docker/tags
+plex_image_tag: 1.27.1.5916-6b0e31a64
+
+# https://hub.docker.com/r/juanluisbaptiste/postfix/tags
+postfix_image_tag: 1.7
+
+###############
+# LATEST ONLY #
+###############
+plex_force_restart: true
+pwpusher_image_tag: latest
+static_image_tag: latest
+organizr_image_tag: latest

@@ -29,6 +29,12 @@
   notify:
     - restart filebeat
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: filebeat_image_tag == 'latest'
+  notify: restart filebeat
+
 - name: Check if filebeat is running
   command:
     cmd: docker ps -qf name="filebeat"

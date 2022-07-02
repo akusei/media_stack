@@ -3,6 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
+    - ../vars/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -18,16 +19,11 @@
       common_script_name: "{{ vault_stack_name | lower }}"
 
     - role: docker
-      docker_version: "{{ common_docker_version }}"
-      docker_containerd_version: "{{ common_docker_containerd_version }}"
-      docker_compose_version: "{{ common_docker_compose_version }}"
       docker_volumes:
         - portainer_portainer
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
-    # https://hub.docker.com/r/portainer/portainer/tags
     - role: portainer
-      portainer_image_tag: 1.25.0-alpine
       portainer_fqdn: docker.{{ vault_domain }}
       portainer_install_path: "{{ common_install_root }}/portainer"

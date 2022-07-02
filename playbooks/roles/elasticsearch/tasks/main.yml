@@ -33,6 +33,12 @@
   notify:
     - restart elasticsearch
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: elasticsearch_image_tag == 'latest'
+  notify: restart elasticsearch
+
 - name: Check if elasticsearch is running
   command:
     cmd: docker ps -qf name="elasticsearch"

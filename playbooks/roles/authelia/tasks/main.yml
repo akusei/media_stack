@@ -66,6 +66,12 @@
 #   notify:
 #     - restart authelia
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: authelia_image_tag == 'latest'
+  notify: restart authelia
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="authelia"

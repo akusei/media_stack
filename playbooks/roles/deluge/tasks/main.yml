@@ -33,6 +33,12 @@
   notify:
     - restart deluge
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: deluge_image_tag == 'latest'
+  notify: restart deluge
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="deluge"

@@ -1,7 +1,8 @@
 ---
 plex_install_path: "/opt/plex"
 plex_cache_path: "/data/plex"
-plex_image_tag: plexpass
+plex_image_tag: latest
+plex_force_restart: false
 plex_runtime: runc
 
 plex_user: plex

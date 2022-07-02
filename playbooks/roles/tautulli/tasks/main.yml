@@ -33,6 +33,12 @@
     group: root
     mode: 0440
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: tautulli_image_tag == 'latest'
+  notify: restart tautulli
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="tautulli"

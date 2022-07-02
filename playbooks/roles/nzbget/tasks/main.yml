@@ -23,6 +23,12 @@
   notify:
     - restart nzbget
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: nzbget_image_tag == 'latest'
+  notify: restart nzbget
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="nzbget"

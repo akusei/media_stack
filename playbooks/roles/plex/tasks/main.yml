@@ -33,6 +33,12 @@
   notify:
     - restart plex
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: plex_force_restart == true
+  notify: restart plex
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="plex"

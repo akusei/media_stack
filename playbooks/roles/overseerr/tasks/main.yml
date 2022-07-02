@@ -35,6 +35,12 @@
     mode: 0440
   notify: restart overseerr
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: overseerr_image_tag == 'latest'
+  notify: restart overseerr
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="overseerr"

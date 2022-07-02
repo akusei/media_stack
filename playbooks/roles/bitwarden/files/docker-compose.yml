@@ -4,7 +4,7 @@ version: '3.8'
 services:
   # runs as root
   bitwarden:
-    image: bitwardenrs/server:${VERSION}
+    image: vaultwarden/server:${VERSION}
     container_name: bitwarden
     restart: unless-stopped
     init: true

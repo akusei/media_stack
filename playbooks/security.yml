@@ -3,6 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
+    - ../vars/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -18,9 +19,6 @@
       common_script_name: "{{ vault_stack_name | lower }}"
 
     - role: docker
-      docker_version: "{{ common_docker_version }}"
-      docker_containerd_version: "{{ common_docker_containerd_version }}"
-      docker_compose_version: "{{ common_docker_compose_version }}"
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
@@ -32,9 +30,7 @@
       postfix_domain: "{{ vault_domain }}"
       postfix_install_path: "{{ common_install_root }}/postfix"
 
-    # https://github.com/authelia/authelia/releases
     - role: authelia
-      authelia_image_tag: 4.35.5
       authelia_domain: "{{ vault_domain }}"
       authelia_syslog_server: "{{ advertise_ip }}"
       authelia_log_path: "{{ common_logs_root }}/authelia"
@@ -56,10 +52,11 @@
       authelia_admin_display_name: "{{ vault_admin_username }}"
       authelia_install_path: "{{ common_install_root }}/authelia"
       authelia_encryption_key: "{{ vault_encryption_key }}"
+      authelia_duo_hostname: "{{ vault_authelia_duo_hostname }}"
+      authelia_duo_secret_key: "{{ vault_authelia_duo_secret_key }}"
+      authelia_duo_integration_key: "{{ vault_authelia_duo_integration_key }}"
 
-    # https://hub.docker.com/r/crazymax/fail2ban/tags
     - role: fail2ban
-      fail2ban_image_tag: 0.11.2
       fail2ban_log_path: "{{ common_logs_root }}/fail2ban"
       fail2ban_data_path: "{{ common_data_root }}/fail2ban"
       fail2ban_ingest_path: "{{ common_logs_root }}"

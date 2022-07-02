@@ -36,6 +36,12 @@
   notify:
     - restart ddclient
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: ddclient_image_tag == 'latest'
+  notify: restart ddclient
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="ddclient"

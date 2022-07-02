@@ -33,6 +33,12 @@
     owner: root
     mode: 0440
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: fail2ban_image_tag == 'latest'
+  notify: restart fail2ban
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="fail2ban"

@@ -1,4 +1,5 @@
 ---
 static_fqdn: static.local
+static_image_tag: latest
 static_data_path: /data/static
 static_install_path: /opt/static

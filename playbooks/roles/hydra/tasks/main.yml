@@ -23,6 +23,12 @@
   notify:
     - restart hydra
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: hydra_image_tag == 'latest'
+  notify: restart hydra
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="hydra"

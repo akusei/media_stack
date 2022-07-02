@@ -37,6 +37,8 @@
             - daily
             - rotate 0
             - copytruncate
+            - dateext
+            - dateformat .%Y-%m-%d
             - missingok
             - notifempty
 
@@ -45,7 +47,9 @@
             - "{{ common_logs_root }}/bitwarden/*.log"
           options:
             - daily
-            - rotate 0
+            - rotate 30
             - copytruncate
+            - dateext
+            - dateformat .%Y-%m-%d
             - missingok
             - notifempty

@@ -13,6 +13,18 @@ filebeat.inputs:
     paths:
       - /logs/traefik/access.log*
 
+  {# - type: log
+    index: logs-authelia.access-prod
+    pipeline: traefik-pipeline
+    paths:
+      - /logs/authelia/access.log*
+
+  - type: log
+    index: logs-bitwarden.access-prod
+    pipeline: traefik-pipeline
+    paths:
+      - /logs/traefik/access.log* #}
+
   - type: syslog
     index: logs-authelia.access-prod
     pipeline: authelia-pipeline

@@ -27,6 +27,12 @@
   notify:
     - restart pwpusher
 
+- name: Check for latest
+  command:
+    cmd: echo 'pull latest docker image'
+  when: pwpusher_image_tag == 'latest'
+  notify: restart pwpusher
+
 - name: Check if running
   command:
     cmd: docker ps -qf name="pwpusher"
