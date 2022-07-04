@@ -4,7 +4,7 @@ deluge_image_tag: latest
 deluge_fqdn: deluge.local
 deluge_user: deluge
 deluge_group: deluge
-deluge_timezone: America/Los_Angeles
+deluge_timezone: Etc/UTC
 
 deluge_install_path: /opt/deluge
 deluge_data_path: /data/deluge

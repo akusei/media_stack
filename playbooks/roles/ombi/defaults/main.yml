@@ -4,7 +4,7 @@ ombi_data_path: /data/ombi
 ombi_install_path: /opt/ombi
 
 ombi_image_tag: latest
-ombi_timezone: America/Los_Angeles
+ombi_timezone: Etc/UTC
 
 ombi_user: ombi
 ombi_group: ombi

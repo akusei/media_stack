@@ -5,7 +5,7 @@ pihole_image_tag: latest
 
 pihole_advertise_ip:
 pihole_upstream_dns: 8.8.8.8
-pihole_timezone: America/Los_Angeles
+pihole_timezone: Etc/UTC
 
 pihole_web_user: pihole-web
 pihole_web_group: pihole-web

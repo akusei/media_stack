@@ -17,4 +17,4 @@ compose_variables: {}
 compose_build: false
 compose_build_path: build
 
-compose_timezone: America/Los_Angeles
+compose_timezone: Etc/UTC

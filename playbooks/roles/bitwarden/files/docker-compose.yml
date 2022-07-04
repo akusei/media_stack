@@ -8,10 +8,6 @@ services:
     container_name: bitwarden
     restart: unless-stopped
     init: true
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://${SYSLOG_SERVER}:516"
     networks:
       - traefik
     expose:
@@ -30,8 +26,8 @@ services:
       SMTP_HELO_NAME: ${DOMAIN}
       SMTP_PORT: ${SMTP_PORT}
       SMTP_SSL: ${SMTP_SSL}
-      SMTP_USERNAME: ${SMTP_USERNAME}
-      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      # SMTP_USERNAME: ${SMTP_USERNAME}
+      # SMTP_PASSWORD: ${SMTP_PASSWORD}
       LOG_FILE: /logs/bitwarden.log
       EXTENDED_LOGGING: "true"
       LOG_LEVEL: ${LOG_LEVEL}

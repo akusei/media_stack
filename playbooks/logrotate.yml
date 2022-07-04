@@ -32,7 +32,7 @@
 
         - name: authelia
           paths:
-            - "{{ common_logs_root }}/authelia/*.log"
+            - "{{ common_logs_root }}/authelia/authelia.log"
           options:
             - daily
             - rotate 0
@@ -44,12 +44,26 @@
 
         - name: bitwarden
           paths:
-            - "{{ common_logs_root }}/bitwarden/*.log"
+            - "{{ common_logs_root }}/bitwarden/bitwarden.log"
           options:
             - daily
-            - rotate 30
+            - rotate 0
             - copytruncate
             - dateext
             - dateformat .%Y-%m-%d
             - missingok
             - notifempty
+
+        - name: fail2ban
+          paths:
+            - "{{ common_logs_root }}/fail2ban/fail2ban.log"
+          options:
+            - daily
+            - rotate 30
+            - create 0640 root root
+            - dateext
+            - dateformat .%Y-%m-%d
+            - missingok
+            - notifempty
+          scripts:
+            postrotate: docker exec -it fail2ban-client flushlogs 1>/dev/null || true

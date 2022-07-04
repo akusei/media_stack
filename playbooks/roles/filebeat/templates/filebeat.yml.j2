@@ -13,65 +13,23 @@ filebeat.inputs:
     paths:
       - /logs/traefik/access.log*
 
-  {# - type: log
+  - type: log
     index: logs-authelia.access-prod
-    pipeline: traefik-pipeline
+    pipeline: authelia-pipeline
     paths:
-      - /logs/authelia/access.log*
+      - /logs/authelia/authelia.log
 
   - type: log
     index: logs-bitwarden.access-prod
-    pipeline: traefik-pipeline
-    paths:
-      - /logs/traefik/access.log* #}
-
-  - type: syslog
-    index: logs-authelia.access-prod
-    pipeline: authelia-pipeline
-    protocol.tcp:
-      host: "0.0.0.0:515"
-    processors:
-      - drop_fields:
-          fields:
-            - event
-            - syslog
-          ignore_missing: true
-
-  - type: syslog
-    index: logs-bitwarden.access-prod
     pipeline: bitwarden-pipeline
-    protocol.tcp:
-      host: "0.0.0.0:516"
-    processors:
-      - drop_fields:
-          fields:
-            - event
-            - syslog
-          ignore_missing: true
+    paths:
+      - /logs/traefik/bitwarden.log
 
-  # - type: log
-  #   index: ecs-authelia-1.8.0
-  #   pipeline: authelia-pipeline
-  #   paths:
-  #     - /logs/authelia/authelia.log
-  #
-  {# - type: log
-      index: logs-bitwarden.access-prod
-      pipeline: bitwarden-pipeline
-      paths:
-        - /logs/bitwarden/bitwarden.log* #}
-
-  # - type: log
-  #   index: ecs-fail2ban-1.8.0
-  #   pipeline: fail2ban-pipeline
-  #   paths:
-  #   - /logs/fail2ban/fail2ban.log
-  #
-  # - type: log
-  #   index: ecs-traefik-1.8.0
-  #   pipeline: traefik-pipeline
-  #   paths:
-  #   - /logs/traefik/access.log
+  - type: log
+    index: logs-fail2ban.access-prod
+    pipeline: fail2ban-pipeline
+    paths:
+      - /logs/fail2ban/fail2ban.log*
 
   - type: udp
     pipeline: router-pipeline

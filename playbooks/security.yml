@@ -60,10 +60,11 @@
       fail2ban_log_path: "{{ common_logs_root }}/fail2ban"
       fail2ban_data_path: "{{ common_data_root }}/fail2ban"
       fail2ban_ingest_path: "{{ common_logs_root }}"
-      fail2ban_smtp_server: "{{ common_smtp_server }}"
+      fail2ban_smtp_tls: 'NO'
+      fail2ban_smtp_start_tls: 'NO'
+      fail2ban_smtp_port: 2525
+      fail2ban_smtp_server: localhost
       fail2ban_smtp_domain: "{{ vault_domain }}"
-      fail2ban_smtp_username: "{{ vault_smtp_username }}"
-      fail2ban_smtp_password: "{{ vault_smtp_password }}"
       fail2ban_admin_email: "{{ vault_smtp_username }}"
       fail2ban_smtp_sender: "{{ common_smtp_from }}"
       fail2ban_install_path: "{{ common_install_root }}/fail2ban"

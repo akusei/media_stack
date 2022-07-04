@@ -4,7 +4,7 @@ overseerr_data_path: /data/overseerr
 overseerr_install_path: /opt/overseerr
 
 overseerr_image_tag: latest
-overseerr_timezone: America/Los_Angeles
+overseerr_timezone: Etc/UTC
 
 overseerr_user: overseerr
 overseerr_group: overseerr

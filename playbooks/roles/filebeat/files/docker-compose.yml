@@ -12,8 +12,6 @@ services:
       - elastic
     ports:
       - 514:514/udp
-      - 515:515/tcp
-      - 516:516/tcp
     volumes:
       - registry:/registry/
       - ./config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro

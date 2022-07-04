@@ -10,6 +10,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik
+    ports:
+      - 2525:25/tcp
     expose:
       - 25
     environment:

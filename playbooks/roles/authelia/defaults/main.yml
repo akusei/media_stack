@@ -10,7 +10,7 @@ authelia_syslog_server: 127.0.0.1
 authelia_user: authelia
 authelia_group: authelia
 
-authelia_timezone: America/Los_Angeles
+authelia_timezone: Etc/UTC
 
 authelia_totp_issuer: authelia
 authelia_log_level: info

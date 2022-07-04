@@ -17,10 +17,6 @@ services:
     init: true
     container_name: authelia
     restart: unless-stopped
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://${SYSLOG_SERVER}:515"
     secrets:
       - jwt
       - session

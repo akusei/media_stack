@@ -50,7 +50,6 @@ services:
     image: linuxserver/deluge:${DELUGE_VERSION}
     container_name: deluge
     restart: unless-stopped
-    init: true
     network_mode: service:pia
     environment:
       TZ: ${TIMEZONE}

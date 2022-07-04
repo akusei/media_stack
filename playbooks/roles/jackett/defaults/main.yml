@@ -1,7 +1,7 @@
 ---
 jackett_fqdn: jackett.local
 jackett_image_tag: latest
-jackett_timezone: America/Los_Angeles
+jackett_timezone: Etc/UTC
 
 jackett_install_path: /opt/jackett
 jackett_data_path: /data/jackett

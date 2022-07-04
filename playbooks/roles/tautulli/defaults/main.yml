@@ -4,7 +4,7 @@ tautulli_data_path: /data/tautulli
 tautulli_install_path: /opt/tautulli
 
 tautulli_image_tag: latest
-tautulli_timezone: America/Los_Angeles
+tautulli_timezone: Etc/UTC
 
 tautulli_user: tautulli
 tautulli_group: tautulli

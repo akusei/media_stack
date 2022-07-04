@@ -8,7 +8,6 @@ services:
     image: linuxserver/nzbhydra2:${VERSION}
     container_name: hydra
     restart: unless-stopped
-    init: true
     networks:
       traefik:
         aliases:

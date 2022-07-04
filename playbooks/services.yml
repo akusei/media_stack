@@ -31,10 +31,10 @@
       bitwarden_signups_allowed: true
       bitwarden_invitations_allowed: true
       bitwarden_disable_admin_token: true
-      bitwarden_smtp_username: "{{ vault_smtp_username }}"
-      bitwarden_smtp_password: "{{ vault_smtp_password }}"
       bitwarden_smtp_from: "{{ common_smtp_from }}"
-      bitwarden_smtp_server: "{{ common_smtp_server }}"
+      bitwarden_smtp_port: 25
+      bitwarden_smtp_ssl: false
+      bitwarden_smtp_server: postfix
       bitwarden_install_path: "{{ common_install_root }}/bitwarden"
 
     - role: pwpusher
