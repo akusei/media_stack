@@ -56,10 +56,20 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
     volumes:
+      - source: software-mount
+        type: volume
+        target: /software
+        volume:
+          nocopy: true
       - ${DATA_PATH}:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${SOFTWARE_ROOT}:/software
       - ./wait/90-wait-for-vpn.sh:/etc/cont-init.d/90-wait-for-vpn.sh:ro
+
+
+volumes:
+  software-mount:
+    name: software-mount
+    external: true
 
 networks:
   traefik:

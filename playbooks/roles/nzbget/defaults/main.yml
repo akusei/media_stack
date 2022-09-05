@@ -10,4 +10,3 @@ nzbget_timezone: Etc/UTC
 nzbget_install_path: /opt/nzbget
 nzbget_data_path: /data/nzbget
 nzbget_downloads_path: /data/downloads
-nzbget_software_root: /mnt/software

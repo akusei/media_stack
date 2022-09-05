@@ -20,9 +20,13 @@ services:
       PGID: ${PGID}
       TZ: ${TIMEZONE}
     volumes:
+      - source: software-mount
+        type: volume
+        target: /data
+        volume:
+          nocopy: true
       - ${DATA_PATH}:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${SOFTWARE_ROOT}:/data
     labels:
       traefik.enable: true
       traefik.http.routers.nzbget.service: nzbget
@@ -32,6 +36,11 @@ services:
       traefik.http.services.nzbget.loadbalancer.server.port: 6789
       traefik.http.routers.nzbget.middlewares: mfa
 
+
+volumes:
+  software-mount:
+    name: software-mount
+    external: true
 
 networks:
   traefik:

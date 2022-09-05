@@ -14,17 +14,27 @@
     label: "{{ item.item }}"
   when: docker_networks|length > 0 and not item.stdout
 
-- name: Check for existing volumes
-  command: docker volume ls -q -f name={{ item }}
-  register: existing_volumes
-  loop: "{{ docker_volumes }}"
-  changed_when: false
-  failed_when: false
-  when: docker_volumes|length > 0
-
-- name: Create docker volumes
-  command: docker volume create {{ item.item }}
-  loop: "{{ existing_volumes.results }}"
+- name: Ensure required docker volumes exist
+  docker_volume:
+    volume_name: "{{ item.name }}"
+    driver: "{{ item.driver | default('local') }}"
+    driver_options: "{{ item.opts | default({}) }}"
+    state: present
   loop_control:
-    label: "{{ item.item }}"
-  when: docker_volumes|length > 0 and not item.stdout
+    label: "{{ item.name }}"
+  loop: "{{ docker_volumes }}"
+
+# - name: Check for existing volumes
+#   command: docker volume ls -q -f name={{ item }}
+#   register: existing_volumes
+#   loop: "{{ docker_volumes }}"
+#   changed_when: false
+#   failed_when: false
+#   when: docker_volumes|length > 0
+#
+# - name: Create docker volumes
+#   command: docker volume create {{ item.item }}
+#   loop: "{{ existing_volumes.results }}"
+#   loop_control:
+#     label: "{{ item.item }}"
+#   when: docker_volumes|length > 0 and not item.stdout

@@ -12,7 +12,6 @@ plex_fqdn: plex.local
 plex_change_ownership: false
 plex_allowed_networks:
 plex_advertise_ip:
-plex_media_root:
 plex_transcode_path: /dev/shm
 plex_username:
 plex_password:

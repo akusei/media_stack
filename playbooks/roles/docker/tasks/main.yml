@@ -17,14 +17,19 @@
       - runc
     state: absent
 
-- name: Install docker
+- name: Install docker and required packages
   package:
     name:
       - docker-ce={{ docker_version }}
       - docker-ce-cli={{ docker_version }}
       - containerd.io={{ docker_containerd_version }}
+      - python3-pip
     state: present
   register: docker_install
+
+- name: Ensure required python modules are installed
+  pip:
+    name: docker
 
 - name: Start docker service
   systemd:

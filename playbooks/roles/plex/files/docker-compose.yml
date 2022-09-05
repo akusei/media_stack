@@ -43,9 +43,14 @@ services:
       PLEX_GID: ${PLEX_GID}
       CHANGE_CONFIG_DIR_OWNERSHIP: "${CHANGE_CONFIG_DIR_OWNERSHIP}"
     volumes:
+      - source: media-mount
+        type: volume
+        target: /data
+        read_only: true
+        volume:
+          nocopy: true
       - ${CACHE_PATH}:/config
       - ${TRANSCODE_PATH}:/transcode
-      - ${MEDIA_ROOT}:/data:ro
     labels:
       traefik.enable: true
       traefik.http.routers.plex.service: plex
@@ -53,6 +58,12 @@ services:
       traefik.http.routers.plex.entrypoints: https
       traefik.http.routers.plex.tls: true
       traefik.http.services.plex.loadbalancer.server.port: 32400
+
+
+volumes:
+  media-mount:
+    name: media-mount
+    external: true
 
 networks:
   traefik:

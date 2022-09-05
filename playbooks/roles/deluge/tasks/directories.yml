@@ -1,15 +1,15 @@
 ---
-- name: Ensure software root directory
-  stat:
-    path: "{{ deluge_software_root }}"
-  register: this
-  changed_when: false
-  failed_when: false
-
-- name: fail check
-  fail:
-    msg: The software root directory '{{ deluge_software_root }}' must exist
-  when: this.stat.isdir is undefined or not this.stat.isdir
+# - name: Ensure software root directory
+#   stat:
+#     path: "{{ deluge_software_root }}"
+#   register: this
+#   changed_when: false
+#   failed_when: false
+#
+# - name: fail check
+#   fail:
+#     msg: The software root directory '{{ deluge_software_root }}' must exist
+#   when: this.stat.isdir is undefined or not this.stat.isdir
 
 - name: Ensure deluge data directory
   file:
