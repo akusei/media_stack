@@ -1,3 +1,4 @@
+#jinja2:trim_blocks: False
 ---
 version: '3.8'
 
@@ -8,7 +9,6 @@ services:
     image: linuxserver/{{ arr_service_name }}:${VERSION}
     container_name: {{ arr_service_name }}
     restart: unless-stopped
-    init: true
     networks:
       traefik:
         aliases:
@@ -20,13 +20,16 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
     volumes:
+      - ${DATA_PATH}:/config
+      {%- if arr_mount_media %}
       - source: media-mount
         type: volume
         target: /media
         volume:
-          nocopy: true
-      - ${DATA_PATH}:/config
+          nocopy: true{%- endif %}
+      {%- if arr_downloads_path %}
       - ${DOWNLOADS_PATH}:/downloads
+      {%- endif %}
     labels:
       traefik.enable: true
       traefik.http.routers.{{ arr_service_name }}.service: {{ arr_service_name }}
@@ -36,11 +39,12 @@ services:
       traefik.http.services.{{ arr_service_name }}.loadbalancer.server.port: {{ arr_expose_port }}
       traefik.http.routers.{{ arr_service_name }}.middlewares: mfa
 
-
+{%- if arr_mount_media %}
 volumes:
   media-mount:
     name: media-mount
     external: true
+{%- endif %}
 
 networks:
   traefik:

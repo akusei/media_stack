@@ -13,27 +13,28 @@ common_downloads_group: media
 common_traefik_network_name: traefik
 common_pusher_network_name: pusher
 
-common_nfs_options: rw,
-  nosuid,
-  nfsvers=4.2,
-  retrans=5,
-  rsize=524288,
-  wsize=524288,
-  noac,
-  retry=5,
-  sec=sys,
-  nocto,
-  clientaddr=10.0.0.1,
-  addr=10.0.0.2,
-  noatime,
-  nodiratime
+common_nfs_options:
+  - rw
+  - nosuid
+  - nfsvers=4.2
+  - retrans=5
+  - rsize=524288
+  - wsize=524288
+  - noac
+  - retry=5
+  - sec=sys
+  - nocto
+  - clientaddr=10.0.0.1
+  - addr=10.0.0.2
+  - noatime
+  - nodiratime
 
 common_docker_software_mount:
   name: software-mount
   driver: local
   opts:
     type: nfs
-    o: "{{ common_nfs_options }}"
+    o: "{{ common_nfs_options | join(',') }}"
     device: :/Software
 
 common_docker_media_mount:
@@ -41,5 +42,5 @@ common_docker_media_mount:
   driver: local
   opts:
     type: nfs
-    o: "{{ common_nfs_options }}"
+    o: "{{ common_nfs_options | join(',') }}"
     device: :/Media

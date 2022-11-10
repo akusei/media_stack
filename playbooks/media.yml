@@ -32,6 +32,7 @@
       arr_install_path: "{{ common_install_root }}/sonarr"
       arr_data_path: /{{ vault_stack_name }}/sonarr
       arr_downloads_path: /downloads
+      arr_mount_media: true
       arr_user: "{{ common_downloads_user }}"
       arr_group: "{{ common_downloads_group }}"
 
@@ -43,6 +44,7 @@
       arr_install_path: "{{ common_install_root }}/radarr"
       arr_data_path: /{{ vault_stack_name }}/radarr
       arr_downloads_path: /downloads
+      arr_mount_media: true
       arr_user: "{{ common_downloads_user }}"
       arr_group: "{{ common_downloads_group }}"
 
@@ -54,5 +56,6 @@
       arr_install_path: "{{ common_install_root }}/lidarr"
       arr_data_path: /{{ vault_stack_name }}/lidarr
       arr_downloads_path: /downloads
+      arr_mount_media: true
       arr_user: "{{ common_downloads_user }}"
       arr_group: "{{ common_downloads_group }}"

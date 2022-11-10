@@ -9,7 +9,6 @@ services:
     image: linuxserver/tautulli:${VERSION}
     container_name: tautulli
     restart: unless-stopped
-    init: true
     networks:
       traefik:
         aliases:

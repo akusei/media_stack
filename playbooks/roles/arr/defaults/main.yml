@@ -6,9 +6,11 @@ arr_expose_port: 8080
 
 arr_timezone: Etc/UTC
 
+arr_mount_media: false
+
 arr_install_path: /opt/media
 arr_data_path: /data/media
-arr_downloads_path: /data/downloads
+arr_downloads_path:
 
 arr_user: media
 arr_group: media

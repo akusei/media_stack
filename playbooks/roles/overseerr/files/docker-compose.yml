@@ -8,7 +8,6 @@ services:
     image: lscr.io/linuxserver/overseerr:${VERSION}
     container_name: overseerr
     restart: unless-stopped
-    init: true
     networks:
       traefik:
         aliases:

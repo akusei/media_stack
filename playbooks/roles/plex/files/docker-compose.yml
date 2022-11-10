@@ -58,6 +58,11 @@ services:
       traefik.http.routers.plex.entrypoints: https
       traefik.http.routers.plex.tls: true
       traefik.http.services.plex.loadbalancer.server.port: 32400
+      # traefik.http.middlewares.plex-redirect.redirectscheme.port: 32400
+      # traefik.http.middlewares.plex-redirect.redirectscheme.scheme: https
+      # traefik.http.middlewares.plex-redirect.redirectscheme.permanent: true
+      # traefik.http.routers.plex.middlewares: plex-redirect
+
 
 
 volumes:
