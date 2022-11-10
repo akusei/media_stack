@@ -20,7 +20,7 @@
 
     - role: docker
       docker_volumes:
-        - portainer_portainer
+        - name: portainer_portainer
       docker_networks:
         - "{{ common_traefik_network_name }}"
 

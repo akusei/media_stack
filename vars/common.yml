@@ -5,8 +5,6 @@ common_smtp_from: no-reply@{{ vault_domain }}
 common_data_root: "/{{ vault_stack_name }}"
 common_install_root: "/docker"
 common_downloads_root: /downloads
-common_media_root: /mnt/media
-common_software_root: /mnt/software
 common_logs_root: "{{ common_data_root }}/logs"
 
 common_downloads_user: media
@@ -14,3 +12,35 @@ common_downloads_group: media
 
 common_traefik_network_name: traefik
 common_pusher_network_name: pusher
+
+common_nfs_options:
+  - rw
+  - nosuid
+  - nfsvers=4.2
+  - retrans=5
+  - rsize=524288
+  - wsize=524288
+  - noac
+  - retry=5
+  - sec=sys
+  - nocto
+  - clientaddr=10.0.0.1
+  - addr=10.0.0.2
+  - noatime
+  - nodiratime
+
+common_docker_software_mount:
+  name: software-mount
+  driver: local
+  opts:
+    type: nfs
+    o: "{{ common_nfs_options | join(',') }}"
+    device: :/Software
+
+common_docker_media_mount:
+  name: media-mount
+  driver: local
+  opts:
+    type: nfs
+    o: "{{ common_nfs_options | join(',') }}"
+    device: :/Media

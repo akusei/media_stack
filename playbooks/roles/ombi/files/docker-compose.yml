@@ -8,7 +8,6 @@ services:
     image: linuxserver/ombi:${VERSION}
     container_name: ombi
     restart: unless-stopped
-    init: true
     networks:
       traefik:
         aliases:

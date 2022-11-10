@@ -10,25 +10,25 @@ docker_containerd_version: 1.4.11-1
 # DOCKER IMAGES #
 #################
 # https://github.com/linuxserver/docker-nzbget/releases
-nzbget_image_tag: v21.1-ls115
+nzbget_image_tag: v21.1-ls130
 
 # https://github.com/linuxserver/docker-deluge/releases
-deluge_image_tag: 2.0.5-r1-ls159
+deluge_image_tag: 2.1.1-r5-ls184
 
 # https://github.com/linuxserver/docker-nzbhydra2/releases
-hydra_image_tag: v4.4.0-ls57
+hydra_image_tag: v4.6.1-ls74
 
 # https://github.com/linuxserver/docker-jackett/releases
-jackett_image_tag: v0.20.1261-ls73
+jackett_image_tag: v0.20.2225-ls82
 
 # https://github.com/linuxserver/docker-ddclient/releases
-ddclient_image_tag: v3.9.1-ls90
+ddclient_image_tag: v3.10.0-ls103
 
 # https://hub.docker.com/_/traefik?tab=tags
-traefik_image_tag: v2.8
+traefik_image_tag: v2.9
 
 # https://hub.docker.com/r/pihole/pihole/tags
-pihole_image_tag: '2022.05'
+pihole_image_tag: '2022.10'
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
 elasticsearch_image_tag: 8.3.1
@@ -38,37 +38,40 @@ filebeat_image_tag: 8.3.1
 portainer_image_tag: linux-amd64-2.0.1
 
 # https://github.com/linuxserver/docker-sonarr/releases
-sonarr_image_tag: 3.0.8.1507-ls149
+sonarr_image_tag: 3.0.9.1549-ls163
 
 # https://github.com/linuxserver/docker-radarr/releases
-radarr_image_tag: 4.1.0.6175-ls144
+radarr_image_tag: 4.2.4.6635-ls156
 
 # https://github.com/linuxserver/docker-lidarr/releases
-lidarr_image_tag: 1.0.2.2592-ls88
+lidarr_image_tag: 1.0.2.2592-ls102
 
 # https://github.com/linuxserver/docker-overseerr/releases
-overseerr_image_tag: v1.29.1-ls34
+overseerr_image_tag: v1.30.1-ls47
 
 # # https://github.com/linuxserver/docker-ombi/releases
 # ombi_image_tag: v4.3.3-ls113
 
 # https://github.com/linuxserver/docker-tautulli/releases
-tautulli_image_tag: v2.10.1-ls40
+tautulli_image_tag: v2.10.5-ls55
 
 # https://github.com/authelia/authelia/releases
-authelia_image_tag: 4.36.1
+authelia_image_tag: 4.37.2
 
 # https://hub.docker.com/r/crazymax/fail2ban/tags
-fail2ban_image_tag: 0.11.2
+fail2ban_image_tag: 1.0.1
 
 # https://hub.docker.com/r/vaultwarden/server/tags
-bitwarden_image_tag: 1.25.0-alpine
+bitwarden_image_tag: 1.26.0-alpine
 
 # https://hub.docker.com/r/plexinc/pms-docker/tags
-plex_image_tag: 1.27.1.5916-6b0e31a64
+plex_image_tag: 1.29.2.6364-6d72b0cf6
 
 # https://hub.docker.com/r/juanluisbaptiste/postfix/tags
-postfix_image_tag: 1.7
+postfix_image_tag: '1.7'
+
+# https://github.com/linuxserver/docker-prowlarr/releases
+prowlarr_image_tag: nightly-0.4.8.2075-ls437
 
 ###############
 # LATEST ONLY #

@@ -21,6 +21,8 @@
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
+      docker_volumes:
+        - "{{ common_docker_media_mount }}"
 
     # this isn't working currently, installing nvidia drivers on linux
     # is a pain in the ass
@@ -39,7 +41,6 @@
       plex_runtime: "{{ docker_runtime }}"
       plex_fqdn: watch.{{ vault_domain }}
       plex_advertise_ip: "{{ advertise_ip }}"
-      plex_media_root: /mnt/media
       plex_username: "{{ vault_plex_username }}"
       plex_password: "{{ vault_plex_password }}"
       plex_install_path: "{{ common_install_root }}/plex"

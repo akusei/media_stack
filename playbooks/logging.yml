@@ -20,8 +20,8 @@
 
     - role: docker
       docker_volumes:
-        - filebeat_registry
-        - elasticsearch_es_data
+        - name: filebeat_registry
+        - name: elasticsearch_es_data
       docker_networks:
         - "{{ common_traefik_network_name }}"
         - elastic

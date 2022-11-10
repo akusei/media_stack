@@ -23,14 +23,14 @@
 #     mode: 0770
 #     state: directory
 
-- name: Ensure media root directory
-  stat:
-    path: "{{ arr_media_root }}"
-  register: this
-  changed_when: false
-  failed_when: false
-
-- name: Check media root existance
-  fail:
-    msg: The media root directory '{{ arr_media_root }}' must exist
-  when: this.stat.isdir is undefined or not this.stat.isdir
+# - name: Ensure media root directory
+#   stat:
+#     path: "{{ arr_media_root }}"
+#   register: this
+#   changed_when: false
+#   failed_when: false
+#
+# - name: Check media root existance
+#   fail:
+#     msg: The media root directory '{{ arr_media_root }}' must exist
+#   when: this.stat.isdir is undefined or not this.stat.isdir
