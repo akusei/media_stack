@@ -1,0 +1,80 @@
+---
+- name: Install Backup Solution
+  hosts: all
+  vars_files:
+    - ../vars/common.yml
+    - ../vars/versions.yml
+    - ../vars/secrets
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 86400
+
+  roles:
+    - role: restic
+      restic_version: "0.15.0"
+      restic_repo: "{{ vault_stack_name }}"
+      restic_repo_password: "{{ vault_restic_repo_password }}"
+
+    - role: restic_schedule
+      restic_schedule_name: "{{ vault_stack_name }}"
+      restic_schedule_repo: "{{ vault_stack_name }}"
+      restic_schedule_repo_password: "{{ vault_restic_repo_password }}"
+      restic_schedule_rsync_to_nas_path: "/mnt/software/backups/{{ vault_stack_name }}"
+      restic_pushover_token: "{{ vault_restic_pushover_token }}"
+      restic_pushover_user: "{{ vault_restic_pushover_user }}"
+      restic_schedule:
+        # daily at 3:45 AM PST
+        OnCalendar: "*-*-* 11:45:00"
+      restic_schedule_database_dest: "{{ common_data_root }}/databases"
+      restic_schedule_databases:
+        - "{{ common_data_root }}/authelia/db.sqlite3"
+        - "{{ common_data_root }}/fail2ban/fail2ban.sqlite3"
+        - "{{ common_data_root }}/bitwarden/db.sqlite3"
+        - "{{ common_data_root }}/overseerr/db/db.sqlite3"
+        - "{{ common_data_root }}/lidarr/lidarr.db"
+        - "{{ common_data_root }}/prowlarr/prowlarr.db"
+        - "{{ common_data_root }}/tautulli/tautulli.db"
+        - "{{ common_data_root }}/radarr/radarr.db"
+        - "{{ common_data_root }}/sonarr/sonarr.db"
+        - "{{ common_data_root }}/organizr/www/db/nateflix.db"
+        - "{{ common_data_root }}/whisparr/whisparr.db"
+      restic_schedule_include_paths:
+        - "{{ common_data_root }}/authelia/"
+        - "{{ common_data_root }}/bitwarden/"
+        - "{{ common_data_root }}/deluge/"
+        - "{{ common_data_root }}/nzbget"
+        - "{{ common_data_root }}/organizr/www/organizr/data/favicon/"
+        - "{{ common_data_root }}/organizr/www/organizr/data/config/"
+        - "{{ common_data_root }}/organizr/www/organizr/data/userTabs/"
+        - "{{ common_data_root }}/overseerr/settings.json"
+        - "{{ common_data_root }}/pihole/"
+        - "{{ common_data_root }}/static/"
+        - "{{ common_data_root }}/traefik/"
+        - "{{ common_data_root }}/tautulli/config.ini"
+        - "{{ common_data_root }}/lidarr/config.xml"
+        - "{{ common_data_root }}/prowlarr/config.xml"
+        - "{{ common_data_root }}/sonarr/config.xml"
+        - "{{ common_data_root }}/radarr/config.xml"
+        - "{{ common_data_root }}/whisparr/config.xml"
+        - "/cache/plex/Library/Application Support/Plex Media Server/Preferences.xml"
+        - "{{ common_data_root }}/databases/"
+      restic_schedule_exclude_patterns:
+        - "*.pid"
+        - "*.db"
+        - "*.db-*"
+        - "*.sqlite3-*"
+        - "*.log"
+        - "tmp/"
+        - "[B|b]ackups/"
+        - "[B|b]ackup/"
+        - "deluge/archive/"
+        - "deluge/state/"
+        - "deluge/torrents/"
+        - "pihole/migration_backup/"
+
+    # - role: rsync/rclone

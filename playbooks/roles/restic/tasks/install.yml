@@ -1,0 +1,32 @@
+---
+- name: Install dependencies
+  apt:
+    name:
+      - bzip2
+      - rsync
+      - rclone
+    state: present
+
+- name: Download restic from github
+  get_url:
+    url: "{{ restic_url }}"
+    dest: "{{ restic_install_path }}/restic.bz2"
+
+- name: Unarchive restic
+  shell:
+    cmd: "bzip2 -f -d {{ restic_install_path }}/restic.bz2"
+
+- name: Ensure restic is executable
+  file:
+    path: "{{ restic_install_path }}/restic"
+    owner: root
+    group: root
+    mode: 0550
+
+- name: Create symbolic link
+  file:
+    src: "{{ restic_install_path }}/restic"
+    dest: "{{ restic_bin_path }}/restic"
+    owner: root
+    group: root
+    state: link

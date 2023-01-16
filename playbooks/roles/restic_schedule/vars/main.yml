@@ -1,0 +1,2 @@
+---
+restic_schedule_repo: "{{ restic_schedule_repos_root }}/{{ restic_schedule_name }}"
