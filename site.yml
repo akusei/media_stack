@@ -14,3 +14,4 @@
 - import_playbook: playbooks/management.yml
 - import_playbook: playbooks/media.yml
 - import_playbook: playbooks/plex.yml
+- import_playbook: playbooks/backup.yml

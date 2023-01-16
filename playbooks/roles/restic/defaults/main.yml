@@ -1,0 +1,8 @@
+---
+restic_version: 0.15.0
+restic_install_path: /opt/restic
+restic_config_path: /etc/restic
+restic_bin_path: /usr/sbin
+restic_repos_root: /restic
+restic_repo:
+restic_repo_password:

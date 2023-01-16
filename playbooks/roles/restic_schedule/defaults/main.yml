@@ -1,0 +1,16 @@
+---
+restic_schedule_name: default
+restic_schedule_repo: default
+restic_schedule_repos_root: /restic
+restic_schedule_include_paths: []
+restic_schedule_exclude_patterns: []
+restic_schedule_databases: []
+restic_schedule_repo_password:
+restic_schedule_rsync_to_nas_path:
+restic_schedule_systemd_path: /etc/systemd/system
+
+restic_pushover_token:
+restic_pushover_user:
+
+restic_install_path: /opt/restic
+restic_config_path: /etc/restic

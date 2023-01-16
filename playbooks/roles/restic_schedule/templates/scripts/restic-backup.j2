@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+
+rm -rf {{ restic_schedule_database_dest }}/*
+
+while read database; do
+  mkdir -p "{{ restic_schedule_database_dest }}$(dirname ${database})"
+  sqlite3 "${database}" ".backup '{{ restic_schedule_database_dest }}${database}.bak'"
+done < "{{ restic_config_path }}/${1}/databases.conf"
+
+set -a
+source "{{ restic_config_path }}/repo.conf"
+set +a
+
+echo
+echo "######################"
+echo "# Backup in progress #"
+echo "######################"
+echo
+
+if ! "${SCRIPT_DIR}/restic" backup \
+  --files-from "{{ restic_config_path }}/${1}/include.conf" \
+  --exclude-file "{{ restic_config_path }}/${1}/exclude.conf"; then
+{% if restic_pushover_token | length > 0 and restic_pushover_user | length > 0 %}
+  pushover -t "{{ restic_pushover_token }}" \
+    -u "{{ restic_pushover_user }}" \
+    -p 1 \
+    -T "ERROR" \
+    -m "Backup failed!"
+{% endif %}
+  exit 1
+fi
+
+rm -rf {{ restic_schedule_database_dest }}/*
+
+echo
+echo "########################################"
+echo "# Checking local repository for errors #"
+echo "########################################"
+echo
+
+if ! "${SCRIPT_DIR}/restic" check --read-data; then
+{% if restic_pushover_token | length > 0 and restic_pushover_user | length > 0 %}
+  pushover -t "{{ restic_pushover_token }}" \
+    -u "{{ restic_pushover_user }}" \
+    -p 1 \
+    -T "ERROR" \
+    -m "Backup verification failed!"
+{% endif %}
+  exit 1
+fi
+
+echo
+echo "#############################################"
+echo "# Synchronizing local repo with remote path #"
+echo "#############################################"
+echo
+
+{% if restic_schedule_rsync_to_nas_path | length > 0 %}
+if ! rsync -v \
+  -a \
+  --delete \
+  --no-perms \
+  --no-owner \
+  --no-group \
+  "${RESTIC_REPOSITORY}/" "{{ restic_schedule_rsync_to_nas_path }}"; then
+{% if restic_pushover_token | length > 0 and restic_pushover_user | length > 0 %}
+  pushover -t "{{ restic_pushover_token }}" \
+    -u "{{ restic_pushover_user }}" \
+    -p 1 \
+    -T "ERROR" \
+    -m "Synchronizing backup to NAS failed!"
+{% endif %}
+  exit 1
+fi
+{% endif %}

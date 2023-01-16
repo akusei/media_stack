@@ -1,0 +1,12 @@
+[Unit]
+Description=Scheduled backup using restic ({{ restic_schedule_name }})
+Requires=restic@{{ restic_schedule_name }}.service
+
+[Timer]
+Unit=restic@{{ restic_schedule_name }}.service
+{% for k,v in restic_schedule.items() -%}
+{{ k }}={{ v }}
+{%- endfor %}
+
+[Install]
+WantedBy=multi-user.target
