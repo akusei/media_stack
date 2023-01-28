@@ -20,6 +20,6 @@ bitwarden_admin_token:
 bitwarden_smtp_username:
 bitwarden_smtp_password:
 bitwarden_smtp_port: 587
-bitwarden_smtp_ssl: true
+bitwarden_smtp_security: starttls
 bitwarden_smtp_from:
 bitwarden_smtp_server:

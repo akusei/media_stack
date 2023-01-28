@@ -33,7 +33,7 @@
       bitwarden_disable_admin_token: true
       bitwarden_smtp_from: "{{ common_smtp_from }}"
       bitwarden_smtp_port: 25
-      bitwarden_smtp_ssl: false
+      bitwarden_smtp_security: off
       bitwarden_smtp_server: postfix
       bitwarden_install_path: "{{ common_install_root }}/bitwarden"
 
