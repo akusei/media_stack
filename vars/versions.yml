@@ -10,10 +10,10 @@ docker_containerd_version: 1.4.11-1
 # DOCKER IMAGES #
 #################
 # https://github.com/linuxserver/docker-nzbget/releases
-nzbget_image_tag: v21.1-ls137
+nzbget_image_tag: v21.1-ls138
 
 # https://github.com/linuxserver/docker-deluge/releases
-deluge_image_tag: 2.1.1-r6-ls194
+deluge_image_tag: 2.1.1-r6-ls198
 
 # https://github.com/linuxserver/docker-nzbhydra2/releases
 # hydra_image_tag: v4.6.1-ls74
@@ -22,38 +22,38 @@ deluge_image_tag: 2.1.1-r6-ls194
 # jackett_image_tag: v0.20.2225-ls82
 
 # https://github.com/linuxserver/docker-ddclient/releases
-ddclient_image_tag: v3.10.0-ls107
+ddclient_image_tag: v3.10.0-ls110
 
 # https://hub.docker.com/_/traefik?tab=tags
-traefik_image_tag: v2.9.6
+traefik_image_tag: v2.9.8
 
 # https://hub.docker.com/r/pihole/pihole/tags
-pihole_image_tag: '2023.1.1'
+pihole_image_tag: '2023.02.2'
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
-elasticsearch_image_tag: 8.6.0
-filebeat_image_tag: 8.6.0
+elasticsearch_image_tag: 8.6.2
+filebeat_image_tag: 8.6.2
 
 # https://hub.docker.com/r/portainer/portainer/tags
 portainer_image_tag: linux-amd64-2.0.1
 
 # https://github.com/linuxserver/docker-sonarr/releases
-sonarr_image_tag: 3.0.9.1549-ls172
+sonarr_image_tag: 3.0.9.1549-ls179
 
 # https://github.com/linuxserver/docker-radarr/releases
-radarr_image_tag: 4.3.2.6857-ls159
+radarr_image_tag: 4.3.2.6857-ls162
 
 # https://github.com/linuxserver/docker-lidarr/releases
-lidarr_image_tag: 1.0.2.2592-ls106
+lidarr_image_tag: 1.0.2.2592-ls111
 
 # https://github.com/linuxserver/docker-overseerr/releases
-overseerr_image_tag: v1.31.0-ls52
+overseerr_image_tag: v1.32.5-ls56
 
 # # https://github.com/linuxserver/docker-ombi/releases
 # ombi_image_tag: v4.3.3-ls113
 
 # https://github.com/linuxserver/docker-tautulli/releases
-tautulli_image_tag: v2.11.1-ls63
+tautulli_image_tag: v2.11.1-ls67
 
 # https://github.com/authelia/authelia/releases
 authelia_image_tag: 4.37.5
@@ -65,16 +65,16 @@ fail2ban_image_tag: 1.0.2
 bitwarden_image_tag: 1.27.0-alpine
 
 # https://hub.docker.com/r/plexinc/pms-docker/tags
-plex_image_tag: 1.30.1.6562-915986d62
+plex_image_tag: 1.31.0.6654-02189b09f
 
 # https://hub.docker.com/r/juanluisbaptiste/postfix/tags
-postfix_image_tag: '1.7'
+postfix_image_tag: '1.7.1'
 
 # https://github.com/linuxserver/docker-prowlarr/releases
-prowlarr_image_tag: 1.0.1.2220-ls3
+prowlarr_image_tag: 1.2.2.2699-ls6
 
 # https://github.com/restic/restic/releases
-restic_version: 0.15.0
+restic_version: 0.15.1
 
 ###############
 # LATEST ONLY #
