@@ -2,4 +2,4 @@
 - name: restart deluge
   command:
     chdir: "{{ deluge_install_path }}"
-    cmd: docker-compose up -d --quiet-pull --force-recreate
+    cmd: docker compose up -d --quiet-pull --force-recreate

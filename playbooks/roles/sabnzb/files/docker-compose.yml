@@ -4,16 +4,16 @@ version: '3.8'
 services:
   # logging handled in traefik and authelia
   # does not run as root
-  nzbget:
-    image: linuxserver/nzbget:${VERSION}
-    container_name: nzbget
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:${VERSION}
+    container_name: sabnzbd
     restart: unless-stopped
     networks:
       traefik:
         aliases:
           - ${DOMAIN}
     expose:
-      - 6789
+      - 8080
     environment:
       PUID: ${PUID}
       PGID: ${PGID}
@@ -26,14 +26,15 @@ services:
           nocopy: true
       - ${DATA_PATH}:/config
       - ${DOWNLOADS_PATH}:/downloads
+      - ${INCOMPLETE_DOWNLOADS}:/incomplete-downloads
     labels:
       traefik.enable: true
-      traefik.http.routers.nzbget.service: nzbget
-      traefik.http.routers.nzbget.rule: Host(`${DOMAIN}`)
-      traefik.http.routers.nzbget.entrypoints: https
-      traefik.http.routers.nzbget.tls: true
-      traefik.http.services.nzbget.loadbalancer.server.port: 6789
-      traefik.http.routers.nzbget.middlewares: mfa
+      traefik.http.routers.sabnzbd.service: sabnzbd
+      traefik.http.routers.sabnzbd.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.sabnzbd.entrypoints: https
+      traefik.http.routers.sabnzbd.tls: true
+      traefik.http.services.sabnzbd.loadbalancer.server.port: 8080
+      traefik.http.routers.sabnzbd.middlewares: mfa
 
 
 volumes:

@@ -6,7 +6,7 @@ services:
   # TODO: see about using sqlite db for logs
   # does not run as root
   tautulli:
-    image: linuxserver/tautulli:${VERSION}
+    image: lscr.io/linuxserver/tautulli:${VERSION}
     container_name: tautulli
     restart: unless-stopped
     networks:

@@ -10,5 +10,5 @@ readonly BASE_DIR="{{ common_install_root }}"
 
 for d in ${BASE_DIR}/*/; do
   cd "${d}"
-  docker-compose $@
+  docker compose $@
 done

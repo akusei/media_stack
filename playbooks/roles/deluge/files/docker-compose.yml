@@ -47,7 +47,7 @@ services:
   deluge:
     depends_on:
       - pia
-    image: linuxserver/deluge:${DELUGE_VERSION}
+    image: lscr.io/linuxserver/deluge:${DELUGE_VERSION}
     container_name: deluge
     restart: unless-stopped
     network_mode: service:pia

@@ -1,5 +1,0 @@
----
-- name: restart komga
-  command:
-    chdir: "{{ komga_install_path }}"
-    cmd: docker-compose up -d --quiet-pull --force-recreate

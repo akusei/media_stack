@@ -3,36 +3,36 @@
 
 - import_tasks: directories.yml
 
-- name: Copy docker-compose.yml
+- name: Install sabnzb files
   copy:
     src: docker-compose.yml
-    dest: "{{ hydra_install_path }}/docker-compose.yml"
+    dest: "{{ sabnzb_install_path }}/docker-compose.yml"
     owner: root
     group: root
     mode: 0440
   notify:
-    - restart hydra
+    - restart sabnzb
 
-- name: Copy environment file
+- name: Copying environment file
   template:
     src: ".env.j2"
-    dest: "{{ hydra_install_path }}/.env"
+    dest: "{{ sabnzb_install_path }}/.env"
     owner: root
     group: root
     mode: 0440
   notify:
-    - restart hydra
+    - restart sabnzb
 
 - name: Check for latest
   command:
     cmd: echo 'pull latest docker image'
-  when: hydra_image_tag == 'latest'
-  notify: restart hydra
+  when: sabnzb_image_tag == 'latest'
+  notify: restart sabnzb
 
 - name: Check if running
   command:
-    cmd: docker ps -qf name="hydra"
+    cmd: docker ps -qf name="sabnzb"
   register: this
   changed_when: not this.stdout
   failed_when: false
-  notify: restart hydra
+  notify: restart sabnzb

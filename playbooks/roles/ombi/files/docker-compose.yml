@@ -5,7 +5,7 @@ services:
   # No logging other than traefik :'(
   # does not run as root
   ombi:
-    image: linuxserver/ombi:${VERSION}
+    image: lscr.io/linuxserver/ombi:${VERSION}
     container_name: ombi
     restart: unless-stopped
     networks:

@@ -31,13 +31,3 @@
       arr_data_path: /{{ vault_stack_name }}/prowlarr
       arr_user: prowlarr
       arr_group: prowlarr
-
-    # - role: hydra
-    #   hydra_fqdn: hydra.{{ vault_domain }}
-    #   hydra_data_path: "{{ common_data_root }}/hydra"
-    #   hydra_install_path: "{{ common_install_root }}/hydra"
-    #
-    # - role: jackett
-    #   jackett_fqdn: jackett.{{ vault_domain }}
-    #   jackett_data_path: "{{ common_data_root }}/jackett"
-    #   jackett_install_path: "{{ common_install_root }}/jackett"

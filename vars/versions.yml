@@ -2,24 +2,19 @@
 ############
 # PACKAGES #
 ############
-docker_compose_version: 1.29.2
-docker_version: 5:20.10.10~3-0~ubuntu-focal
-docker_containerd_version: 1.4.11-1
+docker_buildx_version: 0.10.2-1~ubuntu.20.04~focal
+docker_compose_version: 2.16.0-1~ubuntu.20.04~focal
+docker_version: 5:23.0.1-1~ubuntu.20.04~focal
+docker_containerd_version: 1.6.18-1
 
 #################
 # DOCKER IMAGES #
 #################
-# https://github.com/linuxserver/docker-nzbget/releases
-nzbget_image_tag: v21.1-ls138
+# https://github.com/linuxserver/docker-sabnzbd/releases
+sabnzb_image_tag: 3.7.2-ls92
 
 # https://github.com/linuxserver/docker-deluge/releases
 deluge_image_tag: 2.1.1-r6-ls198
-
-# https://github.com/linuxserver/docker-nzbhydra2/releases
-# hydra_image_tag: v4.6.1-ls74
-
-# https://github.com/linuxserver/docker-jackett/releases
-# jackett_image_tag: v0.20.2225-ls82
 
 # https://github.com/linuxserver/docker-ddclient/releases
 ddclient_image_tag: v3.10.0-ls110

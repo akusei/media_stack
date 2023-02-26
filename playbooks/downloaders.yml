@@ -24,13 +24,14 @@
       docker_volumes:
         - "{{ common_docker_software_mount }}"
 
-    - role: nzbget
-      nzbget_fqdn: newz.{{ vault_domain }}
-      nzbget_data_path: "{{ common_data_root }}/nzbget"
-      nzbget_downloads_path: "{{ common_downloads_root }}/nzb"
-      nzbget_install_path: "{{ common_install_root }}/nzbget"
-      nzbget_user: "{{ common_downloads_user }}"
-      nzbget_group: "{{ common_downloads_group }}"
+    - role: sabnzb
+      sabnzb_fqdn: newz.{{ vault_domain }}
+      sabnzb_data_path: "{{ common_data_root }}/sabnzb"
+      sabnzb_downloads_path: "{{ common_downloads_root }}/nzb"
+      sabnzb_incomplete_path: "{{ common_downloads_root }}/nzb-incomplete"
+      sabnzb_install_path: "{{ common_install_root }}/sabnzb"
+      sabnzb_user: "{{ common_downloads_user }}"
+      sabnzb_group: "{{ common_downloads_group }}"
 
     - role: deluge
       deluge_fqdn: bt.{{ vault_domain }}

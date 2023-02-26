@@ -1,0 +1,29 @@
+---
+- name: Add group {{ sabnzb_group }}
+  group:
+    name: "{{ sabnzb_group }}"
+    state: present
+
+- name: Add user {{ sabnzb_user }}
+  user:
+    name: "{{ sabnzb_user }}"
+    group: "{{ sabnzb_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export group id
+  getent:
+    database: group
+    key: "{{ sabnzb_group }}"
+
+- name: Export user id
+  getent:
+    database: passwd
+    key: "{{ sabnzb_user }}"
+
+- name: Gather created username and group IDs
+  set_fact:
+    sabnzb_user_id: "{{ getent_passwd[sabnzb_user][1] }}"
+    sabnzb_group_id: "{{ getent_group[sabnzb_group][1] }}"

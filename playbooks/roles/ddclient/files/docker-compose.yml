@@ -4,7 +4,7 @@ version: '3.8'
 services:
   # does not run as root
   ddclient:
-    image: linuxserver/ddclient:${VERSION}
+    image: lscr.io/linuxserver/ddclient:${VERSION}
     container_name: ddclient
     restart: unless-stopped
     environment:

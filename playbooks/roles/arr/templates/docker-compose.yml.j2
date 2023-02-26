@@ -6,7 +6,7 @@ services:
   # logging handled in traefik and authelia
   # does not run as root
   {{ arr_service_name }}:
-    image: linuxserver/{{ arr_service_name }}:${VERSION}
+    image: lscr.io/linuxserver/{{ arr_service_name }}:${VERSION}
     container_name: {{ arr_service_name }}
     restart: unless-stopped
     networks:
