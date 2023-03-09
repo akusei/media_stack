@@ -63,6 +63,7 @@
         - "{{ common_data_root }}/whisparr/config.xml"
         - "/cache/plex/Library/Application Support/Plex Media Server/Preferences.xml"
         - "{{ common_data_root }}/databases/"
+        - "{{ common_install_root }}/"
       restic_schedule_exclude_patterns:
         - "*.pid"
         - "*.db"
