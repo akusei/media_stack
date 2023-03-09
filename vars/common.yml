@@ -35,7 +35,7 @@ common_docker_software_mount:
   opts:
     type: nfs
     o: "{{ common_nfs_options | join(',') }}"
-    device: :/Software
+    device: :/Software/incoming
 
 common_docker_media_mount:
   name: media-mount
