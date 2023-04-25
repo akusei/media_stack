@@ -7,6 +7,7 @@
       - rclone
     state: present
 
+
 - name: Download restic from github
   get_url:
     url: "{{ restic_url }}"

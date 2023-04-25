@@ -21,15 +21,22 @@
 
 - name: Install restic
   import_tasks: install.yml
-  when: "'restic ' + restic_version not in restic_current_version.stdout"
+  when: restic_current_version.rc != 0
+
+- name: Self-update Restic
+  shell:
+    cmd: restic self-update
+  when: >
+    restic_current_version.rc == 0 and
+    "restic " + restic_version not in restic_current_version.stdout
 
 - name: Ensure repo exists
   stat:
-    path: "{{ restic_schedule_repos_root }}/{{ restic_repo }}/config"
+    path: "{{ restic_repo_root }}/{{ restic_repo }}/config"
   register: repo_config
   changed_when: false
 
 - name: Create repo
   shell:
-    cmd: "restic init -r {{ restic_schedule_repos_root }}/{{ restic_repo }} --password-command 'echo \"{{ restic_repo_password }}\"'"
+    cmd: "restic init -r {{ restic_repo_root }}/{{ restic_repo }} --password-command 'echo \"{{ restic_repo_password }}\"'"
   when: not repo_config.stat.exists

@@ -16,7 +16,6 @@
 
   roles:
     - role: restic
-      restic_version: "0.15.0"
       restic_repo: "{{ vault_stack_name }}"
       restic_repo_password: "{{ vault_restic_repo_password }}"
 
