@@ -1,0 +1,38 @@
+---
+targets:
+  - src: install
+    dest: "/usr/sbin"
+  - dest: "{{ common_install_root }}"
+  - dest: "{{ common_data_root }}"
+  - dest: "{{ common_downloads_root }}"
+  - dest: "{{ common_logs_root }}"
+
+users:
+  - user: "{{ common_downloads_user }}"
+    group: "{{ common_downloads_group }}"
+
+permissions:
+  - owner: root
+    group: root
+    dir_mode: '0550'
+    paths:
+      - "{{ common_install_root }}"
+
+  - owner: root
+    group: root
+    mode: '0550'
+    paths:
+      - /usr/sbin/manage
+
+  - owner: root
+    group: root
+    dir_mode: '0440'
+    paths:
+      - "{{ common_logs_root }}"
+      - "{{ common_data_root }}"
+
+  - owner: "{{ common_downloads_user }}"
+    group: "{{ common_downloads_group }}"
+    dir_mode: '0550'
+    paths:
+      - "{{ common_downloads_root }}"

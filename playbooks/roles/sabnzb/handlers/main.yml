@@ -1,5 +1,0 @@
----
-- name: restart sabnzb
-  command:
-    chdir: "{{ sabnzb_install_path }}"
-    cmd: docker compose up -d --quiet-pull --force-recreate

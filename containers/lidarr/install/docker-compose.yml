@@ -1,0 +1,46 @@
+---
+version: '3.8'
+
+services:
+  # logging handled in traefik and authelia
+  # does not run as root
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:${VERSION}
+    container_name: lidarr
+    restart: unless-stopped
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 8686
+    environment:
+      TZ: ${TIMEZONE}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ${DATA_PATH}:/config
+      - source: media-mount
+        type: volume
+        target: /media
+        volume:
+          nocopy: true
+      - ${DOWNLOADS_PATH}:/downloads
+    labels:
+      traefik.enable: true
+      traefik.http.routers.lidarr.service: lidarr
+      traefik.http.routers.lidarr.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.lidarr.entrypoints: https
+      traefik.http.routers.lidarr.tls: true
+      traefik.http.services.lidarr.loadbalancer.server.port: 8686
+      traefik.http.routers.lidarr.middlewares: mfa
+
+volumes:
+  media-mount:
+    name: media-mount
+    external: true
+
+networks:
+  traefik:
+    name: traefik
+    external: true

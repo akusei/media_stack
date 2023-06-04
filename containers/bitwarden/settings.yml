@@ -1,0 +1,23 @@
+---
+targets:
+  - src: install
+    dest: "{{ common_install_root }}/bitwarden"
+  - dest: "{{ common_data_root }}/bitwarden"
+  - dest: "{{ common_logs_root }}/bitwarden"
+
+permissions:
+  - owner: root
+    group: root
+    mode: '0440'
+    dir_mode: '0550'
+    paths:
+      - install
+      - install/*
+
+  - owner: root
+    group: root
+    mode: '0440'
+    dir_mode: '0750'
+    paths:
+      - "{{ common_data_root }}/bitwarden"
+      - "{{ common_logs_root }}/bitwarden"

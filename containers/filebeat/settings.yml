@@ -1,0 +1,14 @@
+---
+targets:
+  - src: install
+    dest: "{{ common_install_root }}/filebeat"
+
+permissions:
+  - owner: root
+    group: root
+    mode: '0440'
+    dir_mode: '0550'
+    paths:
+      - install
+      - install/*
+    

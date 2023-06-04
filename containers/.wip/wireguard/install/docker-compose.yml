@@ -1,0 +1,46 @@
+---
+version: '3.8'
+
+services:
+  wireguard:
+    restart: unless-stopped
+    container_name: wireguard
+    image: linuxserver/wireguard:${VERSION}
+    networks:
+      - wireguard
+      - wireguard_admin
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      PUID: ${PUID}
+      GUID: ${GUID}
+      TZ: ${TIMEZONE}
+      SERVERURL: wireguard.domain.com
+      PEERS: 2
+      PEERSDNS: auto
+      INTERNAL_SUBNET: 10.13.13.0
+      ALLOWEDIPS: 0.0.0.0/0
+      LOG_CONFS: 'true'
+      # PERSISTENTKEEPALIVE_PEERS:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_USERNAME: kibana_system
+      ELASTICSEARCH_PASSWORD: ${ES_PASSWORD}
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    ports:
+      - 51820:51820
+    volumes:
+      - ${DATA_PATH}:/config
+      - /lib/modules:/lib/modules
+    labels:
+      traefik.enable: false
+
+
+networks:
+  wireguard:
+    name: wireguard
+    external: true
+  wireguard_admin:
+    name: wireguard_admin
+    external: true

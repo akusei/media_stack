@@ -1,8 +1,0 @@
----
-postfix_install_path: /opt/postfix
-postfix_image_tag: latest
-postfix_smtp_server: smtp.local
-postfix_smtp_port: 587
-postfix_smtp_username:
-postfix_smtp_password:
-postfix_domain: local

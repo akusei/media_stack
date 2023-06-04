@@ -1,4 +1,5 @@
 ---
+common_timezone: Etc/UTC
 common_smtp_server: smtp-relay.gmail.com
 common_smtp_from: no-reply@{{ vault_domain }}
 

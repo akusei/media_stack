@@ -1,0 +1,23 @@
+---
+targets:
+  - src: install
+    dest: "{{ common_install_root }}/static"
+  - src: data
+    dest: "{{ common_data_root }}/static"
+
+permissions:
+  - owner: root
+    group: root
+    mode: '0440'
+    dir_mode: '0550'
+    paths:
+      - install
+      - install/*
+
+  - owner: root
+    group: root
+    mode: '0444'
+    dir_mode: '0755'
+    paths:
+      - "{{ common_data_root }}/static"
+      - "{{ common_data_root }}/static/*"

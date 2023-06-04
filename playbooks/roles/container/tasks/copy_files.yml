@@ -1,0 +1,24 @@
+---
+- name: '[{{ container }}] Ensure required files exist'
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    mode: "{{ item.mode | default(omit) }}"
+  loop_control:
+    label: "{{ item.dest }}"
+  loop: "{{ manifest.targets | selectattr('type', '==', 'file') }}"
+  notify: restart {{ container }}
+
+- name: '[{{ container }}] Ensure required templates exist'
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    mode: "{{ item.mode | default(omit) }}"
+  loop_control:
+    label: "{{ item.dest }}"
+  loop: "{{ manifest.targets | selectattr('type', '==', 'template') }}"
+  notify: restart {{ container }}

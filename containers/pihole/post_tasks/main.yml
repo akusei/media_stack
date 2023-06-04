@@ -1,0 +1,8 @@
+---
+- name: '[pihole] Ensure gravity update cron job exists'
+  ansible.builtin.cron:
+    name: "pihole update"
+    minute: "0"
+    hour: "11"
+    user: root
+    job: /usr/bin/docker exec pihole pihole -g >/var/log/pihole-update.log 2>&1

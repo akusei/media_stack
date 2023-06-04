@@ -1,0 +1,81 @@
+---
+whisparr_tag: 4.37.5
+pia_tag: latest
+dockerproxy_tag: latest
+
+############
+# PACKAGES #
+############
+docker_buildx_version: 0.10.2-1~ubuntu.20.04~focal
+docker_compose_version: 2.16.0-1~ubuntu.20.04~focal
+docker_version: 5:23.0.1-1~ubuntu.20.04~focal
+docker_containerd_version: 1.6.18-1
+
+#################
+# DOCKER IMAGES #
+#################
+# https://github.com/linuxserver/docker-sabnzbd/releases
+sabnzb_tag: 3.7.2-ls102
+
+# https://github.com/linuxserver/docker-deluge/releases
+deluge_tag: 2.1.1-r7-ls206
+
+# https://github.com/linuxserver/docker-ddclient/releases
+ddclient_tag: v3.10.0-ls117
+
+# https://hub.docker.com/_/traefik?tab=tags
+traefik_tag: v2.10.0
+
+# https://hub.docker.com/r/pihole/pihole/tags
+pihole_tag: '2023.03.1'
+
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+elasticsearch_tag: 8.7.0
+filebeat_tag: 8.7.0
+
+# https://hub.docker.com/r/portainer/portainer/tags
+portainer_tag: linux-amd64-2.0.1
+
+# https://github.com/linuxserver/docker-sonarr/releases
+sonarr_tag: 3.0.10.1567-ls188
+
+# https://github.com/linuxserver/docker-radarr/releases
+radarr_tag: 4.4.4.7068-ls170
+
+# https://github.com/linuxserver/docker-lidarr/releases
+lidarr_tag: 1.1.4.3027-ls118
+
+# https://github.com/linuxserver/docker-overseerr/releases
+overseerr_tag: v1.32.5-ls62
+
+# https://github.com/linuxserver/docker-tautulli/releases
+tautulli_tag: v2.12.3-ls76
+
+# https://github.com/authelia/authelia/releases
+authelia_tag: 4.37.5
+
+# https://hub.docker.com/r/crazymax/fail2ban/tags
+fail2ban_tag: 1.0.2
+
+# https://hub.docker.com/r/vaultwarden/server/tags
+bitwarden_tag: 1.28.1-alpine
+
+# https://hub.docker.com/r/plexinc/pms-docker/tags
+plex_tag: 1.32.0.6973-a787c5a8e
+
+# https://hub.docker.com/r/juanluisbaptiste/postfix/tags
+postfix_tag: '1.7.1'
+
+# https://github.com/linuxserver/docker-prowlarr/releases
+prowlarr_tag: 1.3.2.3006-ls13
+
+# https://github.com/restic/restic/releases
+restic_version: 0.15.2
+
+###############
+# LATEST ONLY #
+###############
+plex_force_restart: true
+pwpusher_tag: latest
+static_tag: latest
+organizr_tag: latest
