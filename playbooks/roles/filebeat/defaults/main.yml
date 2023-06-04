@@ -1,4 +1,0 @@
----
-filebeat_image_tag: latest
-filebeat_logs_root: /var/log
-filebeat_install_path: /opt/filebeat

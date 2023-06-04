@@ -1,5 +1,0 @@
----
-pwpusher_install_path: /opt/pwpusher
-pwpusher_image_tag: latest
-
-pwpusher_fqdn: pwpusher.local

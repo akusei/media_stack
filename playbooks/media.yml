@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
+    - ../containers/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -15,8 +15,8 @@
         cache_valid_time: 86400
 
   roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+    - role: container
+      container: common
 
     - role: docker
       docker_networks:
@@ -24,38 +24,14 @@
       docker_volumes:
         - "{{ common_docker_media_mount }}"
 
-    - role: arr
-      arr_service_name: sonarr
-      arr_image_tag: '{{ sonarr_image_tag }}'
-      arr_fqdn: shows.{{ vault_domain }}
-      arr_expose_port: 8989
-      arr_install_path: "{{ common_install_root }}/sonarr"
-      arr_data_path: /{{ vault_stack_name }}/sonarr
-      arr_downloads_path: /downloads
-      arr_mount_media: true
-      arr_user: "{{ common_downloads_user }}"
-      arr_group: "{{ common_downloads_group }}"
+    - role: container
+      container: sonarr
 
-    - role: arr
-      arr_service_name: radarr
-      arr_image_tag: '{{ radarr_image_tag }}'
-      arr_fqdn: movies.{{ vault_domain }}
-      arr_expose_port: 7878
-      arr_install_path: "{{ common_install_root }}/radarr"
-      arr_data_path: /{{ vault_stack_name }}/radarr
-      arr_downloads_path: /downloads
-      arr_mount_media: true
-      arr_user: "{{ common_downloads_user }}"
-      arr_group: "{{ common_downloads_group }}"
+    - role: container
+      container: radarr
 
-    - role: arr
-      arr_service_name: lidarr
-      arr_image_tag: '{{ lidarr_image_tag }}'
-      arr_fqdn: music.{{ vault_domain }}
-      arr_expose_port: 8686
-      arr_install_path: "{{ common_install_root }}/lidarr"
-      arr_data_path: /{{ vault_stack_name }}/lidarr
-      arr_downloads_path: /downloads
-      arr_mount_media: true
-      arr_user: "{{ common_downloads_user }}"
-      arr_group: "{{ common_downloads_group }}"
+    - role: container
+      container: lidarr
+
+    - role: container
+      container: whisparr

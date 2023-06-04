@@ -1,0 +1,40 @@
+---
+targets:
+  - src: install
+    dest: "{{ common_install_root }}/pihole"
+  - dest: "{{ common_data_root }}/pihole"
+
+users:
+  - user: pihole
+  - user: pihole-web
+
+permissions:
+  - owner: root
+    group: root
+    mode: '0440'
+    dir_mode: '0750'
+    paths:
+      - install
+      - install/*
+
+  - owner: root
+    group: root
+    mode: '0755'
+    dir_mode: '0755'
+    paths:
+      - install/fix
+      - install/fix/*
+
+  - owner: pihole
+    group: pihole
+    mode: '0444'
+    dir_mode: '0750'
+    paths:
+      - install/config/*
+
+  - owner: pihole
+    group: pihole
+    mode: '0440'
+    dir_mode: '0775'
+    paths:
+      - "{{ common_data_root }}/pihole"

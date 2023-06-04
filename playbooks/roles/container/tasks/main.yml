@@ -1,0 +1,88 @@
+---
+- name: '[{{ container }}] Load extra variables'
+  ansible.builtin.include_vars:
+    file: "{{ item }}"
+  loop_control:
+    label: "{{ item | replace(_containers_container_root, '') }}"
+  with_first_found:
+    - skip: true
+      files:
+        - vars.yml
+        - vars.yaml
+      paths:
+        - "{{ _containers_container_root }}"
+
+- name: '[{{ container }}] Load manifest'
+  load_manifest:
+    path: '{{ _containers_container_root }}'
+  register: manifest
+  changed_when: false
+
+- name: '[{{ container }}] Executing extra pre_tasks'
+  ansible.builtin.include_tasks:
+    file: "{{ item }}"
+  loop_control:
+    label: "{{ item | replace(_containers_container_root, '') }}"
+  with_first_found:
+    - skip: true
+      files:
+        - main.yml
+        - main.yaml
+      paths:
+        - "{{ _containers_container_root }}/pre_tasks"
+
+- name: '[{{ container }}] Users and Groups'
+  ansible.builtin.import_tasks:
+    file: users.yml
+
+- name: '[{{ container }}] Ensure directories exist'
+  ansible.builtin.file:
+    path: '{{ item.path }}'
+    state: directory
+    owner: "{{ item.owner | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    mode: "{{ item.dir_mode | default(omit) }}"
+    recurse: false
+  loop_control:
+    label: "{{ item.path }}"
+  loop: "{{ manifest.targets | selectattr('type', '==', 'dir') }}"
+  notify: restart {{ container }}
+
+- name: '[{{ container }}] Ensure required files exist'
+  ansible.builtin.import_tasks:
+    file: copy_files.yml
+
+#- name: Check for latest
+#  command:
+#    cmd: echo 'pull latest docker image'
+#  when: arr_image_tag == 'latest'
+#  notify: restart {{ arr_service_name }}
+#
+#- name: Check if running
+#  command:
+#    cmd: docker ps -qf name="{{ arr_service_name }}"
+#  register: this
+#  changed_when: not this.stdout
+#  failed_when: false
+#  notify: restart {{ arr_service_name }}
+
+#- name: Check if running
+#  command:
+#    cmd: docker ps -qf name="bitwarden"
+#  register: this
+#  changed_when: not this.stdout
+#  failed_when: false
+#  notify: restart bitwarden
+
+- name: '[{{ container }}] Executing extra post_tasks'
+  ansible.builtin.include_tasks:
+    file: "{{ item }}"
+  loop_control:
+    label: "{{ item | replace(_containers_container_root, '') }}"
+  with_first_found:
+    - skip: true
+      files:
+        - main.yml
+        - main.yaml
+      paths:
+        - "{{ _containers_container_root }}/post_tasks"

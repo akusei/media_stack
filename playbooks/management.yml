@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
+    - ../containers/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -15,8 +15,8 @@
         cache_valid_time: 86400
 
   roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+    - role: container
+      container: common
 
     - role: docker
       docker_volumes:
@@ -24,6 +24,5 @@
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
-    - role: portainer
-      portainer_fqdn: docker.{{ vault_domain }}
-      portainer_install_path: "{{ common_install_root }}/portainer"
+    - role: container
+      container: portainer

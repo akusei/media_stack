@@ -1,0 +1,25 @@
+---
+targets:
+  - src: install
+    dest: "{{ common_install_root }}/lidarr"
+  - dest: "{{ common_data_root }}/lidarr"
+
+users:
+  - user: "{{ common_downloads_user }}"
+    group: "{{ common_downloads_group }}"
+
+permissions:
+  - owner: root
+    group: root
+    mode: '0440'
+    dir_mode: '0550'
+    paths:
+      - install
+      - install/*
+
+  - owner: "{{ common_downloads_user }}"
+    group: "{{ common_downloads_group }}"
+    mode: '0440'
+    dir_mode: '0750'
+    paths:
+      - "{{ common_data_root }}/lidarr"

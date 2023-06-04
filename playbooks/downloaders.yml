@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
+    - ../containers/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -15,8 +15,8 @@
         cache_valid_time: 86400
 
   roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+    - role: container
+      container: common
 
     - role: docker
       docker_networks:
@@ -24,21 +24,8 @@
       docker_volumes:
         - "{{ common_docker_software_mount }}"
 
-    - role: sabnzb
-      sabnzb_fqdn: newz.{{ vault_domain }}
-      sabnzb_data_path: "{{ common_data_root }}/sabnzb"
-      sabnzb_downloads_path: "{{ common_downloads_root }}/nzb"
-      sabnzb_incomplete_path: "{{ common_downloads_root }}/nzb-incomplete"
-      sabnzb_install_path: "{{ common_install_root }}/sabnzb"
-      sabnzb_user: "{{ common_downloads_user }}"
-      sabnzb_group: "{{ common_downloads_group }}"
+    - role: container
+      container: sabnzb
 
-    - role: deluge
-      deluge_fqdn: bt.{{ vault_domain }}
-      deluge_data_path: "{{ common_data_root }}/deluge"
-      deluge_downloads_path: "{{ common_downloads_root }}/torrent"
-      pia_username: "{{ vault_pia_username }}"
-      pia_password: "{{ vault_pia_password }}"
-      deluge_install_path: "{{ common_install_root }}/deluge"
-      deluge_user: "{{ common_downloads_user }}"
-      deluge_group: "{{ common_downloads_group }}"
+    - role: container
+      container: deluge

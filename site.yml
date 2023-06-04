@@ -3,7 +3,6 @@
   hosts: all
   gather_facts: false
 
-
 - import_playbook: playbooks/infra.yml
 - import_playbook: playbooks/security.yml
 - import_playbook: playbooks/logrotate.yml

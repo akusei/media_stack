@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
+    - ../containers/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -15,8 +15,8 @@
         cache_valid_time: 86400
 
   roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+    - role: container
+      container: common
 
     - role: docker
       docker_networks:
@@ -31,39 +31,21 @@
     #   nvidia_docker2_version: 2.6.0-1
     #   nvidia_container_version: 1.5.1-1
 
-    - role: static
-      static_fqdn: static.{{ vault_domain }}
-      static_data_path: "{{ common_data_root }}/static"
-      static_install_path: "{{ common_install_root }}/static"
+    - role: container
+      container: static
 
-    - role: plex
-      plex_cache_path: /cache/plex
-      plex_runtime: "{{ docker_runtime }}"
-      plex_fqdn: watch.{{ vault_domain }}
-      plex_advertise_ip: "{{ advertise_ip }}"
-      plex_username: "{{ vault_plex_username }}"
-      plex_password: "{{ vault_plex_password }}"
-      plex_install_path: "{{ common_install_root }}/plex"
+    - role: container
+      container: plex
 
-    - role: organizr
-      organizr_domain: "{{ vault_domain }}"
-      organizr_data_path: "{{ common_data_root }}/organizr"
-      organizr_install_path: "{{ common_install_root }}/organizr"
+    - role: container
+      container: organizr
 
-    - role: overseerr
-      overseerr_fqdn: request.{{ vault_domain }}
-      overseerr_data_path: "{{ common_data_root }}/overseerr"
-      overseerr_install_path: "{{ common_install_root }}/overseerr"
+    - role: container
+      container: overseerr
 
-    # - role: ombi
-    #   ombi_fqdn: request.{{ vault_domain }}
-    #   ombi_data_path: "{{ common_data_root }}/ombi"
-    #   ombi_install_path: "{{ common_install_root }}/ombi"
-    #   ombi_service_state: stopped
+#    - role: container
+#      container: ombi
 
-    - role: tautulli
-      tautulli_fqdn: stats.{{ vault_domain }}
-      tautulli_data_path: "{{ common_data_root }}/tautulli"
-      tautulli_plex_logs_path: >-
-        /cache/plex/Library/Application Support/Plex Media Server/Logs
-      tautulli_install_path: "{{ common_install_root }}/tautulli"
+    - role: container
+      container: tautulli
+

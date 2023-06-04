@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
+    - ../containers/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -15,56 +15,18 @@
         cache_valid_time: 86400
 
   roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+    - role: container
+      container: common
 
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
-    - role: postfix
-      postfix_smtp_server: smtp-relay.gmail.com
-      postfix_smtp_port: 587
-      postfix_smtp_username: "{{ vault_smtp_username }}"
-      postfix_smtp_password: "{{ vault_smtp_password }}"
-      postfix_domain: "{{ vault_domain }}"
-      postfix_install_path: "{{ common_install_root }}/postfix"
+    - role: container
+      container: postfix
 
-    - role: authelia
-      authelia_domain: "{{ vault_domain }}"
-      authelia_syslog_server: "{{ advertise_ip }}"
-      authelia_log_path: "{{ common_logs_root }}/authelia"
-      authelia_data_path: "{{ common_data_root }}/authelia"
-      authelia_totp_issuer: "{{ vault_stack_name }}"
-      authelia_default_redirection_url: "{{ vault_domain }}"
-      authelia_session_cookie: "{{ vault_stack_name }}_session"
-      authelia_smtp_server: postfix
-      authelia_smtp_port: 25
-      authelia_smtp_disable_require_tls: true
-      authelia_smtp_from: "{{ common_smtp_from }}"
-      authelia_jwt_token: "{{ vault_jwt_token }}"
-      authelia_session_token: "{{ vault_session_token }}"
-      authelia_smtp_username: "{{ vault_smtp_username }}"
-      authelia_smtp_password: "{{ vault_smtp_password }}"
-      authelia_admin_username: "{{ vault_admin_username }}"
-      authelia_admin_password: "{{ vault_admin_password }}"
-      authelia_admin_email: "{{ vault_admin_email }}"
-      authelia_admin_display_name: "{{ vault_admin_username }}"
-      authelia_install_path: "{{ common_install_root }}/authelia"
-      authelia_encryption_key: "{{ vault_encryption_key }}"
-      authelia_duo_hostname: "{{ vault_authelia_duo_hostname }}"
-      authelia_duo_secret_key: "{{ vault_authelia_duo_secret_key }}"
-      authelia_duo_integration_key: "{{ vault_authelia_duo_integration_key }}"
+    - role: container
+      container: authelia
 
-    - role: fail2ban
-      fail2ban_log_path: "{{ common_logs_root }}/fail2ban"
-      fail2ban_data_path: "{{ common_data_root }}/fail2ban"
-      fail2ban_ingest_path: "{{ common_logs_root }}"
-      fail2ban_smtp_tls: 'NO'
-      fail2ban_smtp_start_tls: 'NO'
-      fail2ban_smtp_port: 2525
-      fail2ban_smtp_server: localhost
-      fail2ban_smtp_domain: "{{ vault_domain }}"
-      fail2ban_admin_email: "{{ vault_smtp_username }}"
-      fail2ban_smtp_sender: "{{ common_smtp_from }}"
-      fail2ban_install_path: "{{ common_install_root }}/fail2ban"
+    - role: container
+      container: fail2ban

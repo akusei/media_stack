@@ -1,5 +1,0 @@
----
-- name: restart postfix
-  command:
-    chdir: "{{ postfix_install_path }}"
-    cmd: docker compose up -d --quiet-pull --force-recreate

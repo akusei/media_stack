@@ -1,0 +1,4 @@
+---
+_containers_root: "{{ (role_path, '..', '..', '..', 'containers') | path_join | realpath }}"
+_containers_container_root: "{{ (_containers_root, container) | path_join }}"
+_containers_restart: []

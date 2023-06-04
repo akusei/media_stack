@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
+    - ../containers/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -15,8 +15,8 @@
         cache_valid_time: 86400
 
   roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+    - role: container
+      container: common
 
     - role: docker
       docker_volumes:
@@ -26,12 +26,8 @@
         - "{{ common_traefik_network_name }}"
         - elastic
 
-    - role: elasticsearch
-      elasticsearch_fqdn: kibana.{{ vault_domain }}
-      elasticsearch_username: "{{ vault_elastic_username }}"
-      elasticsearch_password: "{{ vault_elastic_password }}"
-      elasticsearch_install_path: "{{ common_install_root }}/elasticsearch"
+    - role: container
+      container: elasticsearch
 
-    - role: filebeat
-      filebeat_logs_root: "{{ common_logs_root }}"
-      filebeat_install_path: "{{ common_install_root }}/filebeat"
+    - role: container
+      container: filebeat

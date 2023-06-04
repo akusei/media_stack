@@ -1,4 +1,0 @@
----
-portainer_install_path: /opt/portainer
-portainer_image_tag: latest
-portainer_fqdn: docker.local

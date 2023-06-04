@@ -1,0 +1,22 @@
+---
+targets:
+  - src: install
+    dest: "{{ common_install_root }}/ddclient"
+
+users:
+  - user: ddclient
+
+permissions:
+  - owner: root
+    group: root
+    mode: '0440'
+    dir_mode: '0550'
+    paths:
+      - install
+      - install/*
+
+  - owner: ddclient
+    group: ddclient
+    mode: '0440'
+    paths:
+      - install/config/ddclient.conf

@@ -1,0 +1,57 @@
+---
+- name: '[{{ container }}] Ensure required groups exist'
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ manifest.groups }}"
+
+- name: '[{{ container }}] Ensure required users exist'
+  ansible.builtin.user:
+    name: "{{ item.user }}"
+    group: "{{ item.group }}"
+    groups: "{{ item.groups | default(omit) }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+  loop_control:
+    label: "{{ item.user }}"
+  loop: "{{ manifest.users }}"
+
+- name: '[{{ container }}] Export group IDs'
+  ansible.builtin.getent:
+    database: group
+    key: "{{ item }}"
+  register: getent_groups
+  loop: "{{ manifest.groups }}"
+
+- name: '[{{ container }}] Export user IDs'
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ item.user }}"
+  register: getent_users
+  loop_control:
+    label: "{{ item.user }}"
+  loop: "{{ manifest.users }}"
+
+- name: '[{{ container }}] Gather created user IDs'
+  ansible.builtin.set_fact:
+    container_users: >-
+      {{ container_users | default({}) | 
+         combine({item[0].key: item[0].value[1]}) }}
+  loop_control:
+    label: "{{ item[0].key }}"
+  loop: >-
+    {{ getent_users.results | map(attribute='ansible_facts') | 
+       map(attribute='getent_passwd') | map('dict2items') }}
+
+- name: '[{{ container }}] Gather created group IDs'
+  ansible.builtin.set_fact:
+    container_groups: >-
+      {{ container_groups | default({}) | 
+         combine({item[0].key: item[0].value[1]}) }}
+  loop_control:
+    label: "{{ item[0].key }}"
+  loop: >-
+    {{ getent_groups.results | map(attribute='ansible_facts') |
+       map(attribute='getent_group') | map('dict2items') }}
