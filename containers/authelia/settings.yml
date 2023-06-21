@@ -1,4 +1,10 @@
 ---
+stack:
+  name: authelia
+  ensure_running:
+    - authelia
+  compose_directory: "{{ common_install_root }}/authelia"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/authelia"

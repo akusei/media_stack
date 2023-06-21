@@ -1,4 +1,10 @@
 ---
+stack:
+  name: lidarr
+  ensure_running:
+    - lidarr
+  compose_directory: "{{ common_install_root }}/lidarr"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/lidarr"

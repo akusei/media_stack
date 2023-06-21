@@ -1,4 +1,10 @@
 ---
+stack:
+  name: filebeat
+  ensure_running:
+    - filebeat
+  compose_directory: "{{ common_install_root }}/filebeat"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/filebeat"

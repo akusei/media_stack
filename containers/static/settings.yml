@@ -1,4 +1,11 @@
 ---
+stack:
+  name: static
+  ensure_running:
+    - static
+  compose_directory: "{{ common_install_root }}/static"
+  force_pull: true
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/static"

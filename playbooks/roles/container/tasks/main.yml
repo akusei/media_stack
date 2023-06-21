@@ -2,6 +2,7 @@
 - name: '[{{ container }}] Load extra variables'
   ansible.builtin.include_vars:
     file: "{{ item }}"
+    name: "{{ container }}"
   loop_control:
     label: "{{ item | replace(_containers_container_root, '') }}"
   with_first_found:
@@ -52,28 +53,6 @@
   ansible.builtin.import_tasks:
     file: copy_files.yml
 
-#- name: Check for latest
-#  command:
-#    cmd: echo 'pull latest docker image'
-#  when: arr_image_tag == 'latest'
-#  notify: restart {{ arr_service_name }}
-#
-#- name: Check if running
-#  command:
-#    cmd: docker ps -qf name="{{ arr_service_name }}"
-#  register: this
-#  changed_when: not this.stdout
-#  failed_when: false
-#  notify: restart {{ arr_service_name }}
-
-#- name: Check if running
-#  command:
-#    cmd: docker ps -qf name="bitwarden"
-#  register: this
-#  changed_when: not this.stdout
-#  failed_when: false
-#  notify: restart bitwarden
-
 - name: '[{{ container }}] Executing extra post_tasks'
   ansible.builtin.include_tasks:
     file: "{{ item }}"
@@ -86,3 +65,19 @@
         - main.yaml
       paths:
         - "{{ _containers_container_root }}/post_tasks"
+
+- name: '[{{ container }}] Check for latest'
+  command:
+    cmd: echo 'pull latest docker image'
+  when: manifest.stack.force_pull | default(False) | bool == True and manifest.stack.skip_handler | default(False) | bool == False
+  notify: restart {{ container }}
+
+- name: '[{{ container }}] Check if running'
+  command:
+    cmd: docker ps -qf name="{{ item }}"
+  loop: "{{ manifest.stack.ensure_running | default([]) }}"
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  when: manifest.stack.skip_handler | default(False) | bool == False
+  notify: restart {{ container }}

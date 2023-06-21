@@ -15,9 +15,6 @@
         cache_valid_time: 86400
 
   roles:
-    - role: container
-      container: common
-
     - role: docker
       docker_volumes:
         - name: filebeat_registry
@@ -25,6 +22,9 @@
       docker_networks:
         - "{{ common_traefik_network_name }}"
         - elastic
+
+    - role: container
+      container: common
 
     - role: container
       container: elasticsearch

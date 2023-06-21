@@ -1,4 +1,8 @@
 ---
+stack:
+  name: common
+  skip_handler: true
+
 targets:
   - src: install
     dest: "/usr/sbin"

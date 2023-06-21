@@ -1,4 +1,12 @@
 ---
+stack:
+  name: traefik
+  ensure_running:
+    - traefik
+    - dockerproxy
+  compose_directory: "{{ common_install_root }}/traefik"
+  force_pull: true
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/traefik"

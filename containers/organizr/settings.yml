@@ -1,4 +1,11 @@
 ---
+stack:
+  name: organizr
+  ensure_running:
+    - organizr
+  compose_directory: "{{ common_install_root }}/organizr"
+  force_pull: true
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/organizr"

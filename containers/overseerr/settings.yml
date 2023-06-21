@@ -1,4 +1,10 @@
 ---
+stack:
+  name: overseerr
+  ensure_running:
+    - overseerr
+  compose_directory: "{{ common_install_root }}/overseerr"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/overseerr"

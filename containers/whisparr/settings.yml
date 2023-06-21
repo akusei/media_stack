@@ -1,4 +1,11 @@
 ---
+stack:
+  name: whisparr
+  ensure_running:
+    - whisparr
+  compose_directory: "{{ common_install_root }}/whisparr"
+  force_pull: true
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/whisparr"

@@ -15,9 +15,6 @@
         cache_valid_time: 86400
 
   roles:
-    - role: container
-      container: common
-
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
@@ -25,7 +22,10 @@
         - "{{ common_docker_software_mount }}"
 
     - role: container
-      container: sabnzb
+      container: common
+
+    - role: container
+      container: sabnzbd
 
     - role: container
       container: deluge

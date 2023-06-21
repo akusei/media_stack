@@ -1,4 +1,10 @@
 ---
+stack:
+  name: plex
+  ensure_running:
+    - plex
+  compose_directory: "{{ common_install_root }}/plex"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/plex"

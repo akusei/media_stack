@@ -1,4 +1,10 @@
 ---
+stack:
+  name: sonarr
+  ensure_running:
+    - sonarr
+  compose_directory: "{{ common_install_root }}/sonarr"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/sonarr"

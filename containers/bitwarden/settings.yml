@@ -1,4 +1,10 @@
 ---
+stack:
+  name: bitwarden
+  ensure_running:
+    - bitwarden
+  compose_directory: "{{ common_install_root }}/bitwarden"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/bitwarden"

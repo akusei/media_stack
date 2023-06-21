@@ -194,6 +194,7 @@ class ActionModule(ActionBase):
         result['targets'] = sorted_dirs
         result['groups'] = groups
         result['users'] = users
+        result['stack'] = manifest['stack']
 
         if 'targets' in manifest:
             del manifest['targets']
@@ -201,8 +202,12 @@ class ActionModule(ActionBase):
             del manifest['users']
         if 'permissions' in manifest:
             del manifest['permissions']
+        if 'skip_handler' in manifest:
+            del manifest['skip_handler']
+        if 'stack' in manifest:
+            del manifest['stack']
 
-        result['ansible_facts'] = manifest
+        # result['ansible_facts'] = manifest
 
         return result
 

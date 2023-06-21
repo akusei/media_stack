@@ -1,4 +1,12 @@
 ---
+stack:
+  name: pihole
+  ensure_running:
+    - pihole
+    - dhcprelay
+  compose_directory: "{{ common_install_root }}/pihole"
+  force_pull: true
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/pihole"

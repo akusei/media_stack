@@ -1,4 +1,10 @@
 ---
+stack:
+  name: portainer
+  ensure_running:
+    - portainer
+  compose_directory: "{{ common_install_root }}/portainer"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/portainer"

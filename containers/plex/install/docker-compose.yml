@@ -63,8 +63,6 @@ services:
       # traefik.http.middlewares.plex-redirect.redirectscheme.permanent: true
       # traefik.http.routers.plex.middlewares: plex-redirect
 
-
-
 volumes:
   media-mount:
     name: media-mount

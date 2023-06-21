@@ -1,10 +1,6 @@
 ---
 - name: "restart {{ container }}"
-  debug:
-    msg: 'restarting {{ container }}'
-  when: skip_handler is undefined or skip_handler == False
-
-#- name: restart bitwarden
-#  command:
-#    chdir: "{{ bitwarden_install_path }}"
-#    cmd: docker compose up -d --quiet-pull --force-recreate
+  command:
+    chdir: "{{ manifest.stack.compose_directory }}"
+    cmd: docker compose up -d --quiet-pull --force-recreate
+  when: manifest.stack.skip_handler | default(False) | bool == False

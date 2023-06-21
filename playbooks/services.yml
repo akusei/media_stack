@@ -15,13 +15,13 @@
         cache_valid_time: 86400
 
   roles:
-    - role: container
-      container: common
-
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
         - "{{ common_pusher_network_name }}"
+
+    - role: container
+      container: common
 
     - role: container
       container: bitwarden

@@ -1,4 +1,10 @@
 ---
+stack:
+  name: fail2ban
+  ensure_running:
+    - fail2ban
+  compose_directory: "{{ common_install_root }}/fail2ban"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/fail2ban"

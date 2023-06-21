@@ -1,4 +1,10 @@
 ---
+stack:
+  name: sabnzbd
+  ensure_running:
+    - sabnzbd
+  compose_directory: "{{ common_install_root }}/sabnzb"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/sabnzb"

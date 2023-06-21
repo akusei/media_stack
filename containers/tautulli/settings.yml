@@ -1,4 +1,10 @@
 ---
+stack:
+  name: tautulli
+  ensure_running:
+    - tautulli
+  compose_directory: "{{ common_install_root }}/tautulli"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/tautulli"

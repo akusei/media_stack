@@ -1,4 +1,10 @@
 ---
+stack:
+  name: radarr
+  ensure_running:
+    - radarr
+  compose_directory: "{{ common_install_root }}/radarr"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/radarr"

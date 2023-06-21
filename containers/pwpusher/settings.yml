@@ -1,4 +1,11 @@
 ---
+stack:
+  name: pwpusher
+  ensure_running:
+    - pwpusher
+  compose_directory: "{{ common_install_root }}/pwpusher"
+  force_pull: true
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/pwpusher"

@@ -5,7 +5,7 @@ services:
   # logging handled in traefik and authelia
   # does not run as root
   whisparr:
-    image: lscr.io/linuxserver/whisparr:${VERSION}
+    image: hotio/whisparr:${VERSION}
     container_name: whisparr
     restart: unless-stopped
     networks:

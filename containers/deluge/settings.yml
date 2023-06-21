@@ -1,4 +1,12 @@
 ---
+stack:
+  name: deluge
+  ensure_running:
+    - deluge
+    - pia
+  compose_directory: "{{ common_install_root }}/deluge"
+  force_pull: true
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/deluge"
@@ -12,7 +20,7 @@ users:
 permissions:
   - owner: root
     group: root
-    mode: '0755'
+    mode: '0550'
     dir_mode: '0755'
     paths:
       - install/wait

@@ -15,14 +15,14 @@
         cache_valid_time: 86400
 
   roles:
-    - role: container
-      container: common
-
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
       docker_volumes:
         - "{{ common_docker_media_mount }}"
+
+    - role: container
+      container: common
 
     # this isn't working currently, installing nvidia drivers on linux
     # is a pain in the ass

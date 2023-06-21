@@ -1,4 +1,10 @@
 ---
+stack:
+  name: prowlarr
+  ensure_running:
+    - prowlarr
+  compose_directory: "{{ common_install_root }}/prowlarr"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/prowlarr"

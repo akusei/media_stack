@@ -1,4 +1,10 @@
 ---
+stack:
+  name: elasticsearch
+  ensure_running:
+    - elasticsearch
+  compose_directory: "{{ common_install_root }}/elasticsearch"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/elasticsearch"
@@ -14,7 +20,7 @@ permissions:
 
   - owner: root
     group: root
-    mode: '0444'
+    mode: '0660'
     dir_mode: '0555'
     paths:
       - config

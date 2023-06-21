@@ -1,4 +1,10 @@
 ---
+stack:
+  name: ddclient
+  ensure_running:
+    - ddclient
+  compose_directory: "{{ common_install_root }}/ddclient"
+
 targets:
   - src: install
     dest: "{{ common_install_root }}/ddclient"
