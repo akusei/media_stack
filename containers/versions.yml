@@ -11,41 +11,41 @@ docker_containerd_version: 1.6.21-1
 # DOCKER IMAGES #
 #################
 # https://github.com/linuxserver/docker-sabnzbd/releases
-sabnzb_tag: 4.0.2-ls112
+sabnzb_tag: 4.1.0-ls132
 
 # https://github.com/linuxserver/docker-deluge/releases
-deluge_tag: 2.1.1-r7-ls213
+deluge_tag: 2.1.1-r8-ls237
 
 # https://github.com/linuxserver/docker-ddclient/releases
-ddclient_tag: v3.10.0-ls124
+ddclient_tag: v3.11.1-ls138
 
 # https://hub.docker.com/_/traefik?tab=tags
-traefik_tag: v2.10.3
+traefik_tag: v2.10.5
 
 # https://hub.docker.com/r/pihole/pihole/tags
-pihole_tag: '2023.05.2'
+pihole_tag: '2023.10.0'
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
-elasticsearch_tag: 8.8.1
-filebeat_tag: 8.8.1
+elasticsearch_tag: 8.10.4
+filebeat_tag: 8.10.4
 
 # https://hub.docker.com/r/portainer/portainer-ce/tags
-portainer_tag: linux-amd64-2.18.3
+portainer_tag: linux-amd64-2.19.1
 
 # https://github.com/linuxserver/docker-sonarr/releases
-sonarr_tag: 3.0.10.1567-ls197
+sonarr_tag: 3.0.10.1567-ls210
 
 # https://github.com/linuxserver/docker-radarr/releases
-radarr_tag: 4.5.2.7388-ls176
+radarr_tag: 5.0.3.8127-ls192
 
 # https://github.com/linuxserver/docker-lidarr/releases
-lidarr_tag: 1.1.4.3027-ls125
+lidarr_tag: 1.4.5.3639-ls141
 
 # https://github.com/linuxserver/docker-overseerr/releases
-overseerr_tag: v1.33.0-ls68
+overseerr_tag: v1.33.2-ls83
 
 # https://github.com/linuxserver/docker-tautulli/releases
-tautulli_tag: v2.12.4-ls84
+tautulli_tag: v2.13.2-ls104
 
 # https://github.com/authelia/authelia/releases
 authelia_tag: 4.37.5
@@ -54,19 +54,19 @@ authelia_tag: 4.37.5
 fail2ban_tag: 1.0.2
 
 # https://hub.docker.com/r/vaultwarden/server/tags
-bitwarden_tag: 1.28.1-alpine
+bitwarden_tag: 1.29.2-alpine
 
 # https://hub.docker.com/r/plexinc/pms-docker/tags
-plex_tag: 1.32.4.7195-7c8f9d3b6
+plex_tag: 1.32.7.7621-871adbd44
 
 # https://hub.docker.com/r/juanluisbaptiste/postfix/tags
 postfix_tag: '1.7.1'
 
 # https://github.com/linuxserver/docker-prowlarr/releases
-prowlarr_tag: 1.5.2.3484-ls21
+prowlarr_tag: 1.9.4.4039-ls36
 
 # https://github.com/restic/restic/releases
-restic_version: 0.15.2
+restic_version: 0.16.2
 
 ###############
 # LATEST ONLY #

@@ -1,0 +1,29 @@
+---
+- name: Install monitoring services
+  hosts: all
+  vars_files:
+    - ../vars/common.yml
+    - ../containers/versions.yml
+    - ../vars/secrets
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 86400
+
+  roles:
+    - role: container
+      container: common
+
+    - role: docker
+      docker_volumes:
+        - name: portainer_portainer
+      docker_networks:
+        - "{{ common_traefik_network_name }}"
+
+#    - role: prometheus
+#      portainer_fqdn: docker.{{ vault_domain }}
+#      portainer_install_path: "{{ common_install_root }}/portainer"

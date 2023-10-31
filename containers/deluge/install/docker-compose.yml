@@ -12,7 +12,7 @@ services:
     cap_add:
       - net_admin
     healthcheck:
-      test: ["CMD", "/entrypoint", "healthcheck"]
+      test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 30s
       timeout: 30s
       retries: 3

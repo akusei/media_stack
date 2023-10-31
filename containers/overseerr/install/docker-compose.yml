@@ -4,7 +4,7 @@ version: '3.8'
 services:
   # Logging not figured out yet
   # does not run as root
-  ombi:
+  overseerr:
     image: lscr.io/linuxserver/overseerr:${VERSION}
     container_name: overseerr
     restart: unless-stopped
