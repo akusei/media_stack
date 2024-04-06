@@ -31,3 +31,4 @@ services:
       - ./config/action.d/:/data/action.d/:ro
       - ./config/filter.d/:/data/filter.d/:ro
       - ./config/jail.d/:/data/jail.d/:ro
+      - ./testcases/:/data/testcases/files/logs/:ro

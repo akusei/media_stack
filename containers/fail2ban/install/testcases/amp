@@ -1,0 +1,4 @@
+# failJSON: {"time": "", "match": true, "host": ""}
+[20:34:12] [Logger:kale Activity] : 85.209.11.226 has been banned from SFTP, ignoring connection attempt...
+# failJSON: {"time": "", "match": true, "host": ""}
+[19:47:18] [Logger Activity]      : SFTP authentication denied for kale8@73.26.37.227 : GSMyAdmin.Authentication.AuthenticationResponse

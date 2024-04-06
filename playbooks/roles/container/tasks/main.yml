@@ -19,6 +19,11 @@
   register: manifest
   changed_when: false
 
+- name: '[{{ container }}] Set compose root for service'
+  set_fact:
+    _containers_compose_root: "{{ (_containers_compose_root | default({})) | combine({container: manifest.stack.compose_directory}) }}"
+  when: manifest.stack.compose_directory is defined
+
 - name: '[{{ container }}] Executing extra pre_tasks'
   ansible.builtin.include_tasks:
     file: "{{ item }}"

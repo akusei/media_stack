@@ -3,9 +3,9 @@ stack:
   name: deluge
   ensure_running:
     - deluge
-    - pia
+    - gluetun
   compose_directory: "{{ common_install_root }}/deluge"
-  force_pull: true
+  # force_pull: true
 
 targets:
   - src: install

@@ -5,7 +5,7 @@ services:
   # logging handled by traefik
   # does not run as root
   pwpusher:
-    image: pglombardo/pwpush-ephemeral:${VERSION}
+    image: pglombardo/pwpush:${VERSION}
     container_name: pwpusher
     restart: unless-stopped
     init: true

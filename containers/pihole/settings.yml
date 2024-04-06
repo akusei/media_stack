@@ -5,7 +5,7 @@ stack:
     - pihole
     - dhcprelay
   compose_directory: "{{ common_install_root }}/pihole"
-  force_pull: true
+  # force_pull: true
 
 targets:
   - src: install

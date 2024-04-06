@@ -11,69 +11,78 @@ docker_containerd_version: 1.6.21-1
 # DOCKER IMAGES #
 #################
 # https://github.com/linuxserver/docker-sabnzbd/releases
-sabnzb_tag: 4.1.0-ls132
+sabnzb_tag: 4.2.3-ls157
 
 # https://github.com/linuxserver/docker-deluge/releases
-deluge_tag: 2.1.1-r8-ls237
+deluge_tag: 2.1.1-r8-ls262
 
 # https://github.com/linuxserver/docker-ddclient/releases
-ddclient_tag: v3.11.1-ls138
+ddclient_tag: v3.11.2-ls154
 
 # https://hub.docker.com/_/traefik?tab=tags
-traefik_tag: v2.10.5
+traefik_tag: v3.0
 
 # https://hub.docker.com/r/pihole/pihole/tags
-pihole_tag: '2023.10.0'
+pihole_tag: '2024.03.2'
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
-elasticsearch_tag: 8.10.4
-filebeat_tag: 8.10.4
+elasticsearch_tag: 8.13.1
+filebeat_tag: 8.13.1
 
 # https://hub.docker.com/r/portainer/portainer-ce/tags
-portainer_tag: linux-amd64-2.19.1
+portainer_tag: linux-amd64-2.19.4
 
 # https://github.com/linuxserver/docker-sonarr/releases
-sonarr_tag: 3.0.10.1567-ls210
+sonarr_tag: 4.0.3.1413-ls233
 
 # https://github.com/linuxserver/docker-radarr/releases
-radarr_tag: 5.0.3.8127-ls192
+radarr_tag: 5.3.6.8612-ls211
 
 # https://github.com/linuxserver/docker-lidarr/releases
-lidarr_tag: 1.4.5.3639-ls141
+lidarr_tag: 2.1.7.4030-ls163
 
 # https://github.com/linuxserver/docker-overseerr/releases
-overseerr_tag: v1.33.2-ls83
+overseerr_tag: v1.33.2-ls100
 
 # https://github.com/linuxserver/docker-tautulli/releases
-tautulli_tag: v2.13.2-ls104
+tautulli_tag: v2.13.4-ls126
 
 # https://github.com/authelia/authelia/releases
-authelia_tag: 4.37.5
+authelia_tag: 4.38.7
 
 # https://hub.docker.com/r/crazymax/fail2ban/tags
 fail2ban_tag: 1.0.2
 
 # https://hub.docker.com/r/vaultwarden/server/tags
-bitwarden_tag: 1.29.2-alpine
+bitwarden_tag: 1.30.5-alpine
 
 # https://hub.docker.com/r/plexinc/pms-docker/tags
-plex_tag: 1.32.7.7621-871adbd44
+plex_tag: 1.40.1.8227-c0dd5a73e
 
 # https://hub.docker.com/r/juanluisbaptiste/postfix/tags
 postfix_tag: '1.7.1'
 
 # https://github.com/linuxserver/docker-prowlarr/releases
-prowlarr_tag: 1.9.4.4039-ls36
+prowlarr_tag: 1.15.0.4361-ls63
+
+# https://hub.docker.com/r/pglombardo/pwpush/tags
+pwpusher_tag: 1.39.6
+
+# https://github.com/qdm12/gluetun/releases
+pia_tag: v3.38.0
+
+# https://hub.docker.com/r/tecnativa/docker-socket-proxy/tags
+dockerproxy_tag: 0.1.2
+
+# https://github.com/hotio/whisparr/pkgs/container/whisparr
+whisparr_tag: v3-3.0.0.539
 
 # https://github.com/restic/restic/releases
-restic_version: 0.16.2
+restic_version: 0.16.4
+
 
 ###############
 # LATEST ONLY #
 ###############
-pwpusher_tag: latest
 static_tag: latest
 organizr_tag: latest
-pia_tag: latest
-dockerproxy_tag: latest
-whisparr_tag: latest

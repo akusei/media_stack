@@ -1,6 +1,6 @@
 ---
 - name: "restart {{ container }}"
   command:
-    chdir: "{{ manifest.stack.compose_directory }}"
+    chdir: "{{ _containers_compose_root[container] }}"
     cmd: docker compose up -d --quiet-pull --force-recreate
-  when: manifest.stack.skip_handler | default(False) | bool == False
+  when: container in _containers_compose_root and manifest.stack.skip_handler | default(False) | bool == False

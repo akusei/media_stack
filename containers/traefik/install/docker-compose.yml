@@ -35,7 +35,6 @@ services:
       - --accesslog.fields.headers.defaultmode=keep
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
-      - --providers.docker.swarmMode=false
       - --providers.docker.network=traefik
       - --providers.docker.endpoint=tcp://dockerproxy:2375
       # using cloudflare because namecheap dns api is fucking terrible
