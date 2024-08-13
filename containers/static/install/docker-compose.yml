@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # logging handled in traefik
   # container runs process as nginx, no need for new user
   static:
     image: flashspys/nginx-static:${VERSION}
     container_name: static
-    restart: unless-stopped
+    restart: always
     init: true
     networks:
       traefik:

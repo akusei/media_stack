@@ -1,12 +1,10 @@
 ---
-version: '3.8'
-
 services:
   plex:
     runtime: ${RUNTIME}
     image: plexinc/pms-docker:${VERSION}
     container_name: plex
-    restart: unless-stopped
+    restart: always
     init: true
     # privileged: true
     networks:

@@ -1,9 +1,7 @@
 ---
-version: '3.8'
-
 services:
   elasticsearch:
-    restart: unless-stopped
+    restart: always
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:${VERSION}
     environment:
@@ -34,7 +32,7 @@ services:
   kibana:
     depends_on:
       - elasticsearch
-    restart: unless-stopped
+    restart: always
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:${VERSION}
     networks:

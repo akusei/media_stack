@@ -1,9 +1,7 @@
 ---
-version: '3.8'
-
 services:
   wireguard:
-    restart: unless-stopped
+    restart: always
     container_name: wireguard
     image: linuxserver/wireguard:${VERSION}
     networks:

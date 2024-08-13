@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # logging handled in traefik and authelia
   # does not run as root
   radarr:
     image: lscr.io/linuxserver/radarr:${VERSION}
     container_name: radarr
-    restart: unless-stopped
+    restart: always
     networks:
       traefik:
         aliases:

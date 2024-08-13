@@ -35,3 +35,6 @@
 
     - role: container
       container: whisparr
+
+    - role: container
+      container: readarr

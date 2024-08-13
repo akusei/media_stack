@@ -7,7 +7,7 @@ services:
   pihole:
     image: pihole/pihole:${VERSION}
     container_name: pihole
-    restart: unless-stopped
+    restart: always
     cap_add:
       - NET_ADMIN
     networks:
@@ -53,7 +53,7 @@ services:
     image: dhcprelay:latest
     container_name: dhcprelay
     build: dhcp_helper
-    restart: unless-stopped
+    restart: always
     command: -s 172.99.0.100
     cap_add:
       - NET_ADMIN

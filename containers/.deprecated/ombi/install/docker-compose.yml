@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # No logging other than traefik :'(
   # does not run as root
   ombi:
     image: lscr.io/linuxserver/ombi:${VERSION}
     container_name: ombi
-    restart: unless-stopped
+    restart: always
     networks:
       traefik:
         aliases:

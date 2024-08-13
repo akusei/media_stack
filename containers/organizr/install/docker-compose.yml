@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # logging is internal and the files are just dumps of
   # does not run as root
   organizr:
     image: organizr/organizr:${VERSION}
     container_name: organizr
-    restart: unless-stopped
+    restart: always
     init: true
     networks:
       traefik:
@@ -25,7 +23,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.organizr.service: organizr
-      traefik.http.routers.organizr.rule: Host(`${DOMAIN}`,`${FQDN_DOMAIN}`)
+      traefik.http.routers.organizr.rule: Host(`${DOMAIN}`) || Host(`${FQDN_DOMAIN}`)
       traefik.http.routers.organizr.entrypoints: https
       traefik.http.routers.organizr.tls: true
       traefik.http.services.organizr.loadbalancer.server.port: 80

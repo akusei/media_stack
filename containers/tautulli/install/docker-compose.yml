@@ -1,6 +1,4 @@
 ---
-version: '3.8'
-
 services:
   # no logging :'( but there are some nice logs in the ui
   # TODO: see about using sqlite db for logs
@@ -8,7 +6,7 @@ services:
   tautulli:
     image: lscr.io/linuxserver/tautulli:${VERSION}
     container_name: tautulli
-    restart: unless-stopped
+    restart: always
     networks:
       traefik:
         aliases:

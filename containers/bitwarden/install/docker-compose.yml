@@ -1,12 +1,10 @@
 ---
-version: '3.8'
-
 services:
   # runs as root
   bitwarden:
     image: vaultwarden/server:${VERSION}
     container_name: bitwarden
-    restart: unless-stopped
+    restart: always
     init: true
     networks:
       - traefik

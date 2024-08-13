@@ -1,9 +1,7 @@
 ---
-version: '3.8'
-
 services:
   filebeat:
-    restart: unless-stopped
+    restart: always
     container_name: filebeat
     image: docker.elastic.co/beats/filebeat:${VERSION}
     command: -e -strict.perms=false

@@ -1,11 +1,9 @@
 ---
-version: '3.8'
-
 services:
   gluetun:
     image: qmcgaw/gluetun:${PIA_VERSION}
     container_name: gluetun
-    restart: unless-stopped
+    restart: always
     init: true
     cap_add:
       - net_admin
@@ -45,7 +43,7 @@ services:
   # pia:
   #   image: qmcgaw/private-internet-access:${PIA_VERSION}
   #   container_name: pia
-  #   restart: unless-stopped
+  #   restart: always
   #   init: true
   #   cap_add:
   #     - net_admin
@@ -87,7 +85,7 @@ services:
       - gluetun
     image: lscr.io/linuxserver/deluge:${DELUGE_VERSION}
     container_name: deluge
-    restart: unless-stopped
+    restart: always
     network_mode: service:gluetun
     environment:
       TZ: ${TIMEZONE}

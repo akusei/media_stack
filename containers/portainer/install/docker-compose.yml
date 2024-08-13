@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # must run as root, or use its own docker proxy
   portainer:
     image: portainer/portainer-ce:${VERSION}
     container_name: portainer
     command: -H unix:///var/run/docker.sock
-    restart: unless-stopped
+    restart: always
     init: true
     privileged: true
     networks:

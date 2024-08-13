@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # logging handled in traefik and authelia
   # does not run as root
   whisparr:
     image: ghcr.io/hotio/whisparr:${VERSION}
     container_name: whisparr
-    restart: unless-stopped
+    restart: always
     networks:
       traefik:
         aliases:

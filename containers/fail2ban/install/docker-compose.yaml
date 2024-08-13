@@ -1,12 +1,10 @@
 ---
-version: '3.8'
-
 services:
   # runs as root, needed for iptables
   fail2ban:
     image: crazymax/fail2ban:${VERSION}
     container_name: fail2ban
-    restart: unless-stopped
+    restart: always
     init: true
     privileged: true
     cap_add:

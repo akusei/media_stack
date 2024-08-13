@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # logging handled in traefik and authelia
   # does not run as root
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:${VERSION}
     container_name: prowlarr
-    restart: unless-stopped
+    restart: always
     networks:
       traefik:
         aliases:

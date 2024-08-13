@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # Logging not figured out yet
   # does not run as root
   overseerr:
     image: lscr.io/linuxserver/overseerr:${VERSION}
     container_name: overseerr
-    restart: unless-stopped
+    restart: always
     networks:
       traefik:
         aliases:

@@ -54,8 +54,6 @@ access_control:
     - domain:
         - music.{{ vault_domain }}
         - newz.{{ vault_domain }}
-        - jackett.{{ vault_domain }}
-        - hydra.{{ vault_domain }}
         - shows.{{ vault_domain }}
         - movies.{{ vault_domain }}
         - docker.{{ vault_domain }}
@@ -64,7 +62,7 @@ access_control:
         - bt.{{ vault_domain }}
         - indexer.{{ vault_domain }}
         - ad.{{ vault_domain }}
-        # - kibana.{{ vault_domain }}
+        - books.{{ vault_domain }}
       subject: group:admins
       policy: two_factor
 

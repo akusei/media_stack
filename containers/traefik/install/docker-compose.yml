@@ -1,6 +1,4 @@
 ---
-version: '3.8'
-
 services:
   # does not run as root
   traefik:
@@ -8,7 +6,7 @@ services:
       - dockerproxy
     image: traefik:${VERSION}
     container_name: traefik
-    restart: unless-stopped
+    restart: always
     user: ${PUID}:${PGID}
     init: true
     sysctls:
@@ -88,7 +86,7 @@ services:
   dockerproxy:
     image: tecnativa/docker-socket-proxy:${DOCKERPROXY_VERSION}
     container_name: dockerproxy
-    restart: unless-stopped
+    restart: always
     privileged: true
     environment:
       CONTAINERS: 1

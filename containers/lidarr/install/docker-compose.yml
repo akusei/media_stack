@@ -1,13 +1,11 @@
 ---
-version: '3.8'
-
 services:
   # logging handled in traefik and authelia
   # does not run as root
   lidarr:
     image: lscr.io/linuxserver/lidarr:${VERSION}
     container_name: lidarr
-    restart: unless-stopped
+    restart: always
     networks:
       traefik:
         aliases:

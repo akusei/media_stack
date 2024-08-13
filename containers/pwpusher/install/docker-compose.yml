@@ -7,7 +7,7 @@ services:
   pwpusher:
     image: pglombardo/pwpush:${VERSION}
     container_name: pwpusher
-    restart: unless-stopped
+    restart: always
     init: true
     networks:
       - pusher

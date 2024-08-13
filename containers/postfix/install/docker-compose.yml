@@ -1,13 +1,10 @@
 ---
-version: '3.8'
-
-
 services:
   postfix:
     image: juanluisbaptiste/postfix:${VERSION}
     init: true
     container_name: postfix
-    restart: unless-stopped
+    restart: always
     networks:
       - traefik
     ports:
