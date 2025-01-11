@@ -1,0 +1,44 @@
+---
+services:
+  # logging handled in traefik and authelia
+  # does not run as root
+  readarr:
+    image: lscr.io/linuxserver/readarr:${VERSION}
+    container_name: readarr
+    restart: always
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 8787
+    environment:
+      TZ: ${TIMEZONE}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ${DATA_PATH}:/config
+      - source: media-mount
+        type: volume
+        target: /media
+        volume:
+          nocopy: true
+      - ${DOWNLOADS_PATH}:/downloads
+    labels:
+      traefik.enable: true
+      traefik.http.routers.readarr.service: readarr
+      traefik.http.routers.readarr.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.readarr.entrypoints: https
+      traefik.http.routers.readarr.tls: true
+      traefik.http.services.readarr.loadbalancer.server.port: 8787
+      traefik.http.routers.readarr.middlewares: mfa
+
+volumes:
+  media-mount:
+    name: media-mount
+    external: true
+
+networks:
+  traefik:
+    name: traefik
+    external: true
