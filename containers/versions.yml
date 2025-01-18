@@ -58,7 +58,7 @@ authelia_tag: 4.38.9
 fail2ban_tag: 1.1.0
 
 # https://hub.docker.com/r/vaultwarden/server/tags
-bitwarden_tag: 1.31.0-alpine
+bitwarden_tag: 1.32.7-alpine
 
 # https://hub.docker.com/r/plexinc/pms-docker/tags
 plex_tag: 1.40.4.8679-424562606
