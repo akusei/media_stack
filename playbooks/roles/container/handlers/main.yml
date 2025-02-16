@@ -1,9 +1,12 @@
 ---
-- name: "restart {{ container }}"
+- name: "Restart {{ container_name }}"
   ansible.builtin.command:
-    chdir: "{{ _containers_compose_root[container] }}"
+    chdir: "{{ _containers_compose_root[container_name] }}"
     cmd: "{{ item.command }}"
-  when: container in _containers_compose_root and manifest.stack.skip_handler | default(False) | bool == False
+  changed_when: true
+  when: >-
+    container_name in _containers_compose_root and
+    not (manifest.stack.skip_handler | default(False) | bool)
   loop_control:
     label: "{{ item.name }}"
   loop:

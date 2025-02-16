@@ -29,10 +29,10 @@
         - "{{ common_docker_software_mount }}"
 
     - role: container
-      container: common
+      container_name: common
 
     - role: container
-      container: sabnzbd
+      container_name: sabnzbd
 
     - role: container
-      container: deluge
+      container_name: deluge

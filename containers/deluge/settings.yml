@@ -47,4 +47,3 @@ permissions:
     dir_mode: '0770'
     paths:
       - "{{ common_downloads_root }}/torrent"
-

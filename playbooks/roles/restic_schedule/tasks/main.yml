@@ -1,11 +1,11 @@
 ---
 - name: Ensure required directories exist
   ansible.builtin.file:
-    path: "{{ restic_config_path }}/{{ restic_schedule_name }}"
+    path: "{{ restic_schedule_config_path }}/{{ restic_schedule_name }}"
     state: directory
     owner: root
     group: root
-    mode: 0750
+    mode: "0750"
 
 - name: Ensure restic systemd service is configured
   ansible.builtin.template:
@@ -13,35 +13,35 @@
     dest: "{{ item.dest }}"
     owner: root
     group: root
-    mode: 0440
+    mode: "0440"
   loop:
     - src: systemd/restic@.service.j2
       dest: "{{ restic_schedule_systemd_path }}/restic@.service"
     - src: systemd/restic.timer.j2
       dest: "{{ restic_schedule_systemd_path }}/restic-{{ restic_schedule_name }}.timer"
     - src: repo.conf.j2
-      dest: "{{ restic_config_path }}/repo.conf"
+      dest: "{{ restic_schedule_config_path }}/repo.conf"
   loop_control:
     label: "{{ item.src }}"
   notify:
-    - reload systemd
-    - enable timer
+    - Reload systemd
+    - Enable timer
 
 - name: Ensure database backup script exists
   ansible.builtin.template:
     src: scripts/restic-backup.j2
-    dest: "{{ restic_install_path }}/restic-backup"
+    dest: "{{ restic_schedule_install_path }}/restic-backup"
     owner: root
     group: root
-    mode: 0550
+    mode: "0550"
 
 - name: Ensure pushover script exists
   ansible.builtin.copy:
     src: pushover
-    dest: "{{ restic_install_path }}/pushover"
+    dest: "{{ restic_schedule_install_path }}/pushover"
     owner: root
     group: root
-    mode: 0550
+    mode: "0550"
 
 - name: Ensure include patterns exist
   ansible.builtin.template:
@@ -49,21 +49,21 @@
     dest: "{{ item.dest }}"
     owner: root
     group: root
-    mode: 0440
+    mode: "0440"
   loop:
     - src: include.conf.j2
-      dest: "{{ restic_config_path }}/{{ restic_schedule_name }}/include.conf"
+      dest: "{{ restic_schedule_config_path }}/{{ restic_schedule_name }}/include.conf"
     - src: exclude.conf.j2
-      dest: "{{ restic_config_path }}/{{ restic_schedule_name }}/exclude.conf"
+      dest: "{{ restic_schedule_config_path }}/{{ restic_schedule_name }}/exclude.conf"
     - src: databases.conf.j2
-      dest: "{{ restic_config_path }}/{{ restic_schedule_name }}/databases.conf"
+      dest: "{{ restic_schedule_config_path }}/{{ restic_schedule_name }}/databases.conf"
   loop_control:
     label: "{{ item.src }}"
 
 - name: Create symbolic link
   ansible.builtin.file:
-    src: "{{ restic_install_path }}/{{ item }}"
-    dest: "{{ restic_bin_path }}/{{ item }}"
+    src: "{{ restic_schedule_install_path }}/{{ item }}"
+    dest: "{{ restic_schedule_bin_path }}/{{ item }}"
     owner: root
     group: root
     state: link

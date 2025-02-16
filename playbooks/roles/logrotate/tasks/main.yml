@@ -10,7 +10,7 @@
     dest: "{{ logrotate_path }}/{{ item.name }}"
     owner: root
     group: root
-    mode: 0640
+    mode: "0640"
   loop: "{{ logrotate_scripts }}"
   loop_control:
     label: "{{ item.name }}"

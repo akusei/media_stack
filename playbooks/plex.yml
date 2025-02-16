@@ -29,7 +29,7 @@
         - "{{ common_docker_media_mount }}"
 
     - role: container
-      container: common
+      container_name: common
 
     # this isn't working currently, installing nvidia drivers on linux
     # is a pain in the ass
@@ -39,20 +39,19 @@
     #   nvidia_container_version: 1.5.1-1
 
     - role: container
-      container: static
+      container_name: static
 
     - role: container
-      container: plex
+      container_name: plex
 
     - role: container
-      container: organizr
+      container_name: organizr
 
     - role: container
-      container: overseerr
+      container_name: overseerr
 
 #    - role: container
-#      container: ombi
+#      container_name: ombi
 
     - role: container
-      container: tautulli
-
+      container_name: tautulli

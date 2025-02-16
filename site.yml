@@ -3,14 +3,36 @@
   hosts: all
   gather_facts: false
 
-- import_playbook: playbooks/infra.yml
-- import_playbook: playbooks/security.yml
-- import_playbook: playbooks/logrotate.yml
-- import_playbook: playbooks/logging.yml
-- import_playbook: playbooks/downloaders.yml
-- import_playbook: playbooks/indexers.yml
-- import_playbook: playbooks/services.yml
-- import_playbook: playbooks/management.yml
-- import_playbook: playbooks/media.yml
-- import_playbook: playbooks/plex.yml
-- import_playbook: playbooks/backup.yml
+
+- name: Infrastructure
+  import_playbook: playbooks/infra.yml
+
+- name: Security
+  import_playbook: playbooks/security.yml
+
+- name: Logrotate
+  import_playbook: playbooks/logrotate.yml
+
+- name: Logging
+  import_playbook: playbooks/logging.yml
+
+- name: Downloaders
+  import_playbook: playbooks/downloaders.yml
+
+- name: Indexers
+  import_playbook: playbooks/indexers.yml
+
+- name: Services
+  import_playbook: playbooks/services.yml
+
+- name: Management
+  import_playbook: playbooks/management.yml
+
+- name: Media
+  import_playbook: playbooks/media.yml
+
+- name: Plex
+  import_playbook: playbooks/plex.yml
+
+- name: Backup
+  import_playbook: playbooks/backup.yml

@@ -55,4 +55,5 @@
     enabled: true
     state: started
 
-- import_tasks: extras.yml
+- name: Handle networks and volumes
+  ansible.builtin.import_tasks: extras.yml

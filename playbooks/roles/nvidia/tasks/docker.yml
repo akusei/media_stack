@@ -8,18 +8,12 @@
   ansible.builtin.get_url:
     url: "{{ _nvidia_repo_url }}"
     dest: /etc/apt/sources.list.d/nvidia-docker.list
-  register: nvidia_repo
+    mode: "0440"
 
-- name: Update apt  # noqa 503
+- name: Update apt
   ansible.builtin.apt:
     update_cache: true
-  when: nvidia_repo.changed
-
-- name: Install nvidia container packages
-  ansible.builtin.package:
-    name:
-      - nvidia-docker2={{ nvidia_docker2_version }}-1
-      # - nvidia-container-toolkit={{ nvidia_container_version }}
+    name: nvidia-docker2={{ nvidia_docker2_version }}-1
     state: present
   notify:
-    - restart docker
+    - Restart docker

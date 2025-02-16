@@ -9,8 +9,9 @@ restic_schedule_repo_password:
 restic_schedule_rsync_to_nas_path:
 restic_schedule_systemd_path: /etc/systemd/system
 
-restic_pushover_token:
-restic_pushover_user:
+restic_schedule_pushover_token:
+restic_schedule_pushover_user:
 
-restic_install_path: /opt/restic
-restic_config_path: /etc/restic
+restic_schedule_install_path: /opt/restic
+restic_schedule_config_path: /etc/restic
+restic_schedule_bin_path: /usr/sbin

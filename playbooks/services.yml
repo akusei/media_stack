@@ -28,10 +28,10 @@
         - "{{ common_pusher_network_name }}"
 
     - role: container
-      container: common
+      container_name: common
 
     - role: container
-      container: bitwarden
+      container_name: bitwarden
 
     - role: container
-      container: pwpusher
+      container_name: pwpusher

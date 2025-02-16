@@ -1,5 +1,5 @@
 ---
-- name: '[{{ container }}] Ensure required files exist'
+- name: '[{{ container_name }}] Ensure required files exist'
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -9,9 +9,9 @@
   loop_control:
     label: "{{ item.dest }}"
   loop: "{{ manifest.targets | selectattr('type', '==', 'file') }}"
-  notify: restart {{ container }}
+  notify: Restart {{ container_name }}
 
-- name: '[{{ container }}] Ensure required templates exist'
+- name: '[{{ container_name }}] Ensure required templates exist'
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -21,4 +21,4 @@
   loop_control:
     label: "{{ item.dest }}"
   loop: "{{ manifest.targets | selectattr('type', '==', 'template') }}"
-  notify: restart {{ container }}
+  notify: Restart {{ container_name }}

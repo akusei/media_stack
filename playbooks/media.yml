@@ -29,19 +29,19 @@
         - "{{ common_docker_media_mount }}"
 
     - role: container
-      container: common
+      container_name: common
 
     - role: container
-      container: sonarr
+      container_name: sonarr
 
     - role: container
-      container: radarr
+      container_name: radarr
 
     - role: container
-      container: lidarr
+      container_name: lidarr
 
     - role: container
-      container: whisparr
+      container_name: whisparr
 
     - role: container
-      container: readarr
+      container_name: readarr

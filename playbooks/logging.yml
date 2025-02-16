@@ -31,10 +31,10 @@
         - elastic
 
     - role: container
-      container: common
+      container_name: common
 
     - role: container
-      container: elasticsearch
+      container_name: elasticsearch
 
     - role: container
-      container: filebeat
+      container_name: filebeat

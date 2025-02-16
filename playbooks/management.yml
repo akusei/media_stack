@@ -29,7 +29,7 @@
         - "{{ common_traefik_network_name }}"
 
     - role: container
-      container: common
+      container_name: common
 
     - role: container
-      container: portainer
+      container_name: portainer

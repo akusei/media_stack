@@ -27,13 +27,13 @@
         - "{{ common_traefik_network_name }}"
 
     - role: container
-      container: common
+      container_name: common
 
     - role: container
-      container: postfix
+      container_name: postfix
 
     - role: container
-      container: authelia
+      container_name: authelia
 
     - role: container
-      container: fail2ban
+      container_name: fail2ban

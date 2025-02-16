@@ -24,9 +24,9 @@
       restic_schedule_repo: "{{ vault_stack_name }}"
       restic_schedule_repo_password: "{{ vault_restic_repo_password }}"
       restic_schedule_rsync_to_nas_path: "/mnt/software/backups/{{ vault_stack_name }}"
-      restic_pushover_token: "{{ vault_restic_pushover_token }}"
-      restic_pushover_user: "{{ vault_restic_pushover_user }}"
-      restic_schedule:
+      restic_schedule_pushover_token: "{{ vault_restic_pushover_token }}"
+      restic_schedule_pushover_user: "{{ vault_restic_pushover_user }}"
+      restic_schedule:  # noqa var-naming[no-role-prefix]
         # daily at 3:45 AM PST
         OnCalendar: "*-*-* 11:45:00"
       restic_schedule_database_dest: "{{ common_data_root }}/databases"

@@ -9,13 +9,14 @@
 
 - name: Create docker networks
   ansible.builtin.command: docker network create {{ item.item }}
+  changed_when: true
   loop: "{{ existing_networks.results }}"
   loop_control:
     label: "{{ item.item }}"
   when: docker_networks|length > 0 and not item.stdout
 
 - name: Ensure required docker volumes exist
-  docker_volume:
+  community.docker.docker_volume:
     volume_name: "{{ item.name }}"
     driver: "{{ item.driver | default('local') }}"
     driver_options: "{{ item.opts | default({}) }}"

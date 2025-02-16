@@ -1,9 +1,9 @@
 ---
-- name: reload systemd
+- name: Reload systemd
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: enable timer
+- name: Enable timer
   ansible.builtin.systemd:
     name: "restic-{{ restic_schedule_name }}.timer"
     state: started

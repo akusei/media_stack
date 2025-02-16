@@ -28,13 +28,13 @@
         - "{{ common_pusher_network_name }}"
 
     - role: container
-      container: common
+      container_name: common
 
     - role: container
-      container: ddclient
+      container_name: ddclient
 
     - role: container
-      container: traefik
+      container_name: traefik
 
     - role: container
-      container: pihole
+      container_name: pihole

@@ -12,7 +12,7 @@
 # Must add --extra-vars plex_auth_token=token on the CLI
 # can get the token from plex cookie when logged into plex.tv
 
-#- name: Get Plex login token
+# - name: Get Plex login token
 #  uri:
 #    url: https://plex.tv/users/sign_in.json
 #    method: POST
@@ -26,7 +26,7 @@
 #  register: login_token
 #  when: not plex_claim.stdout
 
-#- name: Get Plex claim token
+# - name: Get Plex claim token
 #  uri:
 #    url: https://plex.tv/api/claim/token.json
 #    method: GET

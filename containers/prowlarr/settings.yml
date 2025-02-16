@@ -28,4 +28,3 @@ permissions:
     dir_mode: '0750'
     paths:
       - "{{ common_data_root }}/prowlarr"
-

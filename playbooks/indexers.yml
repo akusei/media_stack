@@ -27,7 +27,7 @@
         - "{{ common_traefik_network_name }}"
 
     - role: container
-      container: common
+      container_name: common
 
     - role: container
-      container: prowlarr
+      container_name: prowlarr

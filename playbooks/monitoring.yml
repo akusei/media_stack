@@ -16,7 +16,7 @@
 
   roles:
     - role: container
-      container: common
+      container_name: common
 
     - role: docker
       docker_volumes:

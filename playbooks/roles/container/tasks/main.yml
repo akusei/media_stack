@@ -1,8 +1,8 @@
 ---
-- name: '[{{ container }}] Load extra variables'
+- name: '[{{ container_name }}] Load extra variables'
   ansible.builtin.include_vars:
     file: "{{ item }}"
-    name: "{{ container }}"
+    name: "{{ container_name }}"
   loop_control:
     label: "{{ item | replace(_containers_container_root, '') }}"
   with_first_found:
@@ -13,18 +13,18 @@
       paths:
         - "{{ _containers_container_root }}"
 
-- name: '[{{ container }}] Load manifest'
+- name: '[{{ container_name }}] Load manifest'
   load_manifest:
     path: '{{ _containers_container_root }}'
   register: manifest
   changed_when: false
 
-- name: '[{{ container }}] Set compose root for service'
+- name: '[{{ container_name }}] Set compose root for service'
   ansible.builtin.set_fact:
-    _containers_compose_root: "{{ (_containers_compose_root | default({})) | combine({container: manifest.stack.compose_directory}) }}"
+    _containers_compose_root: "{{ (_containers_compose_root | default({})) | combine({container_name: manifest.stack.compose_directory}) }}"
   when: manifest.stack.compose_directory is defined
 
-- name: '[{{ container }}] Executing extra pre_tasks'
+- name: '[{{ container_name }}] Executing extra pre_tasks'
   ansible.builtin.include_tasks:
     file: "{{ item }}"
   loop_control:
@@ -37,11 +37,11 @@
       paths:
         - "{{ _containers_container_root }}/pre_tasks"
 
-- name: '[{{ container }}] Users and Groups'
+- name: '[{{ container_name }}] Users and Groups'
   ansible.builtin.import_tasks:
     file: users.yml
 
-- name: '[{{ container }}] Ensure directories exist'
+- name: '[{{ container_name }}] Ensure directories exist'
   ansible.builtin.file:
     path: '{{ item.path }}'
     state: directory
@@ -52,13 +52,13 @@
   loop_control:
     label: "{{ item.path }}"
   loop: "{{ manifest.targets | selectattr('type', '==', 'dir') }}"
-  notify: restart {{ container }}
+  notify: Restart {{ container_name }}
 
-- name: '[{{ container }}] Ensure required files exist'
+- name: '[{{ container_name }}] Ensure required files exist'
   ansible.builtin.import_tasks:
     file: copy_files.yml
 
-- name: '[{{ container }}] Executing extra post_tasks'
+- name: '[{{ container_name }}] Executing extra post_tasks'
   ansible.builtin.include_tasks:
     file: "{{ item }}"
   loop_control:
@@ -71,19 +71,19 @@
       paths:
         - "{{ _containers_container_root }}/post_tasks"
 
-- name: "[{{ container }}] Force pull image"
+- name: "[{{ container_name }}] Force pull image"
   ansible.builtin.command:
     cmd: echo 'pull latest docker image'
-  when: manifest.stack.force_pull | default(False) | bool == True
+  when: manifest.stack.force_pull | default(False) | bool
   changed_when: manifest.stack.force_pull | default(False)
-  notify: restart {{ container }}
+  notify: Restart {{ container_name }}
 
-- name: '[{{ container }}] Check if running'
+- name: '[{{ container_name }}] Check if running'
   ansible.builtin.command:
     cmd: docker ps -qf name="{{ item }}"
   loop: "{{ manifest.stack.ensure_running | default([]) }}"
   register: this
   changed_when: not this.stdout
   failed_when: false
-  when: manifest.stack.skip_handler | default(False) | bool == False
-  notify: restart {{ container }}
+  when: not (manifest.stack.skip_handler | default(False) | bool)
+  notify: Restart {{ container_name }}
