@@ -1,6 +1,6 @@
 ---
 - name: Remove old docker packages
-  package:
+  ansible.builtin.apt:
     name:
       - docker
       - docker-engine
@@ -10,45 +10,47 @@
     state: absent
 
 - name: Ensure keyrings directory exists
-  file:
+  ansible.builtin.file:
     path: "/etc/apt/keyrings"
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
     state: directory
 
 - name: Add repo key and source
   block:
-    - name: docker repo key
-      get_url:
+    - name: Docker repo key
+      ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
-        dest: /etc/apt/keyrings/docker.gpg
+        dest: /etc/apt/keyrings/docker.asc
+        owner: root
+        group: root
+        mode: "0644"
 
-    - name: docker repo apt source
-      apt_repository:
-        # signed-by=/etc/apt/keyrings/docker.gpg
-        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    - name: Docker repo apt source
+      ansible.builtin.apt_repository:
+        filename: docker
+        repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc]
+          https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        update_cache: false
         state: present
 
 - name: Install docker and required packages
-  apt:
+  ansible.builtin.apt:
     update_cache: true
     name:
-      - docker-ce={{ docker_version }}
-      - docker-ce-cli={{ docker_version }}
-      - containerd.io={{ docker_containerd_version }}
-      - docker-buildx-plugin={{ docker_buildx_version }}
-      - docker-compose-plugin={{ docker_compose_version }}
-      - python3-pip
+      - docker-ce{{ docker_package }}
+      - docker-ce-cli{{ docker_package }}
+      - containerd.io{{ docker_containerd_package }}
+      - docker-buildx-plugin{{ docker_buildx_package }}
+      - docker-compose-plugin{{ docker_compose_package }}
+      - python3-docker
     state: present
   register: docker_install
 
-- name: Ensure required python modules are installed
-  pip:
-    name: docker
-
 - name: Start docker service
-  systemd:
+  ansible.builtin.systemd:
     name: docker
     enabled: true
     state: started

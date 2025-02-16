@@ -1,6 +1,6 @@
 ---
 - name: Ensure required directories exist
-  file:
+  ansible.builtin.file:
     path: "{{ restic_config_path }}/{{ restic_schedule_name }}"
     state: directory
     owner: root
@@ -8,7 +8,7 @@
     mode: 0750
 
 - name: Ensure restic systemd service is configured
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: root
@@ -28,7 +28,7 @@
     - enable timer
 
 - name: Ensure database backup script exists
-  template:
+  ansible.builtin.template:
     src: scripts/restic-backup.j2
     dest: "{{ restic_install_path }}/restic-backup"
     owner: root
@@ -36,7 +36,7 @@
     mode: 0550
 
 - name: Ensure pushover script exists
-  copy:
+  ansible.builtin.copy:
     src: pushover
     dest: "{{ restic_install_path }}/pushover"
     owner: root
@@ -44,7 +44,7 @@
     mode: 0550
 
 - name: Ensure include patterns exist
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: root
@@ -61,7 +61,7 @@
     label: "{{ item.src }}"
 
 - name: Create symbolic link
-  file:
+  ansible.builtin.file:
     src: "{{ restic_install_path }}/{{ item }}"
     dest: "{{ restic_bin_path }}/{{ item }}"
     owner: root

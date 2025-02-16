@@ -1,0 +1,13 @@
+---
+docker_compose_package: >-
+  {{ (docker_compose_version == "latest") |
+  ternary("", "=" ~ docker_compose_version ~ "*") }}
+docker_package: >-
+  {{ (docker_version == "latest") |
+  ternary("", "=5:" ~ docker_version ~ "*") }}
+docker_containerd_package: >-
+  {{ (docker_containerd_version == "latest") |
+  ternary("", "=" ~ docker_containerd_version ~ "*") }}
+docker_buildx_package: >-
+  {{ (docker_buildx_version == "latest") |
+  ternary("", "=" ~ docker_buildx_version ~ "*") }}

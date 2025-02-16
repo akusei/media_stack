@@ -27,6 +27,7 @@ permissions:
   - owner: "{{ common_downloads_user }}"
     group: "{{ common_downloads_group }}"
     mode: '0440'
-    dir_mode: '0750'
+    # whisparr will override what you put here
+    dir_mode: '0775'
     paths:
       - "{{ common_data_root }}/whisparr"

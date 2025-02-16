@@ -20,7 +20,7 @@
   changed_when: false
 
 - name: '[{{ container }}] Set compose root for service'
-  set_fact:
+  ansible.builtin.set_fact:
     _containers_compose_root: "{{ (_containers_compose_root | default({})) | combine({container: manifest.stack.compose_directory}) }}"
   when: manifest.stack.compose_directory is defined
 
@@ -71,14 +71,15 @@
       paths:
         - "{{ _containers_container_root }}/post_tasks"
 
-- name: '[{{ container }}] Check for latest'
-  command:
+- name: "[{{ container }}] Force pull image"
+  ansible.builtin.command:
     cmd: echo 'pull latest docker image'
-  when: manifest.stack.force_pull | default(False) | bool == True and manifest.stack.skip_handler | default(False) | bool == False
+  when: manifest.stack.force_pull | default(False) | bool == True
+  changed_when: manifest.stack.force_pull | default(False)
   notify: restart {{ container }}
 
 - name: '[{{ container }}] Check if running'
-  command:
+  ansible.builtin.command:
     cmd: docker ps -qf name="{{ item }}"
   loop: "{{ manifest.stack.ensure_running | default([]) }}"
   register: this

@@ -2,90 +2,93 @@
 ############
 # PACKAGES #
 ############
-docker_buildx_version: 0.15.1-1~ubuntu.20.04~focal
-docker_compose_version: 2.28.1-1~ubuntu.20.04~focal
-docker_version: 5:27.0.3-1~ubuntu.20.04~focal
-docker_containerd_version: 1.7.19-1
+docker_buildx_version: 0.20.0-1~ubuntu.20.04~focal
+docker_compose_version: 2.32.4-1~ubuntu.20.04~focal
+docker_version: 27.5.1-1~ubuntu.20.04~focal
+docker_containerd_version: 1.7.25-1
 
 #################
 # DOCKER IMAGES #
 #################
 # https://github.com/linuxserver/docker-sabnzbd/releases
-sabnzb_tag: 4.3.2-ls173
+sabnzb_tag: 4.4.1-ls202
 
 # https://github.com/linuxserver/docker-deluge/releases
-deluge_tag: 2.1.1-r10-ls279
+deluge_tag: 2.1.1-r10-ls314
 
 # https://github.com/linuxserver/docker-ddclient/releases
-ddclient_tag: v3.11.2-ls168
+ddclient_tag: v4.0.0-ls189
 
 # https://hub.docker.com/_/traefik?tab=tags
-traefik_tag: v3.1
+traefik_tag: v3.3
 
 # https://hub.docker.com/r/pihole/pihole/tags
 pihole_tag: '2024.07.0'
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
-elasticsearch_tag: 8.14.3
-filebeat_tag: 8.14.3
+elasticsearch_tag: 8.17.2
+filebeat_tag: 8.17.2
 
 # https://hub.docker.com/r/portainer/portainer-ce/tags
-portainer_tag: linux-amd64-2.19.5
+portainer_tag: 2.26.1-alpine
 
 # https://github.com/linuxserver/docker-sonarr/releases
-sonarr_tag: 4.0.8.1874-ls248
+sonarr_tag: 4.0.13.2932-ls271
 
 # https://github.com/linuxserver/docker-radarr/releases
-radarr_tag: 5.7.0.8882-ls229
+radarr_tag: 5.18.4.9674-ls259
 
 # https://github.com/linuxserver/docker-lidarr/releases
-lidarr_tag: 2.4.3.4248-ls4
+lidarr_tag: 2.9.6.4552-ls30
 
 # https://hub.docker.com/r/linuxserver/readarr/tags?page=&page_size=&ordering=&name=amd64
 # tags are really weird on this one
-readarr_tag: amd64-develop-0.3.31.2578-ls118
+readarr_tag: amd64-0.4.11-nightly
 
 # https://github.com/linuxserver/docker-overseerr/releases
-overseerr_tag: v1.33.2-ls113
+overseerr_tag: v1.33.2-ls134
 
 # https://github.com/linuxserver/docker-tautulli/releases
-tautulli_tag: v2.14.3-ls144
+tautulli_tag: v2.15.1-ls177
 
 # https://github.com/authelia/authelia/releases
-authelia_tag: 4.38.9
+authelia_tag: 4.38.18
 
 # https://hub.docker.com/r/crazymax/fail2ban/tags
 fail2ban_tag: 1.1.0
 
 # https://hub.docker.com/r/vaultwarden/server/tags
-bitwarden_tag: 1.32.7-alpine
+bitwarden_tag: 1.33.2-alpine
 
 # https://hub.docker.com/r/plexinc/pms-docker/tags
-plex_tag: 1.40.4.8679-424562606
+plex_tag: 1.41.4.9463-630c9f557
 
 # https://hub.docker.com/r/juanluisbaptiste/postfix/tags
 postfix_tag: '1.7.1'
 
 # https://github.com/linuxserver/docker-prowlarr/releases
-prowlarr_tag: 1.20.1.4603-ls79
+prowlarr_tag: 1.30.2.4939-ls105
 
 # https://hub.docker.com/r/pglombardo/pwpush/tags
-pwpusher_tag: 1.41.15
+pwpusher_tag: 1.51
 
 # https://github.com/qdm12/gluetun/releases
-pia_tag: v3.38.0
+pia_tag: v3.40.0
 
 # https://hub.docker.com/r/tecnativa/docker-socket-proxy/tags
-dockerproxy_tag: 0.2
+dockerproxy_tag: 0.3
 
 # https://github.com/hotio/whisparr/pkgs/container/whisparr
-whisparr_tag: v3-3.0.0.545
+whisparr_tag: v3-3.0.0.786
 
 # https://github.com/restic/restic/releases
-restic_version: 0.16.5
+restic_version: 0.17.3
 
 ###############
 # LATEST ONLY #
 ###############
 static_tag: latest
+static_force_pull: true
+
 organizr_tag: latest
+organizr_force_pull: true

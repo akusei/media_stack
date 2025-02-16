@@ -1,6 +1,6 @@
 ---
 - name: Check for existing networks
-  command: docker network ls -q -f name={{ item }}
+  ansible.builtin.command: docker network ls -q -f name={{ item }}
   register: existing_networks
   loop: "{{ docker_networks }}"
   changed_when: false
@@ -8,7 +8,7 @@
   when: docker_networks|length > 0
 
 - name: Create docker networks
-  command: docker network create {{ item.item }}
+  ansible.builtin.command: docker network create {{ item.item }}
   loop: "{{ existing_networks.results }}"
   loop_control:
     label: "{{ item.item }}"

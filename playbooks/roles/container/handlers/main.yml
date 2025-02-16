@@ -1,6 +1,15 @@
 ---
 - name: "restart {{ container }}"
-  command:
+  ansible.builtin.command:
     chdir: "{{ _containers_compose_root[container] }}"
-    cmd: docker compose up -d --quiet-pull --force-recreate
+    cmd: "{{ item.command }}"
   when: container in _containers_compose_root and manifest.stack.skip_handler | default(False) | bool == False
+  loop_control:
+    label: "{{ item.name }}"
+  loop:
+    - name: Build if needed
+      command: docker compose build --no-cache
+    - name: Pulling image
+      command: docker compose pull --ignore-buildable
+    - name: Restarting container
+      command: docker compose up -d --force-recreate
