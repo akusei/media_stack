@@ -16,7 +16,6 @@ services:
       - --global.sendAnonymousUsage=false
       - --entryPoints.http.address=:80
       - --entryPoints.https.address=:443
-      - --entrypoints.https.forwardedHeaders.trustedIPs=127.0.0.1/32
       - --api.dashboard=true
       - --log=true
       - --log.level=${LOG_LEVEL}
@@ -44,8 +43,9 @@ services:
       CF_API_EMAIL: ${CLOUDFLARE_EMAIL:-}
       CF_API_KEY: ${CLOUDFLARE_API_KEY:-}
     networks:
-      - traefik
-      - pusher
+      traefik: {}
+#        ipv4_address: 172.24.0.20
+      pusher: {}
     ports:
       - 80:80/tcp
       - 443:443/tcp

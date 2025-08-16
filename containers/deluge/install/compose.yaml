@@ -6,7 +6,7 @@ services:
     restart: always
     init: true
     cap_add:
-      - net_admin
+      - NET_ADMIN
     healthcheck:
       test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
       interval: 30s
@@ -22,6 +22,7 @@ services:
     devices:
       - /dev/net/tun
     environment:
+      PRIVATE_INTERNET_ACCESS_OPENVPN_ENCRYPTION_PRESET: ${PIA_ENCRYPTION}
       VPN_SERVICE_PROVIDER: private internet access
       VPN_TYPE: openvpn
       OPENVPN_USER: ${PIA_USER}

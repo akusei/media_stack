@@ -1,0 +1,15 @@
+---
+fail2ban_tag: latest
+fail2ban_force_pull: false
+fail2ban_ensure_running: true
+fail2ban_skip_handler: false
+
+fail2ban_config_path: /opt/fail2ban/config
+fail2ban_install_path: /opt/fail2ban
+fail2ban_logs_path: /var/log/fail2ban
+
+fail2ban_ingest_path: /var/log
+
+fail2ban_domain: "localhost"
+fail2ban_admin_email: ""
+fail2ban_email_from: ""

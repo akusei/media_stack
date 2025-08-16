@@ -1,0 +1,45 @@
+---
+- name: Ensure installation directory exists.
+  ansible.builtin.file:
+    path: "{{ fail2ban_install_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0550"
+    recurse: false
+
+- name: Ensure database directory exists.
+  ansible.builtin.file:
+    path: "{{ fail2ban_config_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0750"
+    recurse: false
+
+- name: Ensure config directory exists.
+  ansible.builtin.file:
+    path: "{{ fail2ban_install_path }}/config"
+    state: directory
+    owner: root
+    group: root
+    mode: "0550"
+    recurse: false
+
+- name: Ensure test cases directory exists.
+  ansible.builtin.file:
+    path: "{{ fail2ban_install_path }}/testcases"
+    state: directory
+    owner: root
+    group: root
+    mode: "0550"
+    recurse: false
+
+- name: Ensure logs directory exists.
+  ansible.builtin.file:
+    path: "{{ fail2ban_logs_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0750"
+    recurse: false

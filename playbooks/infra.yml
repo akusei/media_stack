@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../containers/versions.yml
+    - ../configs/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -22,19 +22,18 @@
       changed_when: "'Deleted Images' in this.stdout"
 
   roles:
-    - role: docker
-      docker_networks:
-        - "{{ common_traefik_network_name }}"
-        - "{{ common_pusher_network_name }}"
-
-    - role: container
-      container_name: common
-
-    - role: container
-      container_name: ddclient
-
-    - role: container
-      container_name: traefik
-
-    - role: container
-      container_name: pihole
+#    - role: docker
+#      docker_networks:
+#        - "{{ common_traefik_network_name }}"
+#        - "{{ common_pusher_network_name }}"
+#
+    - role: containers/ddclient
+      ddclient_config_path: "{{ common_install_root }}/ddclient/config"
+      ddclient_install_path: "{{ common_install_root }}/ddclient"
+      ddclient_config_file: "{{ playbook_dir ~ '/../configs/ddclient/ddclient.conf' }}"
+#
+#    - role: container
+#      container_name: traefik
+#
+#    - role: container
+#      container_name: pihole

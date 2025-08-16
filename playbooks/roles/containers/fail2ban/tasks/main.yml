@@ -1,0 +1,27 @@
+---
+- name: Ensure required directories exist.
+  ansible.builtin.import_tasks:
+    file: directories.yml
+
+- name: Ensure required files exist.
+  ansible.builtin.import_tasks:
+    file: copy_files.yml
+
+- name: Ensure required configuration exists.
+  ansible.builtin.import_tasks:
+    file: config.yml
+
+- name: Force pull image.
+  ansible.builtin.command:
+    cmd: echo 'pull latest docker image'
+  when: fail2ban_tag == "latest" or fail2ban_force_pull
+  notify: Restart Fail2ban
+
+- name: Check if running.
+  ansible.builtin.command:
+    cmd: docker ps -qf name=fail2ban
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  when: fail2ban_ensure_running
+  notify: Restart Fail2ban

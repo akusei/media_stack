@@ -12,6 +12,7 @@ targets:
     dest: "{{ common_install_root }}/deluge"
   - dest: "{{ common_data_root }}/deluge"
   - dest: "{{ common_downloads_root }}/torrent"
+  - dest: "{{ deluge.gluetun_config_full_path }}"
 
 users:
   - user: "{{ common_downloads_user }}"
@@ -33,6 +34,14 @@ permissions:
     paths:
       - install
       - install/*
+
+  - owner: root
+    group: root
+    mode: '0640'
+    dir_mode: '0750'
+    paths:
+      - "{{ deluge.gluetun_config_path }}"
+      - "{{ deluge.gluetun_config_path }}/*"
 
   - owner: "{{ common_downloads_user }}"
     group: "{{ common_downloads_group }}"

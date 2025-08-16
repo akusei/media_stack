@@ -1,0 +1,21 @@
+---
+#- name: debug
+#  ansible.builtin.debug:
+#    var: vars
+- name: Check if Gluetun servers file exists.
+  ansible.builtin.stat:
+    path: "{{ deluge.gluetun_config_full_path }}"
+  changed_when: false
+  register: gluetun_config_status
+
+- name: Update Gluetun Servers
+  ansible.builtin.command:
+    chdir: "{{ common_install_root }}/deluge"
+    cmd: >-
+      docker run --rm -v
+      {{ deluge.gluetun_config_full_path }}:/gluetun qmcgaw/gluetun:{{ deluge_tag }}
+      update -enduser -providers "private internet access"
+  changed_when: true
+  when: >-
+    not gluetun_config_status.stat.exists or
+    (deluge_force_gluetun_update | default(False) | bool)

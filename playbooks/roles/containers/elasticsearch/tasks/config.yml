@@ -1,0 +1,10 @@
+---
+- name: Ensure users config exist.
+  ansible.builtin.copy:
+    src: config/kibana.yml
+    dest: "{{ elasticsearch_config_path }}/kibana.yml"
+    owner: root
+    group: root
+    mode: "0440"
+  notify: Restart Elasticsearch
+

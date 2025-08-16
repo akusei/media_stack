@@ -21,18 +21,31 @@ class ActionModule(ActionBase):
         all_groups = []
         users = []
         for user in manifest.get('users', []):
-            user_group = user.get('group', user['user'])
-            user_groups = user.get('groups')
-            all_groups.append(user_group)
-            user['group'] = user_group
+            user["group"] = user.get("group", user["user"])
+
+            all_groups.append(user["group"])
+            all_groups.extend(user.get("groups", []))
+
             users.append(user)
-            if user_groups is not None:
-                all_groups.extend(user_groups)
-                user['groups'] = user_groups
-            elif len(user_groups or []) <= 0 and 'groups' in user:
-                del user['groups']
 
         return list(set(all_groups)), users
+
+    # def _load_users(self, manifest):
+    #     all_groups = []
+    #     users = []
+    #     for user in manifest.get('users', []):
+    #         user_group = user.get('group', user['user'])
+    #         user_groups = user.get('groups')
+    #         all_groups.append(user_group)
+    #         user['group'] = user_group
+    #         users.append(user)
+    #         if user_groups is not None:
+    #             all_groups.extend(user_groups)
+    #             user['groups'] = user_groups
+    #         elif len(user_groups or []) <= 0 and 'groups' in user:
+    #             del user['groups']
+    #
+    #     return list(set(all_groups)), users
 
     def _resolve_permissions(self, manifest, file_records):
         for perm in manifest.get('permissions', []):
@@ -61,15 +74,20 @@ class ActionModule(ActionBase):
                     })
 
     def run(self, tmp=None, task_vars=None):
+        result = super(ActionModule, self).run(task_vars=task_vars or {})
+
         if 'path' not in self._task.args:
             raise AnsibleError("Missing required argument 'path'")
 
         container_path = self._task.args['path']
         manifest_file = os.path.join(container_path, 'settings.yml')
+        # self._templar.available_variables = task_vars
         with open(manifest_file, 'r') as f:
-            manifest = self._templar.template(yaml_load(f), fail_on_undefined=True)
+            manifest = self._templar.template(yaml_load(f), fail_on_undefined=False)
 
         # validate manifest here
+        # import json
+        # display.display(json.dumps(manifest, indent=2))
 
         directories = []
         for target in manifest.get('targets', []):
@@ -113,11 +131,74 @@ class ActionModule(ActionBase):
 
         groups, users = self._load_users(manifest)
 
-        result = super(ActionModule, self).run(task_vars=task_vars or {})
-
         result['targets'] = sorted_dirs
         result['groups'] = groups
         result['users'] = users
         result['stack'] = manifest['stack']
 
+        import json
+        display.display(json.dumps(result, indent=2))
+
         return result
+
+    # def run(self, tmp=None, task_vars=None):
+    #     if 'path' not in self._task.args:
+    #         raise AnsibleError("Missing required argument 'path'")
+    #
+    #     container_path = self._task.args['path']
+    #     manifest_file = os.path.join(container_path, 'settings.yml')
+    #     with open(manifest_file, 'r') as f:
+    #         manifest = self._templar.template(yaml_load(f), fail_on_undefined=True)
+    #
+    #     # validate manifest here
+    #
+    #     directories = []
+    #     for target in manifest.get('targets', []):
+    #         if 'src' not in target:
+    #             directories.append(
+    #                 {
+    #                     'path': target['dest'],
+    #                     'type': 'dir',
+    #                     'depth': 0
+    #                 }
+    #             )
+    #             continue
+    #
+    #         src_dir = os.path.join(container_path, target['src'])
+    #         if not os.path.exists(src_dir):
+    #             raise AnsibleError(f"root directory {target['src']} not found")
+    #
+    #         for root, _, files in os.walk(src_dir, followlinks=True):
+    #             for file in files:
+    #                 directories.append(
+    #                     {
+    #                         'target': target['src'],
+    #                         'type': 'template' if str(file).endswith('.j2') else 'file',
+    #                         'src': os.path.join(root, file),
+    #                         'dest': os.path.join(root.replace(src_dir, target['dest']), file),
+    #                         'depth': 0
+    #                     }
+    #                 )
+    #             dest = str(root).replace(src_dir, target['dest'])
+    #             directories.append(
+    #                 {
+    #                     'target': target['src'],
+    #                     'type': 'dir',
+    #                     'path': dest,
+    #                     'depth': len(dest.split(os.sep))
+    #                 }
+    #             )
+    #
+    #     self._resolve_permissions(manifest, directories)
+    #     sorted_dirs = sorted(directories, key=lambda x: x['depth'])
+    #
+    #     groups, users = self._load_users(manifest)
+    #
+    #     result = super(ActionModule, self).run(task_vars=task_vars or {})
+    #
+    #     result['targets'] = sorted_dirs
+    #     result['groups'] = groups
+    #     result['users'] = users
+    #     result['stack'] = manifest['stack']
+    #
+    #     return result

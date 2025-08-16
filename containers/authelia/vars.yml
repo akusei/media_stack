@@ -1,2 +1,0 @@
----
-data_install_path: "{{ common_data_root }}/authelia"

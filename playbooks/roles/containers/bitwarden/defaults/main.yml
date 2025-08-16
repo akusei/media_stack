@@ -1,0 +1,12 @@
+---
+bitwarden_tag: latest
+bitwarden_force_pull: false
+bitwarden_ensure_running: true
+bitwarden_skip_handler: false
+
+bitwarden_fqdn: "warden.localhost"
+bitwarden_config_path: /opt/bitwarden/config
+bitwarden_install_path: /opt/bitwarden
+bitwarden_logs_path: /var/log/bitwarden
+
+bitwarden_smtp_from: warden@localhost

@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../containers/versions.yml
+    - ../configs/versions.yml
     - ../vars/secrets
   become: true
   gather_facts: true
@@ -22,19 +22,23 @@
       changed_when: "'Deleted Images' in this.stdout"
 
   roles:
-    - role: docker
-      docker_volumes:
-        - name: filebeat_registry
-        - name: elasticsearch_es_data
-      docker_networks:
-        - "{{ common_traefik_network_name }}"
-        - elastic
+    - role: containers/elasticsearch
+      elasticsearch_install_path: "{{ common_install_root }}/elasticsearch"
+      elasticsearch_config_path: "{{ common_install_root }}/elasticsearch/config"
 
-    - role: container
-      container_name: common
-
-    - role: container
-      container_name: elasticsearch
-
-    - role: container
-      container_name: filebeat
+#    - role: docker
+#      docker_volumes:
+#        - name: filebeat_registry
+#        - name: elasticsearch_es_data
+#      docker_networks:
+#        - "{{ common_traefik_network_name }}"
+#        - elastic
+#
+#    - role: container
+#      container_name: common
+#
+#    - role: container
+#      container_name: elasticsearch
+#
+#    - role: container
+#      container_name: filebeat

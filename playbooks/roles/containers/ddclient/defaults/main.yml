@@ -1,0 +1,13 @@
+---
+ddclient_tag: latest
+ddclient_force_pull: false
+ddclient_ensure_running: true
+ddclient_skip_handler: false
+
+ddclient_config_path: /opt/ddclient/config
+ddclient_install_path: /opt/ddclient
+
+ddclient_user: ddclient
+ddclient_group: ddclient
+
+ddclient_config_file: ""
