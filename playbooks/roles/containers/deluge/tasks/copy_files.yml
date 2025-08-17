@@ -1,0 +1,26 @@
+---
+- name: Ensure compose file exist.
+  ansible.builtin.copy:
+    src: compose.yml
+    dest: "{{ deluge_install_path }}/compose.yml"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Deluge
+
+- name: Ensure wait script exist.
+  ansible.builtin.copy:
+    src: wait/90-wait-for-vpn.sh
+    dest: "{{ deluge_install_path }}/wait/90-wait-for-vpn.sh"
+    owner: root
+    group: root
+    mode: "0540"
+
+- name: Ensure environment file exist.
+  ansible.builtin.template:
+    src: ".env.j2"
+    dest: "{{ deluge_install_path }}/.env"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Deluge

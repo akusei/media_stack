@@ -1,0 +1,49 @@
+---
+setup.dashboards.enabled: false
+setup.template.enabled: false
+setup.ilm.enabled: false
+filebeat.registry.path: /registry
+
+logging.level: error
+
+filebeat.inputs:
+  - type: filestream
+    id: traefik
+    index: logs-traefik.access-prod
+    pipeline: traefik-pipeline
+    paths:
+      - /logs/traefik/access.log*
+
+  - type: filestream
+    id: authelia
+    index: logs-authelia.access-prod
+    pipeline: authelia-pipeline
+    paths:
+      - /logs/authelia/authelia.log
+
+  - type: filestream
+    id: bitwarden
+    index: logs-bitwarden.access-prod
+    pipeline: bitwarden-pipeline
+    paths:
+      - /logs/bitwarden/bitwarden.log
+
+  - type: filestream
+    id: fail2ban
+    index: logs-fail2ban.access-prod
+    pipeline: fail2ban-pipeline
+    paths:
+      - /logs/fail2ban/fail2ban.log*
+
+  - type: udp
+    pipeline: router-pipeline
+    host: "0.0.0.0:514"
+
+# output.console:
+#  pretty: true
+
+output.elasticsearch:
+  hosts:
+    - http://elasticsearch:9200
+  username: {{ vault_elastic_username }}
+  password: {{ vault_elastic_password }}

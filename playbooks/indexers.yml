@@ -3,8 +3,8 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../containers/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
@@ -26,8 +26,6 @@
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
-    - role: container
-      container_name: common
-
-    - role: container
-      container_name: prowlarr
+    - role: containers/prowlarr
+      prowlarr_config_path: "{{ common_data_root }}/prowlarr"
+      prowlarr_install_path: "{{ common_install_root }}/prowlarr"

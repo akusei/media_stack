@@ -1,6 +1,0 @@
----
-# there's an issue with using variables from this file, in this file, need to fix that
-gluetun_config_path: "gluetun"
-#gluetun_config_full_path: "{{ common_install_root }}/deluge/gluetun"
-#gluetun_config_full_path: "{{ common_install_root }}/deluge/{{ deluge.gluetun_config_path }}"
-gluetun_config_full_path: "{{ common_install_root }}/deluge/{{ deluge.gluetun_config_path }}"

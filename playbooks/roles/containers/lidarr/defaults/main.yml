@@ -1,0 +1,14 @@
+---
+lidarr_tag: latest
+lidarr_force_pull: false
+lidarr_ensure_running: true
+lidarr_skip_handler: false
+
+lidarr_fqdn: music.local
+lidarr_config_path: /opt/lidarr/config
+lidarr_install_path: /opt/lidarr
+lidarr_downloads_path: /downloads
+
+lidarr_timezone: Etc/UTC
+lidarr_user: lidarr
+lidarr_group: lidarr

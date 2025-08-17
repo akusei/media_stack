@@ -1,0 +1,14 @@
+---
+radarr_tag: latest
+radarr_force_pull: false
+radarr_ensure_running: true
+radarr_skip_handler: false
+
+radarr_fqdn: movies.local
+radarr_config_path: /opt/radarr/config
+radarr_install_path: /opt/radarr
+radarr_downloads_path: /downloads
+
+radarr_timezone: Etc/UTC
+radarr_user: radarr
+radarr_group: radarr

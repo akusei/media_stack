@@ -1,0 +1,33 @@
+---
+- name: Ensure user group exist.
+  ansible.builtin.group:
+    name: "{{ sonarr_group }}"
+    state: present
+
+- name: Ensure service users exist.
+  ansible.builtin.user:
+    name: "{{ sonarr_user }}"
+    group: "{{ sonarr_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export group IDs
+  ansible.builtin.getent:
+    database: group
+    key: "{{ sonarr_group }}"
+  changed_when: false
+  register: getent_groups
+
+- name: Export user IDs
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ sonarr_user }}"
+  changed_when: false
+  register: getent_users
+
+- name: Gather user facts
+  ansible.builtin.set_fact:
+    sonarr_user_id: "{{ getent_passwd[sonarr_user][1] }}"
+    sonarr_group_id: "{{ getent_group[sonarr_group][1] }}"

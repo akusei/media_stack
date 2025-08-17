@@ -3,8 +3,9 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../containers/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
+    - ../config/vpn.yml
   become: true
   gather_facts: true
 
@@ -28,11 +29,16 @@
       docker_volumes:
         - "{{ common_docker_software_mount }}"
 
-    - role: container
-      container_name: common
+    - role: containers/sabnzb
+      sabnzb_user: "{{ common_downloads_user }}"
+      sabnzb_group: "{{ common_downloads_group }}"
+      sabnzb_config_path: "{{ common_data_root }}/sabnzb"
+      sabnzb_install_path: "{{ common_install_root }}/sabnzb"
+      sabnzb_downloads_root: "{{ common_downloads_root }}"
 
-    - role: container
-      container_name: sabnzbd
-
-    - role: container
-      container_name: deluge
+    - role: containers/deluge
+      deluge_user: "{{ common_downloads_user }}"
+      deluge_group: "{{ common_downloads_group }}"
+      deluge_config_path: "{{ common_data_root }}/deluge"
+      deluge_install_path: "{{ common_install_root }}/deluge"
+      deluge_downloads_path: "{{ common_downloads_root }}/torrent"

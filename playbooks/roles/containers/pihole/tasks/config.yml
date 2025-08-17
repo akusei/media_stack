@@ -1,0 +1,26 @@
+---
+- name: Ensure DNSMasq config exists.
+  ansible.builtin.template:
+    src: config/02-custom.conf.j2
+    dest: "{{ pihole_install_path }}/config/02-custom.conf"
+    owner: "{{ pihole_user }}"
+    group: "{{ pihole_group }}"
+    mode: "0444"
+  notify: Restart Pihole
+
+- name: Ensure DHCP config exists.
+  ansible.builtin.template:
+    src: config/07-dhcp-options.conf.j2
+    dest: "{{ pihole_install_path }}/config/07-dhcp-options.conf"
+    owner: "{{ pihole_user }}"
+    group: "{{ pihole_group }}"
+    mode: "0444"
+  notify: Restart Pihole
+
+- name: Ensure gravity update cron job exists.
+  ansible.builtin.cron:
+    name: "pihole update"
+    minute: "0"
+    hour: "11"
+    user: root
+    job: /usr/bin/docker exec pihole pihole -g >/var/log/pihole-update.log 2>&1

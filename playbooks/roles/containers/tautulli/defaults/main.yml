@@ -1,0 +1,14 @@
+---
+tautulli_tag: latest
+tautulli_force_pull: false
+tautulli_ensure_running: true
+tautulli_skip_handler: false
+
+tautulli_fqdn: stats.local
+tautulli_config_path: /opt/tautulli/config
+tautulli_install_path: /opt/tautulli
+tautulli_plex_logs_path: /cache/plex/Library/Application Support/Plex Media Server/Logs
+
+tautulli_timezone: Etc/UTC
+tautulli_user: tautulli
+tautulli_group: tautulli

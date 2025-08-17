@@ -1,0 +1,185 @@
+############
+# PACKAGES #
+############
+
+docker_buildx_version: 0.23.0
+docker_compose_version: 2.35.1
+docker_version: 28.1.1
+docker_containerd_version: 1.7.27
+
+
+##############
+# CONTAINERS #
+##############
+
+# https://github.com/authelia/authelia/releases
+authelia_tag: 4.39.6
+authelia_force_pull: false
+authelia_ensure_running: true
+authelia_jwt_token: "{{ vault_jwt_token }}"
+authelia_session_token: "{{ vault_session_token }}"
+
+# https://hub.docker.com/r/vaultwarden/server/tags
+bitwarden_tag: 1.34.3-alpine
+bitwarden_force_pull: false
+bitwarden_ensure_running: true
+bitwarden_smtp_from: "{{ common_smtp_from }}"
+
+# https://github.com/linuxserver/docker-ddclient/releases
+ddclient_tag: v4.0.0-ls206
+ddclient_force_pull: false
+ddclient_ensure_running: true
+
+# TODO: need to add an update task for updating the gluetun server list
+# https://github.com/linuxserver/docker-deluge/releases
+# https://github.com/qdm12/gluetun/releases
+deluge_tag: 2.2.0-r1-ls341
+deluge_gluetun_tag: v3.40.0
+deluge_force_pull: false
+deluge_ensure_running: true
+
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+elasticsearch_tag: 9.1.2
+elasticsearch_force_pull: false
+elasticsearch_ensure_running: true
+elasticsearch_username: "{{ vault_elastic_username }}"
+elasticsearch_password: "{{ vault_elastic_password }}"
+
+# https://hub.docker.com/r/crazymax/fail2ban/tags
+fail2ban_tag: 1.1.0
+fail2ban_force_pull: false
+fail2ban_ensure_running: true
+fail2ban_admin_email: "{{ vault_smtp_username }}"
+fail2ban_email_from: "{{ common_smtp_from }}"
+
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+filebeat_tag: 9.1.2
+filebeat_force_pull: false
+filebeat_ensure_running: true
+
+# https://github.com/linuxserver/docker-lidarr/releases
+lidarr_tag: 2.12.4.4658-ls49
+lidarr_force_pull: false
+lidarr_ensure_running: true
+
+# https://hub.docker.com/r/pihole/pihole/tags
+pihole_tag: "2025.08.0"
+pihole_force_pull: false
+pihole_ensure_running: true
+
+# https://hub.docker.com/r/plexinc/pms-docker/tags
+plex_tag: 1.42.1.10060-4e8b05daf
+plex_force_pull: false
+plex_ensure_running: true
+plex_claim_token: "{{ vault_plex_claim }}"
+plex_docker_runtime: nvidia
+
+# https://hub.docker.com/r/portainer/portainer-ce/tags
+portainer_tag: 2.27.9-alpine
+portainer_force_pull: false
+portainer_ensure_running: true
+
+# https://hub.docker.com/r/juanluisbaptiste/postfix/tags
+postfix_tag: "1.7.3"
+postfix_force_pull: false
+postfix_ensure_running: true
+postfix_gmail_username: "{{ vault_smtp_username }}"
+postfix_gmail_password: "{{ vault_smtp_password }}"
+
+# https://github.com/linuxserver/docker-prowlarr/releases
+prowlarr_tag: 1.37.0.5076-ls124
+prowlarr_force_pull: false
+prowlarr_ensure_running: true
+
+# https://hub.docker.com/r/pglombardo/pwpush/tags
+pwpusher_tag: 1.59
+pwpusher_force_pull: false
+pwpusher_ensure_running: true
+
+# https://github.com/linuxserver/docker-radarr/releases
+radarr_tag: 5.26.2.10099-ls280
+radarr_force_pull: false
+radarr_ensure_running: true
+
+# https://hub.docker.com/r/linuxserver/readarr/tags?page=&page_size=&ordering=&name=amd64
+# tags are really weird on this one
+readarr_tag: amd64-0.4.19-nightly
+readarr_force_pull: false
+readarr_ensure_running: true
+
+# https://github.com/linuxserver/docker-sonarr/releases
+sonarr_tag: 4.0.15.2941-ls289
+sonarr_force_pull: false
+sonarr_ensure_running: true
+
+# https://hotio.dev/containers/whisparr/
+whisparr_tag: v3-3.0.0.1247
+whisparr_force_pull: false
+whisparr_ensure_running: true
+
+# organizr only has latest
+# TODO: tags are weird, hasn't been updated in a while, might look for replacement
+organizr_tag: latest
+organizr_force_pull: true
+organizr_ensure_running: true
+
+# https://github.com/linuxserver/docker-overseerr/releases
+overseerr_tag: v1.34.0-ls146
+overseerr_force_pull: false
+overseerr_ensure_running: true
+
+# https://github.com/linuxserver/docker-sabnzbd/releases
+sabnzb_tag: 4.5.2-ls227
+sabnzb_force_pull: false
+sabnzb_ensure_running: true
+
+# no other option
+static_tag: latest
+static_force_pull: true
+static_ensure_running: true
+
+# https://github.com/linuxserver/docker-tautulli/releases
+tautulli_tag: v2.15.3-ls199
+tautulli_force_pull: false
+tautulli_ensure_running: true
+
+# https://hub.docker.com/_/traefik?tab=tags
+# https://hub.docker.com/r/tecnativa/docker-socket-proxy/tags
+traefik_tag: v3.5
+traefik_dockerproxy_tag: "0.3"
+traefik_force_pull: false
+traefik_ensure_running: true
+traefik_cloudflare_email: "{{ vault_admin_email }}"
+traefik_cloudflare_api_key: "{{ vault_cloudflare_api_key }}"
+
+# https://github.com/restic/restic/releases
+restic_version: 0.18.0
+
+###########
+# DOMAINS #
+###########
+fail2ban_domain: "{{ vault_domain }}"
+lidarr_fqdn: "music.{{ vault_domain }}"
+prowlarr_fqdn: "indexer.{{ vault_domain }}"
+elasticsearch_fqdn: "kibana.{{ vault_domain }}"
+bitwarden_fqdn: "warden.{{ vault_domain }}"
+authelia_fqdn: "auth.{{ vault_domain }}"
+radarr_fqdn: "movies.{{ vault_domain }}"
+readarr_fqdn: "books.{{ vault_domain }}"
+sonarr_fqdn: "shows.{{ vault_domain }}"
+whisparr_fqdn: "ad.{{ vault_domain }}"
+organizr_domain: "{{ vault_domain }}"
+organizr_fqdn: "www.{{ vault_domain }}"
+overseerr_fqdn: "request.{{ vault_domain }}"
+sabnzb_fqdn: "newz.{{ vault_domain }}"
+deluge_fqdn: "bt.{{ vault_domain }}"
+traefik_domain: "{{ vault_domain }}"
+traefik_fqdn: "proxy.{{ vault_domain }}"
+pihole_zone: "{{ vault_domain }}"
+pihole_fqdn: "pihole.{{ vault_domain }}"
+portainer_fqdn: "docker.{{ vault_domain }}"
+static_fqdn: "static.{{ vault_domain }}"
+plex_fqdn: "watch.{{ vault_domain }}"
+tautulli_fqdn: "stats.{{ vault_domain }}"
+postfix_domain: "{{ vault_domain }}"
+pwpusher_fqdn: "fling.{{ vault_domain }}"

@@ -1,0 +1,116 @@
+---
+services:
+  gluetun:
+    image: qmcgaw/gluetun:${PIA_VERSION}
+    container_name: gluetun
+    restart: always
+    init: true
+    cap_add:
+      - NET_ADMIN
+    healthcheck:
+      test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 0s
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 8112
+    devices:
+      - /dev/net/tun
+    environment:
+      PRIVATE_INTERNET_ACCESS_OPENVPN_ENCRYPTION_PRESET: ${PIA_ENCRYPTION}
+      VPN_SERVICE_PROVIDER: private internet access
+      VPN_TYPE: openvpn
+      OPENVPN_USER: ${PIA_USER}
+      OPENVPN_PASSWORD: ${PIA_PASSWORD}
+      OPENVPN_PROTOCOL: ${PIA_PROTOCOL}
+      SERVER_REGIONS: ${PIA_REGION}
+      TZ: ${TIMEZONE}
+    volumes:
+      - ./gluetun:/gluetun
+    labels:
+      traefik.enable: true
+      traefik.http.routers.deluge.service: deluge
+      traefik.http.routers.deluge.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.deluge.entrypoints: https
+      traefik.http.routers.deluge.tls: true
+      traefik.http.services.deluge.loadbalancer.server.port: 8112
+      traefik.http.routers.deluge.middlewares: mfa
+
+  # logging handled in traefik and authelia
+  # does not run as root
+  # pia:
+  #   image: qmcgaw/private-internet-access:${PIA_VERSION}
+  #   container_name: pia
+  #   restart: always
+  #   init: true
+  #   cap_add:
+  #     - net_admin
+  #   healthcheck:
+  #     test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
+  #     interval: 30s
+  #     timeout: 30s
+  #     retries: 3
+  #     start_period: 0s
+  #   networks:
+  #     traefik:
+  #       aliases:
+  #         - ${DOMAIN}
+  #   expose:
+  #     - 8112
+  #   devices:
+  #     - /dev/net/tun
+  #   environment:
+  #     TZ: ${TIMEZONE}
+  #     VPNSP: private internet access
+  #     REGION: ${PIA_REGION}
+  #     USER: ${PIA_USER}
+  #     PASSWORD: ${PIA_PASSWORD}
+  #     PIA_ENCRYPTION: ${PIA_ENCRYPTION}
+  #     PROTOCOL: ${PIA_PROTOCOL}
+  #   labels:
+  #     traefik.enable: true
+  #     traefik.http.routers.deluge.service: deluge
+  #     traefik.http.routers.deluge.rule: Host(`${DOMAIN}`)
+  #     traefik.http.routers.deluge.entrypoints: https
+  #     traefik.http.routers.deluge.tls: true
+  #     traefik.http.services.deluge.loadbalancer.server.port: 8112
+  #     traefik.http.routers.deluge.middlewares: mfa
+
+  # logging handled in traefik and authelia
+  # does not run as root
+  deluge:
+    depends_on:
+      - gluetun
+    image: lscr.io/linuxserver/deluge:${DELUGE_VERSION}
+    container_name: deluge
+    restart: always
+    network_mode: service:gluetun
+    environment:
+      TZ: ${TIMEZONE}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - source: software-mount
+        type: volume
+        target: /software
+        volume:
+          nocopy: true
+      - ${DATA_PATH}:/config
+      - ${DOWNLOADS_PATH}:/downloads
+      - ./wait/90-wait-for-vpn.sh:/etc/cont-init.d/90-wait-for-vpn.sh:ro
+
+
+volumes:
+  software-mount:
+    name: software-mount
+    external: true
+
+networks:
+  traefik:
+    name: traefik
+    external: true

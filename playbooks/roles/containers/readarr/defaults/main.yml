@@ -1,0 +1,14 @@
+---
+readarr_tag: latest
+readarr_force_pull: false
+readarr_ensure_running: true
+readarr_skip_handler: false
+
+readarr_fqdn: books.local
+readarr_config_path: /opt/readarr/config
+readarr_install_path: /opt/readarr
+readarr_downloads_path: /downloads
+
+readarr_timezone: Etc/UTC
+readarr_user: readarr
+readarr_group: readarr

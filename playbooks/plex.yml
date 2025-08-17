@@ -3,8 +3,8 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../containers/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
@@ -28,9 +28,6 @@
       docker_volumes:
         - "{{ common_docker_media_mount }}"
 
-    - role: container
-      container_name: common
-
     # this isn't working currently, installing nvidia drivers on linux
     # is a pain in the ass
     # - role: nvidia
@@ -38,20 +35,27 @@
     #   nvidia_docker2_version: 2.6.0-1
     #   nvidia_container_version: 1.5.1-1
 
-    - role: container
-      container_name: static
+    - role: containers/static
+      static_www_root: "{{ common_data_root }}/static"
+      static_install_path: "{{ common_install_root }}/static"
 
-    - role: container
-      container_name: plex
+    - role: containers/plex
+      plex_install_path: "{{ common_install_root }}/plex"
+      plex_advertise_ip: "{{ advertise_ip }}"
 
-    - role: container
-      container_name: organizr
+    - role: containers/organizr
+      organizr_config_path: "{{ common_data_root }}/organizr"
+      organizr_install_path: "{{ common_install_root }}/organizr"
 
-    - role: container
-      container_name: overseerr
+    - role: containers/overseerr
+      overseerr_config_path: "{{ common_data_root }}/overseerr"
+      overseerr_install_path: "{{ common_install_root }}/overseerr"
 
+#      deprecated
 #    - role: container
 #      container_name: ombi
 
-    - role: container
-      container_name: tautulli
+    - role: containers/tautulli
+      tautulli_config_path: "{{ common_data_root }}/tautulli"
+      tautulli_install_path: "{{ common_install_root }}/tautulli"
+      plex_logs_path: "/cache/plex/Library/Application Support/Plex Media Server/Logs"

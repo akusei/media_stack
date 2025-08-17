@@ -1,0 +1,13 @@
+---
+organizr_tag: latest
+organizr_force_pull: false
+organizr_ensure_running: true
+organizr_skip_handler: false
+
+organizr_fqdn: www.local
+organizr_domain: local
+organizr_config_path: /opt/organizr/config
+organizr_install_path: /opt/organizr
+
+organizr_user: organizr
+organizr_group: organizr

@@ -1,6 +1,0 @@
----
-_containers_root: >-  # noqa var-naming[no-role-prefix]
-  {{ (role_path, '..', '..', '..', 'containers') | path_join | realpath }}
-_containers_container_root: >-  # noqa var-naming[no-role-prefix]
-  {{ (_containers_root, container_name) | path_join }}
-_containers_restart: []  # noqa var-naming[no-role-prefix]

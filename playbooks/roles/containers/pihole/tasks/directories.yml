@@ -1,0 +1,37 @@
+---
+- name: Ensure installation directory exists.
+  ansible.builtin.file:
+    path: "{{ pihole_install_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0550"
+    recurse: false
+
+# pihole will force this to 0755 at runtime
+- name: Ensure configuration directory exists.
+  ansible.builtin.file:
+    path: "{{ pihole_config_path }}"
+    state: directory
+    owner: "{{ pihole_user }}"
+    group: "{{ pihole_group }}"
+    mode: "0755"
+    recurse: false
+
+- name: Ensure dnsmasq directory exists.
+  ansible.builtin.file:
+    path: "{{ pihole_install_path }}/config"
+    state: directory
+    owner: root
+    group: root
+    mode: "0750"
+    recurse: false
+
+- name: Ensure DHCP Helper directory exists.
+  ansible.builtin.file:
+    path: "{{ pihole_install_path }}/dhcp_helper"
+    state: directory
+    owner: root
+    group: root
+    mode: "0750"
+    recurse: false

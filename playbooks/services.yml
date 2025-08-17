@@ -3,8 +3,8 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../configs/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
@@ -22,15 +22,15 @@
       changed_when: "'Deleted Images' in this.stdout"
 
   roles:
-#    - role: docker
-#      docker_networks:
-#        - "{{ common_traefik_network_name }}"
-#        - "{{ common_pusher_network_name }}"
-#
+    - role: docker
+      docker_networks:
+        - "{{ common_traefik_network_name }}"
+        - "{{ common_pusher_network_name }}"
+
     - role: containers/bitwarden
       bitwarden_config_path: "{{ common_data_root }}/bitwarden"
       bitwarden_install_path: "{{ common_install_root }}/bitwarden"
       bitwarden_logs_path: "{{ common_logs_root }}/bitwarden"
 
-#    - role: container
-#      container_name: pwpusher
+    - role: containers/pwpusher
+      pwpusher_install_path: "{{ common_install_root }}/pwpusher"

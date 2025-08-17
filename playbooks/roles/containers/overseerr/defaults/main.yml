@@ -1,0 +1,13 @@
+---
+overseerr_tag: latest
+overseerr_force_pull: false
+overseerr_ensure_running: true
+overseerr_skip_handler: false
+
+overseerr_fqdn: request.local
+overseerr_config_path: /opt/overseerr/config
+overseerr_install_path: /opt/overseerr
+
+overseerr_timezone: Etc/UTC
+overseerr_user: overseerr
+overseerr_group: overseerr

@@ -1,0 +1,10 @@
+---
+- name: Ensure configuration exist.
+  ansible.builtin.template:
+    src: "{{ filebeat_config_file }}"
+    dest: "{{ filebeat_config_path }}/filebeat.yml"
+    owner: root
+    group: root
+    mode: "0440"
+  when: filebeat_config_file != ""
+  notify: Restart Filebeat

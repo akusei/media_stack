@@ -3,8 +3,8 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../configs/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
@@ -22,23 +22,19 @@
       changed_when: "'Deleted Images' in this.stdout"
 
   roles:
+    - role: docker
+      docker_volumes:
+        - name: filebeat_registry
+        - name: elasticsearch_es_data
+      docker_networks:
+        - "{{ common_traefik_network_name }}"
+        - elastic
+
     - role: containers/elasticsearch
       elasticsearch_install_path: "{{ common_install_root }}/elasticsearch"
       elasticsearch_config_path: "{{ common_install_root }}/elasticsearch/config"
 
-#    - role: docker
-#      docker_volumes:
-#        - name: filebeat_registry
-#        - name: elasticsearch_es_data
-#      docker_networks:
-#        - "{{ common_traefik_network_name }}"
-#        - elastic
-#
-#    - role: container
-#      container_name: common
-#
-#    - role: container
-#      container_name: elasticsearch
-#
-#    - role: container
-#      container_name: filebeat
+    - role: containers/filebeat
+      filebeat_install_path: "{{ common_install_root }}/filebeat"
+      filebeat_config_path: "{{ common_install_root }}/filebeat/config"
+      filebeat_config_file: "{{ playbook_dir ~ '/../config/filebeat/filebeat.yml' }}"

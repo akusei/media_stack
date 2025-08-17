@@ -1,0 +1,18 @@
+---
+- name: Ensure Nginx config exists.
+  ansible.builtin.copy:
+    src: default.conf
+    dest: "{{ static_install_path }}/default.conf"
+    owner: root
+    group: root
+    mode: "0440"
+  notify: Restart Static
+
+- name: Ensure robots.txt exists.
+  ansible.builtin.copy:
+    src: data/robots.txt
+    dest: "{{ static_www_root }}/robots.txt"
+    owner: root
+    group: root
+    mode: "0440"
+  notify: Restart Static

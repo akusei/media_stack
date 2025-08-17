@@ -1,0 +1,33 @@
+---
+- name: Ensure user group exist.
+  ansible.builtin.group:
+    name: "{{ prowlarr_group }}"
+    state: present
+
+- name: Ensure service users exist.
+  ansible.builtin.user:
+    name: "{{ prowlarr_user }}"
+    group: "{{ prowlarr_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export group IDs
+  ansible.builtin.getent:
+    database: group
+    key: "{{ prowlarr_group }}"
+  changed_when: false
+  register: getent_groups
+
+- name: Export user IDs
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ prowlarr_user }}"
+  changed_when: false
+  register: getent_users
+
+- name: Gather user facts
+  ansible.builtin.set_fact:
+    prowlarr_user_id: "{{ getent_passwd[prowlarr_user][1] }}"
+    prowlarr_group_id: "{{ getent_group[prowlarr_group][1] }}"

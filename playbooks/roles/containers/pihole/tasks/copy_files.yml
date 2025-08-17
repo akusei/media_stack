@@ -1,0 +1,27 @@
+---
+- name: Ensure compose file exist.
+  ansible.builtin.copy:
+    src: compose.yml
+    dest: "{{ pihole_install_path }}/compose.yml"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Pihole
+
+- name: Ensure environment file exist.
+  ansible.builtin.template:
+    src: ".env.j2"
+    dest: "{{ pihole_install_path }}/.env"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Pihole
+
+- name: Ensure DHCP Helper exists.
+  ansible.builtin.copy:
+    src: dhcp_helper/Dockerfile
+    dest: "{{ pihole_install_path }}/dhcp_helper/Dockerfile"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Pihole

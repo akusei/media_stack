@@ -1,0 +1,16 @@
+---
+- name: Restart Tautulli
+  ansible.builtin.command:
+    chdir: "{{ tautulli_install_path }}"
+    cmd: "{{ item.command }}"
+  changed_when: true
+  when: not tautulli_skip_handler
+  loop_control:
+    label: "{{ item.name }}"
+  loop:
+    - name: Build if needed
+      command: docker compose build --no-cache
+    - name: Pulling image
+      command: docker compose pull --ignore-buildable
+    - name: Restarting container
+      command: docker compose up -d --force-recreate

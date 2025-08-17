@@ -1,0 +1,26 @@
+---
+services:
+  filebeat:
+    restart: always
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:${VERSION}
+    command: -e --strict.perms=false
+    user: root
+    networks:
+      - elastic
+    ports:
+      - 514:514/udp
+    volumes:
+      - registry:/registry/
+      - ./config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ${LOGS_ROOT}:/logs:ro
+
+volumes:
+  registry:
+    name: filebeat_registry
+    external: true
+
+networks:
+  elastic:
+    name: elastic
+    external: true

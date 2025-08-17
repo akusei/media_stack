@@ -4,7 +4,7 @@ authelia_force_pull: false
 authelia_ensure_running: true
 authelia_skip_handler: false
 
-authelia_fqdn: "auth.localhost"
+authelia_fqdn: auth.local
 authelia_config_path: /opt/authelia/config
 authelia_install_path: /opt/authelia
 authelia_logs_path: /var/log/authelia

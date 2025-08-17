@@ -4,7 +4,7 @@ elasticsearch_force_pull: false
 elasticsearch_ensure_running: true
 elasticsearch_skip_handler: false
 
-elasticsearch_fqdn: "kibana.localhost"
+elasticsearch_fqdn: kibana.local
 elasticsearch_config_path: /opt/elasticsearch/config
 elasticsearch_install_path: /opt/elasticsearch
 

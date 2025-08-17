@@ -1,0 +1,15 @@
+---
+postfix_tag: latest
+postfix_force_pull: false
+postfix_ensure_running: true
+postfix_skip_handler: false
+
+postfix_domain: local
+postfix_install_path: /opt/postfix
+
+postfix_timezone: Etc/UTC
+postfix_user: postfix
+postfix_group: postfix
+
+postfix_gmail_username: ""
+postfix_gmail_password: ""

@@ -3,8 +3,8 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../configs/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
@@ -22,18 +22,23 @@
       changed_when: "'Deleted Images' in this.stdout"
 
   roles:
-#    - role: docker
-#      docker_networks:
-#        - "{{ common_traefik_network_name }}"
-#        - "{{ common_pusher_network_name }}"
-#
+    - role: docker
+      docker_networks:
+        - "{{ common_traefik_network_name }}"
+        - "{{ common_pusher_network_name }}"
+
     - role: containers/ddclient
       ddclient_config_path: "{{ common_install_root }}/ddclient/config"
       ddclient_install_path: "{{ common_install_root }}/ddclient"
-      ddclient_config_file: "{{ playbook_dir ~ '/../configs/ddclient/ddclient.conf' }}"
-#
-#    - role: container
-#      container_name: traefik
-#
-#    - role: container
-#      container_name: pihole
+      ddclient_config_file: "{{ playbook_dir ~ '/../config/ddclient/ddclient.conf' }}"
+
+    - role: containers/traefik
+      traefik_config_path: "{{ common_data_root }}/traefik"
+      traefik_install_path: "{{ common_install_root }}/traefik"
+      traefik_logs_path: "{{ common_logs_root }}/traefik"
+      traefik_allowed_networks: "{{ proxy_internal_only_networks }}"
+
+    - role: containers/pihole
+      pihole_config_path: "{{ common_data_root }}/pihole"
+      pihole_install_path: "{{ common_install_root }}/pihole"
+      pihole_advertise_ip: "{{ advertise_ip }}"

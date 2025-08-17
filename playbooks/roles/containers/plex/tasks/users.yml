@@ -1,0 +1,33 @@
+---
+- name: Ensure user group exist.
+  ansible.builtin.group:
+    name: "{{ plex_group }}"
+    state: present
+
+- name: Ensure service users exist.
+  ansible.builtin.user:
+    name: "{{ plex_user }}"
+    group: "{{ plex_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export group IDs
+  ansible.builtin.getent:
+    database: group
+    key: "{{ plex_group }}"
+  changed_when: false
+  register: getent_groups
+
+- name: Export user IDs
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ plex_user }}"
+  changed_when: false
+  register: getent_users
+
+- name: Gather user facts
+  ansible.builtin.set_fact:
+    plex_user_id: "{{ getent_passwd[plex_user][1] }}"
+    plex_group_id: "{{ getent_group[plex_group][1] }}"

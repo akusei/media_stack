@@ -1,0 +1,33 @@
+---
+- name: Ensure user group exist.
+  ansible.builtin.group:
+    name: "{{ pihole_group }}"
+    state: present
+
+- name: Ensure service users exist.
+  ansible.builtin.user:
+    name: "{{ pihole_user }}"
+    group: "{{ pihole_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export group IDs
+  ansible.builtin.getent:
+    database: group
+    key: "{{ pihole_group }}"
+  changed_when: false
+  register: getent_groups
+
+- name: Export user IDs
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ pihole_user }}"
+  changed_when: false
+  register: getent_users
+
+- name: Gather user facts
+  ansible.builtin.set_fact:
+    pihole_user_id: "{{ getent_passwd[pihole_user][1] }}"
+    pihole_group_id: "{{ getent_group[pihole_group][1] }}"

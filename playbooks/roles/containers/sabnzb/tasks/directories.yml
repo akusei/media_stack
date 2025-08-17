@@ -1,0 +1,18 @@
+---
+- name: Ensure installation directory exists.
+  ansible.builtin.file:
+    path: "{{ sabnzb_install_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0550"
+    recurse: false
+
+- name: Ensure configuration directory exists.
+  ansible.builtin.file:
+    path: "{{ sabnzb_config_path }}"
+    state: directory
+    owner: "{{ sabnzb_user }}"
+    group: "{{ sabnzb_group }}"
+    mode: "0750"
+    recurse: false

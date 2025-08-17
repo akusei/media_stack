@@ -1,0 +1,11 @@
+---
+filebeat_tag: latest
+filebeat_force_pull: false
+filebeat_ensure_running: true
+filebeat_skip_handler: false
+
+filebeat_config_path: /opt/filebeat/config
+filebeat_install_path: /opt/filebeat
+filebeat_logs_root: /var/log
+
+filebeat_config_file: ""

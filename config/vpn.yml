@@ -1,0 +1,6 @@
+---
+deluge_vpn_region: US West
+deluge_vpn_username: "{{ vault_pia_username }}"
+deluge_vpn_password: "{{ vault_pia_password }}"
+deluge_vpn_encryption: strong
+deluge_vpn_protocol: tcp

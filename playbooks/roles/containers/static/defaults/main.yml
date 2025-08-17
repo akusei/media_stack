@@ -1,0 +1,11 @@
+---
+static_tag: latest
+static_force_pull: false
+static_ensure_running: true
+static_skip_handler: false
+
+static_fqdn: static.local
+static_www_root: /opt/static/www
+static_install_path: /opt/static
+
+

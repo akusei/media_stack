@@ -1,0 +1,15 @@
+---
+plex_tag: latest
+plex_force_pull: false
+plex_ensure_running: true
+plex_skip_handler: false
+
+plex_fqdn: watch.local
+plex_install_path: /opt/plex
+plex_cache_path: /cache/plex
+
+plex_user: plex
+plex_group: plex
+
+plex_docker_runtime: runc
+plex_claim_token: ""

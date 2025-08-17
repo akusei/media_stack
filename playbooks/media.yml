@@ -3,8 +3,8 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../containers/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
@@ -28,20 +28,37 @@
       docker_volumes:
         - "{{ common_docker_media_mount }}"
 
-    - role: container
-      container_name: common
+    - role: containers/sonarr
+      sonarr_user: "{{ common_downloads_user }}"
+      sonarr_group: "{{ common_downloads_group }}"
+      sonarr_config_path: "{{ common_data_root }}/sonarr"
+      sonarr_install_path: "{{ common_install_root }}/sonarr"
+      sonarr_downloads_path: "{{ common_downloads_root }}"
 
-    - role: container
-      container_name: sonarr
+    - role: containers/radarr
+      radarr_user: "{{ common_downloads_user }}"
+      radarr_group: "{{ common_downloads_group }}"
+      radarr_config_path: "{{ common_data_root }}/radarr"
+      radarr_install_path: "{{ common_install_root }}/radarr"
+      radarr_downloads_path: "{{ common_downloads_root }}"
 
-    - role: container
-      container_name: radarr
+    - role: containers/lidarr
+      lidarr_user: "{{ common_downloads_user }}"
+      lidarr_group: "{{ common_downloads_group }}"
+      lidarr_config_path: "{{ common_data_root }}/lidarr"
+      lidarr_install_path: "{{ common_install_root }}/lidarr"
+      lidarr_downloads_path: "{{ common_downloads_root }}"
 
-    - role: container
-      container_name: lidarr
+    - role: containers/whisparr
+      whisparr_user: "{{ common_downloads_user }}"
+      whisparr_group: "{{ common_downloads_group }}"
+      whisparr_config_path: "{{ common_data_root }}/whisparr"
+      whisparr_install_path: "{{ common_install_root }}/whisparr"
+      whisparr_downloads_path: "{{ common_downloads_root }}"
 
-    - role: container
-      container_name: whisparr
-
-    - role: container
-      container_name: readarr
+    - role: containers/readarr
+      readarr_user: "{{ common_downloads_user }}"
+      readarr_group: "{{ common_downloads_group }}"
+      readarr_config_path: "{{ common_data_root }}/readarr"
+      readarr_install_path: "{{ common_install_root }}/readarr"
+      readarr_downloads_path: "{{ common_downloads_root }}"

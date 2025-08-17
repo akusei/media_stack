@@ -3,8 +3,8 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../containers/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
@@ -28,8 +28,5 @@
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
-    - role: container
-      container_name: common
-
-    - role: container
-      container_name: portainer
+    - role: containers/portainer
+      portainer_install_path: "{{ common_install_root }}/portainer"
