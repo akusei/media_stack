@@ -1,0 +1,68 @@
+---
+services:
+  # kind of doesn't run as root
+  # www runs as www-data and dns runs as pihole
+  pihole:
+    image: pihole/pihole:${VERSION}
+    container_name: pihole
+    restart: always
+    cap_add:
+      - NET_ADMIN
+      - NET_BIND_SERVICE
+      - NET_RAW
+      - SYS_NICE
+      - SYS_TIME
+      - CHOWN
+    networks:
+      dhcp_backend:
+        ipv4_address: 172.99.0.100
+      traefik: {}
+    expose:
+      - 80
+      - 443
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    environment:
+      TZ: ${TIMEZONE}
+      PIHOLE_UID: ${PIHOLE_UID}
+      PIHOLE_GID: ${PIHOLE_GID}
+      FTLCONF_webserver_domain: ${DOMAIN}
+      FTLCONF_webserver_api_password: ""
+      FTLCONF_dns_listeningMode: all
+      FTLCONF_misc_etc_dnsmasq_d: true
+    volumes:
+      - ${DATA_PATH}:/etc/pihole
+      - ./config/02-custom.conf:/etc/dnsmasq.d/02-custom.conf:ro
+      - ./config/07-dhcp-options.conf:/etc/dnsmasq.d/07-dhcp-options.conf:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pihole.service: pihole
+      traefik.http.routers.pihole.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.pihole.entrypoints: https
+      traefik.http.routers.pihole.tls: true
+      traefik.http.services.pihole.loadbalancer.server.port: 80
+      traefik.http.routers.pihole.middlewares: internal-mfa
+
+
+  dhcprelay:
+    image: dhcprelay:latest
+    container_name: dhcprelay
+    build: dhcp_helper
+    restart: always
+    command: -s 172.99.0.100
+    cap_add:
+      - NET_ADMIN
+    network_mode: host
+
+
+networks:
+  dhcp_backend:
+    name: dhcp_backend
+    external: false
+    ipam:
+      config:
+        - subnet: 172.99.0.0/16
+  traefik:
+    name: traefik
+    external: true

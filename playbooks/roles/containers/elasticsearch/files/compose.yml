@@ -1,0 +1,71 @@
+---
+services:
+  elasticsearch:
+    restart: always
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:${VERSION}
+    environment:
+      discovery.type: single-node
+      ELASTIC_PASSWORD: ${ES_PASSWORD}
+      ES_JAVA_OPTS: -Xms4G -Xmx4G
+      node.name: elasticsearch
+      bootstrap.memory_lock: 'true'
+      xpack.security.enabled: 'true'
+      xpack.security.http.ssl.enabled: 'false'
+      xpack.security.transport.ssl.enabled: 'false'
+      xpack.license.self_generated.type: basic
+    networks:
+      - elastic
+    ports:
+      - 9200:9200
+      - 9300:9300
+    expose:
+      - 9200
+      - 9300
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+  kibana:
+    depends_on:
+      - elasticsearch
+    restart: always
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:${VERSION}
+    networks:
+      - traefik
+      - elastic
+    environment:
+      SERVERNAME: kibana
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_USERNAME: kibana_system
+      ELASTICSEARCH_PASSWORD: ${ES_PASSWORD}
+    expose:
+      - 5601
+    volumes:
+      - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik
+      traefik.http.routers.kibana.service: kibana
+      traefik.http.routers.kibana.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.kibana.entrypoints: https
+      traefik.http.routers.kibana.tls: true
+      traefik.http.services.kibana.loadbalancer.server.port: 5601
+      traefik.http.routers.kibana.middlewares: internal-only
+
+volumes:
+  es_data:
+    name: elasticsearch_es_data
+    external: true
+
+networks:
+  traefik:
+    name: traefik
+    external: true
+  elastic:
+    name: elastic
+    external: true

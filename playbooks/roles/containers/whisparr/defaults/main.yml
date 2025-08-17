@@ -1,0 +1,14 @@
+---
+whisparr_tag: latest
+whisparr_force_pull: false
+whisparr_ensure_running: true
+whisparr_skip_handler: false
+
+whisparr_fqdn: ad.local
+whisparr_config_path: /opt/whisparr/config
+whisparr_install_path: /opt/whisparr
+whisparr_downloads_path: /downloads
+
+whisparr_timezone: Etc/UTC
+whisparr_user: whisparr
+whisparr_group: whisparr

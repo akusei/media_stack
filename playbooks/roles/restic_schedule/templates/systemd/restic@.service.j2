@@ -3,7 +3,7 @@ Description=Restic backup for %I
 
 [Service]
 Type=oneshot
-ExecStart={{ restic_install_path }}/restic-backup %i
+ExecStart={{ restic_schedule_install_path }}/restic-backup %i
 
 [Install]
 WantedBy=multi-user.target

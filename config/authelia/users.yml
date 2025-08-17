@@ -1,0 +1,10 @@
+---
+authelia_users:
+  - username: "{{ vault_admin_username }}"
+    password: "{{ vault_admin_password }}"
+    disabled: false
+    email: "{{ vault_admin_email }}"
+    groups:
+      - admins
+      - users
+      - dev

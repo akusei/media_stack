@@ -1,0 +1,10 @@
+---
+- name: Ensure configuration exist.
+  ansible.builtin.template:
+    src: "{{ ddclient_config_file }}"
+    dest: "{{ ddclient_config_path }}/ddclient.conf"
+    owner: "{{ ddclient_user }}"
+    group: "{{ ddclient_group }}"
+    mode: "0600"
+  when: ddclient_config_file != ""
+  notify: Restart ddclient

@@ -1,0 +1,27 @@
+---
+- name: Ensure Users and Groups exist.
+  ansible.builtin.import_tasks:
+    file: users.yml
+
+- name: Ensure required directories exist.
+  ansible.builtin.import_tasks:
+    file: directories.yml
+
+- name: Ensure required files exist.
+  ansible.builtin.import_tasks:
+    file: copy_files.yml
+
+- name: Force pull image.
+  ansible.builtin.command:
+    cmd: echo 'pull latest docker image'
+  when: sabnzb_tag == "latest" or sabnzb_force_pull
+  notify: Restart Sabnzb
+
+- name: Check if running.
+  ansible.builtin.command:
+    cmd: docker ps -qf name=sabnzb
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  when: sabnzb_ensure_running
+  notify: Restart Sabnzb

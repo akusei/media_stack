@@ -1,0 +1,13 @@
+---
+prowlarr_tag: latest
+prowlarr_force_pull: false
+prowlarr_ensure_running: true
+prowlarr_skip_handler: false
+
+prowlarr_fqdn: indexer.local
+prowlarr_config_path: /opt/prowlarr/config
+prowlarr_install_path: /opt/prowlarr
+
+prowlarr_timezone: Etc/UTC
+prowlarr_user: prowlarr
+prowlarr_group: prowlarr

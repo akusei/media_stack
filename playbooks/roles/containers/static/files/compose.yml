@@ -1,0 +1,31 @@
+---
+services:
+  # logging handled in traefik
+  # container runs process as nginx, no need for new user
+  static:
+    image: flashspys/nginx-static:${VERSION}
+    container_name: static
+    restart: always
+    init: true
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    volumes:
+      - ${DATA_PATH}:/static:ro
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ${STATIC_LOG_PATH}:/logs
+    expose:
+      - 80
+    labels:
+      traefik.enable: true
+      traefik.http.routers.static.service: static
+      traefik.http.routers.static.rule: (Host(`${DOMAIN}`) || PathPrefix(`/robots.txt`))
+      traefik.http.routers.static.entrypoints: https
+      traefik.http.routers.static.tls: true
+      traefik.http.services.static.loadbalancer.server.port: 80
+
+networks:
+  traefik:
+    name: traefik
+    external: true

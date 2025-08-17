@@ -1,0 +1,25 @@
+---
+- name: Ensure config exists.
+  ansible.builtin.copy:
+    src: "{{ item }}/"
+    dest: "{{ fail2ban_install_path }}/{{ item }}/"
+    owner: root
+    group: root
+    mode: "0440"
+    directory_mode: "0550"
+    recursive: true
+  notify: Restart Fail2ban
+  loop_control:
+    label: "{{ item }}"
+  loop:
+    - config
+    - testcases
+
+- name: Ensure default exists.
+  ansible.builtin.template:
+    src: config/jail.d/default.local.j2
+    dest: "{{ fail2ban_install_path }}/config/jail.d/default.local"
+    owner: root
+    group: root
+    mode: "0440"
+  notify: Restart Fail2ban

@@ -1,0 +1,29 @@
+---
+authelia_tag: latest
+authelia_force_pull: false
+authelia_ensure_running: true
+authelia_skip_handler: false
+
+authelia_fqdn: auth.local
+authelia_config_path: /opt/authelia/config
+authelia_install_path: /opt/authelia
+authelia_logs_path: /var/log/authelia
+
+authelia_timezone: Etc/UTC
+authelia_user: authelia
+authelia_group: authelia
+
+authelia_config_file: ""
+authelia_jwt_token: ""
+authelia_session_token: ""
+
+authelia_users: [
+#  - username: admin
+#    password: admin
+#    email: email
+#    groups:
+#      - admins
+#      - users
+#      - dev
+]
+

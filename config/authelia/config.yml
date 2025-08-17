@@ -1,0 +1,183 @@
+---
+###############################################################
+#                   Authelia configuration                    #
+###############################################################
+server:
+  address: tcp://0.0.0.0:9091
+
+log:
+  level: info
+  keep_stdout: true
+  file_path: /logs/authelia.log
+
+duo_api:
+  disable: false
+  hostname: {{ vault_authelia_duo_hostname }}
+  integration_key: {{ vault_authelia_duo_integration_key }}
+  secret_key: {{ vault_authelia_duo_secret_key }}
+  enable_self_enrollment: false
+
+authentication_backend:
+  file:
+    path: /config/users.yml
+    password:
+      algorithm: argon2id
+      iterations: 1
+      salt_length: 16
+      parallelism: 8
+      memory: 1024
+
+access_control:
+  default_policy: two_factor
+  rules:
+    # Rules applied to everyone
+    - domain:
+        - {{ authelia_fqdn }}
+      policy: bypass
+
+#    - domain:
+#        - www.{{ vault_domain }}
+#        - {{ vault_domain }}
+#      resources:
+#        - "^/plugins/images/favicon/.+$"
+#        - "^/plugins/images/faviconCustom/.+$"
+#      policy: bypass
+
+#    - domain:
+#        - music.{{ vault_domain }}
+#        - newz.{{ vault_domain }}
+#        - shows.{{ vault_domain }}
+#        - movies.{{ vault_domain }}
+#        - docker.{{ vault_domain }}
+#        - proxy.{{ vault_domain }}
+#        - pihole.{{ vault_domain }}
+#        - bt.{{ vault_domain }}
+#        - indexer.{{ vault_domain }}
+#        - ad.{{ vault_domain }}
+#        - books.{{ vault_domain }}
+#      subject: group:admins
+#      policy: two_factor
+
+#    - domain:
+#        - watch.{{ vault_domain }}
+#        - stats.{{ vault_domain }}
+#        - request.{{ vault_domain }}
+#        - www.{{ vault_domain }}
+#        - {{ vault_domain }}
+#      subject:
+#        - group:admins
+#        - group:users
+#      policy: two_factor
+
+#    # Rules applied to everyone
+#    - domain:
+#        - {{ authelia_fqdn }}
+#        - static.{{ vault_domain }}
+#      policy: bypass
+#
+#    - domain: warden.{{ vault_domain }}
+#      subject: group:admins
+#      policy: two_factor
+#
+#    - domain:
+#        - www.{{ vault_domain }}
+#        - {{ vault_domain }}
+#      resources:
+#        - "^/plugins/images/favicon/.+$"
+#        - "^/plugins/images/faviconCustom/.+$"
+#      policy: bypass
+#
+#    - domain:
+#        - music.{{ vault_domain }}
+#        - newz.{{ vault_domain }}
+#        - shows.{{ vault_domain }}
+#        - movies.{{ vault_domain }}
+#        - docker.{{ vault_domain }}
+#        - proxy.{{ vault_domain }}
+#        - pihole.{{ vault_domain }}
+#        - bt.{{ vault_domain }}
+#        - indexer.{{ vault_domain }}
+#        - ad.{{ vault_domain }}
+#        - books.{{ vault_domain }}
+#      subject: group:admins
+#      policy: two_factor
+#
+#    - domain:
+#        - watch.{{ vault_domain }}
+#        - stats.{{ vault_domain }}
+#        - request.{{ vault_domain }}
+#        - www.{{ vault_domain }}
+#        - {{ vault_domain }}
+#      subject:
+#        - group:admins
+#        - group:users
+#      policy: two_factor
+
+session:
+  name: "{{ vault_stack_name }}_session"
+  expiration: 7200  # 2 hour
+  inactivity: 3600  # 1 hour
+  remember_me: 1M
+  cookies:
+    - domain: {{ vault_domain }}
+      authelia_url: https://{{ authelia_fqdn }}
+      default_redirection_url: https://{{ vault_domain }}
+
+# this is used as backup in case fail2ban fails
+regulation:
+  max_retries: 3
+  find_time: 2m
+  ban_time: 12h
+
+storage:
+  encryption_key: "{{ vault_encryption_key }}"
+  local:
+    path: /config/db.sqlite3
+
+notifier:
+  disable_startup_check: true
+  smtp:
+    # username: {{ vault_smtp_username }}
+    address: smtp://postfix:25
+    sender: {{ common_smtp_from }}
+    subject: "[2FA] {title}"
+    # startup_check_address: {{ vault_smtp_username }}
+    disable_require_tls: true
+
+identity_providers:
+  oidc:
+    hmac_secret: {{ vault_oidc_hmac_key }}
+    jwks:
+      - key: |
+          {{ vault_oidc_issuer_private_key | indent(10, False) }}
+    lifespans:
+      id_token: 1h
+      access_token: 1h
+      authorize_code: 1m
+      refresh_token: 90m
+    enable_client_debug_messages: false
+    enforce_pkce: public_clients_only
+    cors:
+      endpoints:
+        - authorization
+        - token
+        - revocation
+        - introspection
+      allowed_origins:
+        - https://docker.{{ vault_domain }}
+      allowed_origins_from_client_redirect_uris: false
+    clients:
+      - client_id: {{ vault_oidc_client_id }}
+        client_name: Portainer
+        client_secret: "{{ vault_oidc_client_secret }}"
+        public: false
+        authorization_policy: two_factor
+        # pre_configured_consent_duration: '1d'
+        scopes:
+          - openid
+          - groups
+          - email
+          - profile
+        redirect_uris:
+          - https://docker.{{ vault_domain }}
+        userinfo_signed_response_alg: none

@@ -1,0 +1,16 @@
+---
+pihole_tag: latest
+pihole_force_pull: false
+pihole_ensure_running: true
+pihole_skip_handler: false
+
+pihole_zone: local
+pihole_fqdn: pihole.local
+pihole_config_path: /opt/pihole/config
+pihole_install_path: /opt/pihole
+
+pihole_timezone: Etc/UTC
+pihole_user: pihole
+pihole_group: pihole
+
+pihole_advertise_ip: 127.0.0.1

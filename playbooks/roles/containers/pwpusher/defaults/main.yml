@@ -1,0 +1,8 @@
+---
+pwpusher_tag: latest
+pwpusher_force_pull: false
+pwpusher_ensure_running: true
+pwpusher_skip_handler: false
+
+pwpusher_fqdn: fling.local
+pwpusher_install_path: /opt/pwpusher

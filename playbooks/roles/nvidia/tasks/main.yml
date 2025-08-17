@@ -1,13 +1,14 @@
 ---
 - name: Unload nouveau
-  modprobe:
+  community.general.modprobe:
     name: nouveau
     state: absent
 
 - name: Ensure latest nvidia driver
-  package:
+  ansible.builtin.package:
     name: nvidia-headless-{{ nvidia_driver_version }}
     state: present
 
-- import_tasks: docker.yml
-  when: nvidia_install_docker_runtime == true
+- name: NVIDIA Docker Runtime
+  ansible.builtin.import_tasks: docker.yml
+  when: nvidia_install_docker_runtime

@@ -1,0 +1,57 @@
+---
+- name: Ensure Users and Groups exist.
+  ansible.builtin.import_tasks:
+    file: users.yml
+
+- name: Ensure required directories exist.
+  ansible.builtin.import_tasks:
+    file: directories.yml
+
+- name: Ensure required files exist.
+  ansible.builtin.import_tasks:
+    file: copy_files.yml
+
+- name: Force pull image.
+  ansible.builtin.command:
+    cmd: echo 'pull latest docker image'
+  when: "'latest' in [deluge_tag, deluge_gluetun_tag] or deluge_force_pull"
+  notify: Restart Deluge
+
+- name: Check if Deluge running.
+  ansible.builtin.command:
+    cmd: docker ps -qf name=deluge
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  when: deluge_ensure_running
+  notify: Restart Deluge
+
+- name: Check if Gluetun running.
+  ansible.builtin.command:
+    cmd: docker ps -qf name=gluetun
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  when: deluge_ensure_running
+  notify: Restart Deluge
+
+#    #- name: debug
+#    #  ansible.builtin.debug:
+#    #    var: vars
+#- name: Check if Gluetun servers file exists.
+#ansible.builtin.stat:
+#  path: "{{ deluge.gluetun_config_full_path }}"
+#changed_when: false
+#register: gluetun_config_status
+#
+#- name: Update Gluetun Servers
+#  ansible.builtin.command:
+#    chdir: "{{ common_install_root }}/deluge"
+#    cmd: >-
+#      docker run --rm -v
+#      {{ deluge.gluetun_config_full_path }}:/gluetun qmcgaw/gluetun:{{ deluge_tag }}
+#      update -enduser -providers "private internet access"
+#  changed_when: true
+#  when: >-
+#    not gluetun_config_status.stat.exists or
+#    (deluge_force_gluetun_update | default(False) | bool)

@@ -1,0 +1,14 @@
+---
+sonarr_tag: latest
+sonarr_force_pull: false
+sonarr_ensure_running: true
+sonarr_skip_handler: false
+
+sonarr_fqdn: shows.local
+sonarr_config_path: /opt/sonarr/config
+sonarr_install_path: /opt/sonarr
+sonarr_downloads_path: /downloads
+
+sonarr_timezone: Etc/UTC
+sonarr_user: sonarr
+sonarr_group: sonarr

@@ -1,0 +1,19 @@
+---
+- name: Ensure users config exist.
+  ansible.builtin.template:
+    src: users.yml.j2
+    dest: "{{ authelia_config_path }}/users.yml"
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: "0440"
+  notify: Restart Authelia
+
+- name: Ensure configuration exist.
+  ansible.builtin.template:
+    src: "{{ authelia_config_file }}"
+    dest: "{{ authelia_config_path }}/configuration.yml"
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: "0440"
+  when: authelia_config_file != ""
+  notify: Restart Authelia

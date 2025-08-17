@@ -1,6 +1,6 @@
 ---
 - name: Install dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - bzip2
       - rsync
@@ -9,23 +9,25 @@
 
 
 - name: Download restic from github
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ restic_url }}"
     dest: "{{ restic_install_path }}/restic.bz2"
+    mode: "0660"
 
-- name: Unarchive restic
-  shell:
+- name: Unarchive restic  # noqa command-instead-of-shell
+  ansible.builtin.shell:
     cmd: "bzip2 -f -d {{ restic_install_path }}/restic.bz2"
+  changed_when: true
 
 - name: Ensure restic is executable
-  file:
+  ansible.builtin.file:
     path: "{{ restic_install_path }}/restic"
     owner: root
     group: root
-    mode: 0550
+    mode: "0550"
 
 - name: Create symbolic link
-  file:
+  ansible.builtin.file:
     src: "{{ restic_install_path }}/restic"
     dest: "{{ restic_bin_path }}/restic"
     owner: root

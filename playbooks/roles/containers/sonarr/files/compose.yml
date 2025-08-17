@@ -1,0 +1,44 @@
+---
+services:
+  # logging handled in traefik and authelia
+  # does not run as root
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:${VERSION}
+    container_name: sonarr
+    restart: always
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 8989
+    environment:
+      TZ: ${TIMEZONE}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ${DATA_PATH}:/config
+      - source: media-mount
+        type: volume
+        target: /media
+        volume:
+          nocopy: true
+      - ${DOWNLOADS_PATH}:/downloads
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.service: sonarr
+      traefik.http.routers.sonarr.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.sonarr.entrypoints: https
+      traefik.http.routers.sonarr.tls: true
+      traefik.http.services.sonarr.loadbalancer.server.port: 8989
+      traefik.http.routers.sonarr.middlewares: mfa
+
+volumes:
+  media-mount:
+    name: media-mount
+    external: true
+
+networks:
+  traefik:
+    name: traefik
+    external: true

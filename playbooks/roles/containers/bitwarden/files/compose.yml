@@ -1,0 +1,61 @@
+---
+services:
+  # runs as root
+  bitwarden:
+    image: vaultwarden/server:${VERSION}
+    container_name: bitwarden
+    restart: always
+    init: true
+    networks:
+      - traefik
+    expose:
+      - 80
+      - 3012
+    environment:
+      SIGNUPS_ALLOWED: ${SIGNUPS_ALLOWED}
+      INVITATIONS_ALLOWED: ${INVITATIONS_ALLOWED}
+      DISABLE_ADMIN_TOKEN: "${DISABLE_ADMIN_TOKEN}"
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      DOMAIN: https://${DOMAIN}
+      SHOW_PASSWORD_HINT: ${SHOW_PASSWORD_HINT}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_FROM: ${SMTP_FROM}
+      SMTP_FROM_NAME: ${SMTP_FROM}
+      SMTP_HELO_NAME: ${DOMAIN}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SECURITY: ${SMTP_SECURITY}
+      # SMTP_USERNAME: ${SMTP_USERNAME}
+      # SMTP_PASSWORD: ${SMTP_PASSWORD}
+      LOG_FILE: /logs/bitwarden.log
+      EXTENDED_LOGGING: "true"
+      LOG_LEVEL: ${LOG_LEVEL}
+    volumes:
+      - ${DATA_PATH}/:/data/
+      - ${LOG_PATH}/:/logs/
+    labels:
+      traefik.enable: true
+      traefik.http.routers.bitwarden-ui.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.bitwarden-ui.service: bitwarden-ui
+      traefik.http.services.bitwarden-ui.loadbalancer.server.port: 80
+      traefik.http.routers.bitwarden-ui.entrypoints: https
+      traefik.http.routers.bitwarden-ui.tls: true
+      # Admin UI
+      traefik.http.routers.bitwarden-admin.rule: >
+        Host(`${DOMAIN}`) && PathPrefix(`/admin`)
+      traefik.http.routers.bitwarden-admin.service: bitwarden-admin
+      traefik.http.services.bitwarden-admin.loadbalancer.server.port: 80
+      traefik.http.routers.bitwarden-admin.entrypoints: https
+      traefik.http.routers.bitwarden-admin.tls: true
+      traefik.http.routers.bitwarden-admin.middlewares: internal-mfa
+      # Websockets
+      traefik.http.routers.bitwarden-websocket.rule: >
+        Host(`${DOMAIN}`) && Path(`/notifications/hub`)
+      traefik.http.routers.bitwarden-websocket.service: bitwarden-websocket
+      traefik.http.services.bitwarden-websocket.loadbalancer.server.port: 3012
+      traefik.http.routers.bitwarden-websocket.entrypoints: https
+      traefik.http.routers.bitwarden-websocket.tls: true
+
+networks:
+  traefik:
+    name: traefik
+    external: true

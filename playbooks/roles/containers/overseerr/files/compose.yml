@@ -1,0 +1,32 @@
+---
+services:
+  # Logging not figured out yet
+  # does not run as root
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:${VERSION}
+    container_name: overseerr
+    restart: always
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 5055
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TIMEZONE}
+    volumes:
+      - ${DATA_PATH}:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.overseerr.service: overseerr
+      traefik.http.routers.overseerr.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.overseerr.entrypoints: https
+      traefik.http.routers.overseerr.tls: true
+      traefik.http.services.overseerr.loadbalancer.server.port: 5055
+
+networks:
+  traefik:
+    name: traefik
+    external: true

@@ -1,0 +1,19 @@
+---
+- name: Ensure installation directory exists.
+  ansible.builtin.file:
+    path: "{{ elasticsearch_install_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0550"
+    recurse: false
+
+- name: Ensure configuration directory exists.
+  ansible.builtin.file:
+    path: "{{ elasticsearch_config_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0550"
+    recurse: false
+

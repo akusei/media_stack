@@ -1,0 +1,12 @@
+---
+services:
+  # does not run as root
+  ddclient:
+    image: lscr.io/linuxserver/ddclient:${VERSION}
+    container_name: ddclient
+    restart: always
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ./config:/config

@@ -1,16 +1,16 @@
 ---
 - name: Ensure logrotate is installed
-  package:
+  ansible.builtin.package:
     name: logrotate
     state: present
 
 - name: Copy configuration
-  template:
+  ansible.builtin.template:
     src: entry.j2
     dest: "{{ logrotate_path }}/{{ item.name }}"
     owner: root
     group: root
-    mode: 0640
+    mode: "0640"
   loop: "{{ logrotate_scripts }}"
   loop_control:
     label: "{{ item.name }}"

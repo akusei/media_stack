@@ -3,27 +3,30 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
   pre_tasks:
     - name: Update apt cache if needed
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 86400
 
-  roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+  post_tasks:
+    - name: Cleanup old images
+      ansible.builtin.command:
+        cmd: "docker image prune -a --force"
+      register: this
+      changed_when: "'Deleted Images' in this.stdout"
 
+  roles:
     - role: docker
       docker_volumes:
         - name: portainer_portainer
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
-    - role: portainer
-      portainer_fqdn: docker.{{ vault_domain }}
+    - role: containers/portainer
       portainer_install_path: "{{ common_install_root }}/portainer"

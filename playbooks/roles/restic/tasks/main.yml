@@ -1,42 +1,44 @@
 ---
 - name: Ensure required directories exist
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: root
     group: root
-    mode: 0750
+    mode: "0750"
   loop:
     - "{{ restic_install_path }}"
     - "{{ restic_config_path }}"
   loop_control:
     label: "{{ item }}"
 
-- name: Get current version
-  shell:
+- name: Get current version  # noqa command-instead-of-shell
+  ansible.builtin.shell:
     cmd: restic version
   register: restic_current_version
   changed_when: false
   failed_when: false
 
 - name: Install restic
-  import_tasks: install.yml
+  ansible.builtin.import_tasks: install.yml
   when: restic_current_version.rc != 0
 
-- name: Self-update Restic
-  shell:
+- name: Self-update Restic  # noqa command-instead-of-shell
+  ansible.builtin.shell:
     cmd: restic self-update
+  changed_when: true
   when: >
     restic_current_version.rc == 0 and
     "restic " + restic_version not in restic_current_version.stdout
 
 - name: Ensure repo exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ restic_repo_root }}/{{ restic_repo }}/config"
   register: repo_config
   changed_when: false
 
-- name: Create repo
-  shell:
+- name: Create repo  # noqa command-instead-of-shell
+  ansible.builtin.shell:
     cmd: "restic init -r {{ restic_repo_root }}/{{ restic_repo }} --password-command 'echo \"{{ restic_repo_password }}\"'"
+  changed_when: true
   when: not repo_config.stat.exists

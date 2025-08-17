@@ -3,21 +3,25 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
   pre_tasks:
     - name: Update apt cache if needed
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 86400
 
-  roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+  post_tasks:
+    - name: Cleanup old images
+      ansible.builtin.command:
+        cmd: "docker image prune -a --force"
+      register: this
+      changed_when: "'Deleted Images' in this.stdout"
 
+  roles:
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
@@ -31,39 +35,27 @@
     #   nvidia_docker2_version: 2.6.0-1
     #   nvidia_container_version: 1.5.1-1
 
-    - role: static
-      static_fqdn: static.{{ vault_domain }}
-      static_data_path: "{{ common_data_root }}/static"
+    - role: containers/static
+      static_www_root: "{{ common_data_root }}/static"
       static_install_path: "{{ common_install_root }}/static"
 
-    - role: plex
-      plex_cache_path: /cache/plex
-      plex_runtime: "{{ docker_runtime }}"
-      plex_fqdn: watch.{{ vault_domain }}
-      plex_advertise_ip: "{{ advertise_ip }}"
-      plex_username: "{{ vault_plex_username }}"
-      plex_password: "{{ vault_plex_password }}"
+    - role: containers/plex
       plex_install_path: "{{ common_install_root }}/plex"
+      plex_advertise_ip: "{{ advertise_ip }}"
 
-    - role: organizr
-      organizr_domain: "{{ vault_domain }}"
-      organizr_data_path: "{{ common_data_root }}/organizr"
+    - role: containers/organizr
+      organizr_config_path: "{{ common_data_root }}/organizr"
       organizr_install_path: "{{ common_install_root }}/organizr"
 
-    - role: overseerr
-      overseerr_fqdn: request.{{ vault_domain }}
-      overseerr_data_path: "{{ common_data_root }}/overseerr"
+    - role: containers/overseerr
+      overseerr_config_path: "{{ common_data_root }}/overseerr"
       overseerr_install_path: "{{ common_install_root }}/overseerr"
 
-    # - role: ombi
-    #   ombi_fqdn: request.{{ vault_domain }}
-    #   ombi_data_path: "{{ common_data_root }}/ombi"
-    #   ombi_install_path: "{{ common_install_root }}/ombi"
-    #   ombi_service_state: stopped
+#      deprecated
+#    - role: container
+#      container_name: ombi
 
-    - role: tautulli
-      tautulli_fqdn: stats.{{ vault_domain }}
-      tautulli_data_path: "{{ common_data_root }}/tautulli"
-      tautulli_plex_logs_path: >-
-        /cache/plex/Library/Application Support/Plex Media Server/Logs
+    - role: containers/tautulli
+      tautulli_config_path: "{{ common_data_root }}/tautulli"
       tautulli_install_path: "{{ common_install_root }}/tautulli"
+      plex_logs_path: "/cache/plex/Library/Application Support/Plex Media Server/Logs"

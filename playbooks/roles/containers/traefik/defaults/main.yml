@@ -1,0 +1,20 @@
+---
+traefik_tag: latest
+traefik_dockerproxy_tag: latest
+traefik_force_pull: false
+traefik_ensure_running: true
+traefik_skip_handler: false
+
+traefik_domain: local
+traefik_fqdn: music.local
+traefik_config_path: /opt/traefik/config
+traefik_install_path: /opt/traefik
+traefik_logs_path: /var/log/traefik
+
+traefik_timezone: Etc/UTC
+traefik_user: traefik
+traefik_group: traefik
+
+traefik_cloudflare_email: ""
+traefik_cloudflare_api_key: ""
+traefik_allowed_networks: []

@@ -1,0 +1,8 @@
+---
+portainer_tag: latest
+portainer_force_pull: false
+portainer_ensure_running: true
+portainer_skip_handler: false
+
+portainer_fqdn: docker.local
+portainer_install_path: /opt/portainer

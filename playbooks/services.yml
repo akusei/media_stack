@@ -3,40 +3,34 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
   pre_tasks:
     - name: Update apt cache if needed
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 86400
 
-  roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+  post_tasks:
+    - name: Cleanup old images
+      ansible.builtin.command:
+        cmd: "docker image prune -a --force"
+      register: this
+      changed_when: "'Deleted Images' in this.stdout"
 
+  roles:
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
         - "{{ common_pusher_network_name }}"
 
-    - role: bitwarden
-      bitwarden_fqdn: warden.{{ vault_domain }}
-      bitwarden_syslog_server: "{{ advertise_ip }}"
-      bitwarden_log_path: "{{ common_logs_root }}/bitwarden"
-      bitwarden_data_path: "{{ common_data_root }}/bitwarden"
-      bitwarden_signups_allowed: true
-      bitwarden_invitations_allowed: true
-      bitwarden_disable_admin_token: true
-      bitwarden_smtp_from: "{{ common_smtp_from }}"
-      bitwarden_smtp_port: 25
-      bitwarden_smtp_security: off
-      bitwarden_smtp_server: postfix
+    - role: containers/bitwarden
+      bitwarden_config_path: "{{ common_data_root }}/bitwarden"
       bitwarden_install_path: "{{ common_install_root }}/bitwarden"
+      bitwarden_logs_path: "{{ common_logs_root }}/bitwarden"
 
-    - role: pwpusher
-      pwpusher_fqdn: fling.{{ vault_domain }}
+    - role: containers/pwpusher
       pwpusher_install_path: "{{ common_install_root }}/pwpusher"

@@ -1,0 +1,32 @@
+---
+- name: Ensure compose file exist.
+  ansible.builtin.copy:
+    src: compose.yml
+    dest: "{{ authelia_install_path }}/compose.yml"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Authelia
+
+- name: Ensure secrets exist.
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ authelia_install_path }}/{{ item }}"
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: "0440"
+  loop_control:
+    label: "{{ authelia_install_path }}/{{ item }}"
+  loop:
+    - secrets/jwt
+    - secrets/session
+  notify: Restart Authelia
+
+- name: Ensure environment file exist.
+  ansible.builtin.template:
+    src: ".env.j2"
+    dest: "{{ authelia_install_path }}/.env"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Authelia

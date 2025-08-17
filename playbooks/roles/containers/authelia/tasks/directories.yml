@@ -1,0 +1,36 @@
+---
+- name: Ensure installation directory exists.
+  ansible.builtin.file:
+    path: "{{ authelia_install_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0550"
+    recurse: false
+
+- name: Ensure configuration directory exists.
+  ansible.builtin.file:
+    path: "{{ authelia_config_path }}"
+    state: directory
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: "0750"
+    recurse: false
+
+- name: Ensure logs directory exists.
+  ansible.builtin.file:
+    path: "{{ authelia_logs_path }}"
+    state: directory
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: "0750"
+    recurse: false
+
+- name: Ensure secrets directory exists.
+  ansible.builtin.file:
+    path: "{{ authelia_install_path }}/secrets"
+    state: directory
+    owner: "{{ authelia_user }}"
+    group: "{{ authelia_group }}"
+    mode: "0550"
+    recurse: false

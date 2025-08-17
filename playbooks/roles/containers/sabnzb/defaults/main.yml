@@ -1,0 +1,14 @@
+---
+sabnzb_tag: latest
+sabnzb_force_pull: false
+sabnzb_ensure_running: true
+sabnzb_skip_handler: false
+
+sabnzb_fqdn: newz.local
+sabnzb_config_path: /opt/sabnzb/config
+sabnzb_install_path: /opt/sabnzb
+sabnzb_downloads_root: /downloads
+
+sabnzb_timezone: Etc/UTC
+sabnzb_user: sabnzb
+sabnzb_group: sabnzb

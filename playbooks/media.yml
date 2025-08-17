@@ -3,59 +3,62 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
   pre_tasks:
     - name: Update apt cache if needed
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 86400
 
-  roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+  post_tasks:
+    - name: Cleanup old images
+      ansible.builtin.command:
+        cmd: "docker image prune -a --force"
+      register: this
+      changed_when: "'Deleted Images' in this.stdout"
 
+  roles:
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
       docker_volumes:
         - "{{ common_docker_media_mount }}"
 
-    - role: arr
-      arr_service_name: sonarr
-      arr_image_tag: '{{ sonarr_image_tag }}'
-      arr_fqdn: shows.{{ vault_domain }}
-      arr_expose_port: 8989
-      arr_install_path: "{{ common_install_root }}/sonarr"
-      arr_data_path: /{{ vault_stack_name }}/sonarr
-      arr_downloads_path: /downloads
-      arr_mount_media: true
-      arr_user: "{{ common_downloads_user }}"
-      arr_group: "{{ common_downloads_group }}"
+    - role: containers/sonarr
+      sonarr_user: "{{ common_downloads_user }}"
+      sonarr_group: "{{ common_downloads_group }}"
+      sonarr_config_path: "{{ common_data_root }}/sonarr"
+      sonarr_install_path: "{{ common_install_root }}/sonarr"
+      sonarr_downloads_path: "{{ common_downloads_root }}"
 
-    - role: arr
-      arr_service_name: radarr
-      arr_image_tag: '{{ radarr_image_tag }}'
-      arr_fqdn: movies.{{ vault_domain }}
-      arr_expose_port: 7878
-      arr_install_path: "{{ common_install_root }}/radarr"
-      arr_data_path: /{{ vault_stack_name }}/radarr
-      arr_downloads_path: /downloads
-      arr_mount_media: true
-      arr_user: "{{ common_downloads_user }}"
-      arr_group: "{{ common_downloads_group }}"
+    - role: containers/radarr
+      radarr_user: "{{ common_downloads_user }}"
+      radarr_group: "{{ common_downloads_group }}"
+      radarr_config_path: "{{ common_data_root }}/radarr"
+      radarr_install_path: "{{ common_install_root }}/radarr"
+      radarr_downloads_path: "{{ common_downloads_root }}"
 
-    - role: arr
-      arr_service_name: lidarr
-      arr_image_tag: '{{ lidarr_image_tag }}'
-      arr_fqdn: music.{{ vault_domain }}
-      arr_expose_port: 8686
-      arr_install_path: "{{ common_install_root }}/lidarr"
-      arr_data_path: /{{ vault_stack_name }}/lidarr
-      arr_downloads_path: /downloads
-      arr_mount_media: true
-      arr_user: "{{ common_downloads_user }}"
-      arr_group: "{{ common_downloads_group }}"
+    - role: containers/lidarr
+      lidarr_user: "{{ common_downloads_user }}"
+      lidarr_group: "{{ common_downloads_group }}"
+      lidarr_config_path: "{{ common_data_root }}/lidarr"
+      lidarr_install_path: "{{ common_install_root }}/lidarr"
+      lidarr_downloads_path: "{{ common_downloads_root }}"
+
+    - role: containers/whisparr
+      whisparr_user: "{{ common_downloads_user }}"
+      whisparr_group: "{{ common_downloads_group }}"
+      whisparr_config_path: "{{ common_data_root }}/whisparr"
+      whisparr_install_path: "{{ common_install_root }}/whisparr"
+      whisparr_downloads_path: "{{ common_downloads_root }}"
+
+    - role: containers/readarr
+      readarr_user: "{{ common_downloads_user }}"
+      readarr_group: "{{ common_downloads_group }}"
+      readarr_config_path: "{{ common_data_root }}/readarr"
+      readarr_install_path: "{{ common_install_root }}/readarr"
+      readarr_downloads_path: "{{ common_downloads_root }}"

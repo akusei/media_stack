@@ -1,0 +1,23 @@
+---
+- name: Ensure required directories exist.
+  ansible.builtin.import_tasks:
+    file: directories.yml
+
+- name: Ensure required files exist.
+  ansible.builtin.import_tasks:
+    file: copy_files.yml
+
+- name: Force pull image.
+  ansible.builtin.command:
+    cmd: echo 'pull latest docker image'
+  when: portainer_tag == "latest" or portainer_force_pull
+  notify: Restart Portainer
+
+- name: Check if running.
+  ansible.builtin.command:
+    cmd: docker ps -qf name=portainer
+  register: this
+  changed_when: not this.stdout
+  failed_when: false
+  when: portainer_ensure_running
+  notify: Restart Portainer

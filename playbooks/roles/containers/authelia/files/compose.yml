@@ -1,0 +1,55 @@
+---
+secrets:
+  jwt:
+    file: ./secrets/jwt
+  session:
+    file: ./secrets/session
+    # smtp:
+    #   file: ./secrets/smtp
+
+services:
+  # does not run as root
+  authelia:
+    image: authelia/authelia:${VERSION}
+    user: ${PUID}:${PGID}
+    init: true
+    container_name: authelia
+    restart: always
+    secrets:
+      - jwt
+      - session
+      # - smtp
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 9091
+    environment:
+      TZ: ${TIMEZONE}
+      AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: /run/secrets/jwt
+      AUTHELIA_SESSION_SECRET_FILE: /run/secrets/session
+      # AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE: /run/secrets/smtp
+    volumes:
+      - ${DATA_PATH}:/config
+      - ${LOG_PATH}:/logs
+    labels:
+      traefik.enable: true
+      traefik.http.routers.authelia.service: authelia
+      traefik.http.services.authelia.loadbalancer.server.port: 9091
+      traefik.http.routers.authelia.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.authelia.entrypoints: https
+      traefik.http.routers.authelia.tls: true
+      traefik.http.routers.authelia.middlewares: robot-headers
+      traefik.http.middlewares.authelia.forwardauth.address: >-
+        http://authelia:9091/api/authz/forward-auth
+#      traefik.http.middlewares.authelia.forwardauth.address: >-
+#        http://authelia:9091/api/verify?rd=https://${DOMAIN}
+      traefik.http.middlewares.authelia.forwardauth.trustForwardHeader: true
+      traefik.http.middlewares.authelia.forwardauth.authResponseHeaders: >
+        Remote-User,Remote-Groups,Remote-Name,Remote-Email
+
+networks:
+  traefik:
+    name: traefik
+    external: true

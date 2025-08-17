@@ -1,4 +1,0 @@
----
-- name: restart service
-  debug:
-    msg: restarting

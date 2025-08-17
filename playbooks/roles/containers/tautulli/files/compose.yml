@@ -1,0 +1,34 @@
+---
+services:
+  # no logging :'( but there are some nice logs in the ui
+  # TODO: see about using sqlite db for logs
+  # does not run as root
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:${VERSION}
+    container_name: tautulli
+    restart: always
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 8181
+    environment:
+      TZ: ${TIMEZONE}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ${DATA_PATH}:/config
+      - ${PLEX_LOGS_PATH}:/logs:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.tautulli.service: tautulli
+      traefik.http.routers.tautulli.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.tautulli.entrypoints: https
+      traefik.http.routers.tautulli.tls: true
+      traefik.http.services.tautulli.loadbalancer.server.port: 8181
+
+networks:
+  traefik:
+    name: traefik
+    external: true

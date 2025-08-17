@@ -3,21 +3,25 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
   pre_tasks:
     - name: Update apt cache if needed
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 86400
 
-  roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+  post_tasks:
+    - name: Cleanup old images
+      ansible.builtin.command:
+        cmd: "docker image prune -a --force"
+      register: this
+      changed_when: "'Deleted Images' in this.stdout"
 
+  roles:
     - role: docker
       docker_volumes:
         - name: filebeat_registry
@@ -26,12 +30,11 @@
         - "{{ common_traefik_network_name }}"
         - elastic
 
-    - role: elasticsearch
-      elasticsearch_fqdn: kibana.{{ vault_domain }}
-      elasticsearch_username: "{{ vault_elastic_username }}"
-      elasticsearch_password: "{{ vault_elastic_password }}"
+    - role: containers/elasticsearch
       elasticsearch_install_path: "{{ common_install_root }}/elasticsearch"
+      elasticsearch_config_path: "{{ common_install_root }}/elasticsearch/config"
 
-    - role: filebeat
-      filebeat_logs_root: "{{ common_logs_root }}"
+    - role: containers/filebeat
       filebeat_install_path: "{{ common_install_root }}/filebeat"
+      filebeat_config_path: "{{ common_install_root }}/filebeat/config"
+      filebeat_config_file: "{{ playbook_dir ~ '/../config/filebeat/filebeat.yml' }}"

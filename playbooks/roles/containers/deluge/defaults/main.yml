@@ -1,0 +1,22 @@
+---
+deluge_tag: latest
+deluge_gluetun_tag: latest
+
+deluge_force_pull: false
+deluge_ensure_running: true
+deluge_skip_handler: false
+
+deluge_fqdn: bt.local
+deluge_config_path: /opt/deluge/config
+deluge_install_path: /opt/deluge
+deluge_downloads_path: /downloads
+
+deluge_timezone: Etc/UTC
+deluge_user: deluge
+deluge_group: deluge
+
+deluge_vpn_region: US West
+deluge_vpn_username: ""
+deluge_vpn_password: ""
+deluge_vpn_encryption: strong
+deluge_vpn_protocol: tcp

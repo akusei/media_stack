@@ -3,31 +3,29 @@
   hosts: all
   vars_files:
     - ../vars/common.yml
-    - ../vars/versions.yml
     - ../vars/secrets
+    - ../config/versions.yml
   become: true
   gather_facts: true
 
   pre_tasks:
     - name: Update apt cache if needed
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 86400
 
-  roles:
-    - role: common
-      common_script_name: "{{ vault_stack_name | lower }}"
+  post_tasks:
+    - name: Cleanup old images
+      ansible.builtin.command:
+        cmd: "docker image prune -a --force"
+      register: this
+      changed_when: "'Deleted Images' in this.stdout"
 
+  roles:
     - role: docker
       docker_networks:
         - "{{ common_traefik_network_name }}"
 
-    - role: arr
-      arr_service_name: prowlarr
-      arr_image_tag: '{{ prowlarr_image_tag }}'
-      arr_fqdn: indexer.{{ vault_domain }}
-      arr_expose_port: 9696
-      arr_install_path: "{{ common_install_root }}/prowlarr"
-      arr_data_path: /{{ vault_stack_name }}/prowlarr
-      arr_user: prowlarr
-      arr_group: prowlarr
+    - role: containers/prowlarr
+      prowlarr_config_path: "{{ common_data_root }}/prowlarr"
+      prowlarr_install_path: "{{ common_install_root }}/prowlarr"
