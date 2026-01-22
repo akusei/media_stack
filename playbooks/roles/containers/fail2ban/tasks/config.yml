@@ -7,7 +7,6 @@
     group: root
     mode: "0440"
     directory_mode: "0550"
-    recursive: true
   notify: Restart Fail2ban
   loop_control:
     label: "{{ item }}"
