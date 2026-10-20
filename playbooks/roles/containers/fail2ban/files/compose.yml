@@ -15,13 +15,8 @@ services:
       F2B_DB_PURGE_AGE: ${PURGE_AGE}
       F2B_LOG_TARGET: /logs/fail2ban.log
       F2B_LOG_LEVEL: ${LOG_LEVEL}
-      SSMTP_HOST: ${SMTP_SERVER}
-      SSMTP_PORT: ${SMTP_PORT}
-      SSMTP_HOSTNAME: ${SMTP_DOMAIN}
-      # SSMTP_USER: ${SMTP_USER}
-      # SSMTP_PASSWORD: ${SMTP_PASSWORD}
-      SSMTP_TLS: ${SMTP_TLS}
-      SSMTP_STARTTLS: ${SMTP_STARTTLS}
+      IPTABLES_MODE: legacy
+      SMTPHOST: ${SMTPHOST}
     volumes:
       - ${DATA_PATH}/:/data/db/
       - ${INGEST_PATH}/:/ingest/:ro
