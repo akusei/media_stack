@@ -56,9 +56,9 @@
       whisparr_install_path: "{{ common_install_root }}/whisparr"
       whisparr_downloads_path: "{{ common_downloads_root }}"
 
-    - role: containers/readarr
-      readarr_user: "{{ common_downloads_user }}"
-      readarr_group: "{{ common_downloads_group }}"
-      readarr_config_path: "{{ common_data_root }}/readarr"
-      readarr_install_path: "{{ common_install_root }}/readarr"
-      readarr_downloads_path: "{{ common_downloads_root }}"
+    # - role: containers/readarr
+    #   readarr_user: "{{ common_downloads_user }}"
+    #   readarr_group: "{{ common_downloads_group }}"
+    #   readarr_config_path: "{{ common_data_root }}/readarr"
+    #   readarr_install_path: "{{ common_install_root }}/readarr"
+    #   readarr_downloads_path: "{{ common_downloads_root }}"
