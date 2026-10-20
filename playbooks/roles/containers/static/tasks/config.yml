@@ -14,5 +14,5 @@
     dest: "{{ static_www_root }}/robots.txt"
     owner: root
     group: root
-    mode: "0440"
+    mode: "0444"
   notify: Restart Static
