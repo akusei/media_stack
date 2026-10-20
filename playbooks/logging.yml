@@ -38,3 +38,4 @@
       filebeat_install_path: "{{ common_install_root }}/filebeat"
       filebeat_config_path: "{{ common_install_root }}/filebeat/config"
       filebeat_config_file: "{{ playbook_dir ~ '/../config/filebeat/filebeat.yml' }}"
+      filebeat_logs_root: "/{{ vault_stack_name }}/logs"

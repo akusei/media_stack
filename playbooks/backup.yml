@@ -40,7 +40,7 @@
         - "{{ common_data_root }}/tautulli/tautulli.db"
         - "{{ common_data_root }}/radarr/radarr.db"
         - "{{ common_data_root }}/sonarr/sonarr.db"
-        - "{{ common_data_root }}/organizr/www/db/nateflix.db"
+        - "{{ common_data_root }}/organizr/www/db/{{ vault_stack_name }}.db"
         - "{{ common_data_root }}/whisparr/whisparr2.db"
       restic_schedule_include_paths:
         - "{{ common_data_root }}/authelia/"
