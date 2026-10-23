@@ -31,6 +31,8 @@ ddclient_force_pull: false
 ddclient_ensure_running: true
 
 # TODO: need to add an update task for updating the gluetun server list
+# This issue with IPs not updating is a huge problem
+# https://www.privateinternetaccess.com/openvpn/openvpn.zip
 # https://github.com/linuxserver/docker-deluge/releases
 # https://github.com/qdm12/gluetun/releases
 deluge_tag: 2.2.0-ls384
@@ -126,10 +128,10 @@ organizr_tag: latest
 organizr_force_pull: true
 organizr_ensure_running: true
 
-# https://github.com/linuxserver/docker-overseerr/releases
-overseerr_tag: v1.35.0-ls159
-overseerr_force_pull: false
-overseerr_ensure_running: true
+# https://hub.docker.com/r/seerr/seerr/tags
+seerr_tag: v3.5.1
+seerr_force_pull: false
+seerr_ensure_running: true
 
 # https://github.com/linuxserver/docker-sabnzbd/releases
 sabnzb_tag: 5.1.3-ls277
@@ -142,7 +144,7 @@ static_force_pull: true
 static_ensure_running: true
 
 # https://github.com/linuxserver/docker-tautulli/releases
-tautulli_tag: v2.18.2-ls248
+tautulli_tag: v2.18.2-ls249
 tautulli_force_pull: false
 tautulli_ensure_running: true
 

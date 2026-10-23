@@ -1,0 +1,33 @@
+---
+- name: Ensure user group exist.
+  ansible.builtin.group:
+    name: "{{ seerr_group }}"
+    state: present
+
+- name: Ensure service users exist.
+  ansible.builtin.user:
+    name: "{{ seerr_user }}"
+    group: "{{ seerr_group }}"
+    shell: /sbin/nologin
+    create_home: false
+    append: false
+    state: present
+
+- name: Export group IDs
+  ansible.builtin.getent:
+    database: group
+    key: "{{ seerr_group }}"
+  changed_when: false
+  register: getent_groups
+
+- name: Export user IDs
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ seerr_user }}"
+  changed_when: false
+  register: getent_users
+
+- name: Gather user facts
+  ansible.builtin.set_fact:
+    seerr_user_id: "{{ getent_passwd[seerr_user][1] }}"
+    seerr_group_id: "{{ getent_group[seerr_group][1] }}"

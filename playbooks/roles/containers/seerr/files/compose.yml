@@ -1,0 +1,41 @@
+---
+services:
+  # I hate containers that don't allow chaning the UID
+  # this runs as 1000:1000
+  seerr:
+    image: seerr/seerr:${VERSION}
+    init: true
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/settings/public || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    container_name: seerr
+    restart: always
+    networks:
+      traefik:
+        aliases:
+          - ${DOMAIN}
+    expose:
+      - 5055
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ${DATA_PATH}:/app/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.seerr.service: seerr
+      traefik.http.routers.seerr.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.seerr.entrypoints: https
+      traefik.http.routers.seerr.tls: true
+      traefik.http.services.seerr.loadbalancer.server.port: 5055
+
+networks:
+  traefik:
+    name: traefik
+    external: true

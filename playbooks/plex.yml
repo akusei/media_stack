@@ -47,13 +47,9 @@
       organizr_config_path: "{{ common_data_root }}/organizr"
       organizr_install_path: "{{ common_install_root }}/organizr"
 
-    - role: containers/overseerr
-      overseerr_config_path: "{{ common_data_root }}/overseerr"
-      overseerr_install_path: "{{ common_install_root }}/overseerr"
-
-#      deprecated
-#    - role: container
-#      container_name: ombi
+    - role: containers/seerr
+      overseerr_config_path: "{{ common_data_root }}/seerr"
+      overseerr_install_path: "{{ common_install_root }}/seerr"
 
     - role: containers/tautulli
       tautulli_config_path: "{{ common_data_root }}/tautulli"

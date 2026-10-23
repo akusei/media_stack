@@ -1,0 +1,13 @@
+---
+seerr_tag: latest
+seerr_force_pull: false
+seerr_ensure_running: true
+seerr_skip_handler: false
+
+seerr_fqdn: request.local
+seerr_config_path: /opt/seerr/config
+seerr_install_path: /opt/seerr
+
+seerr_timezone: Etc/UTC
+# seerr_user: seerr
+# seerr_group: seerr
